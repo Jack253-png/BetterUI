@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "betterui",
+  "version": "1.0.0",
+  "name": "Better UI",
+  "description": "Changes the color of subtitles based on their sound category.",
+  "authors": [
+    "haykam821"
+  ],
+  "contact": {
+    "homepage": "https://github.com/haykam821/Colorful-Subtitles#readme",
+    "issues": "https://github.com/haykam821/Colorful-Subtitles/issues"
+  },
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.mcreater.betterui.BetterUIClient"
+    ],
+    "main": [
+      "com.mcreater.betterui.BetterUI"
+    ]
+  },
+  "mixins": [
+    "betterui.mixin.json"
+  ],
+  "license": "MIT",
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "minecraft": ">=1.19.3-rc.1"
+  }
+}
