@@ -1,4 +1,9 @@
 package com.mcreater.betterui;
 
-public class BetterUIClient {
+import net.fabricmc.api.ClientModInitializer;
+
+public class BetterUIClient implements ClientModInitializer {
+    public void onInitializeClient() {
+        System.out.println("Hello world from client mod!");
+    }
 }
