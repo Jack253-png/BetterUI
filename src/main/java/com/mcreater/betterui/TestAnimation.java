@@ -15,10 +15,13 @@ public class TestAnimation {
             this.values = values;
         }
         protected void paintComponent(Graphics g) {
+            g.setColor(new Color(50, 50, 50));
+            g.fillRect(0, 0, 10000, 10000);
+            g.setColor(new Color(253, 253, 253));
             final int[] val = {0};
             values.forEach(l -> {
                 l.forEach(pair -> {
-                    g.fillRect(val[0], 875 - pair.intValue(), 2, 2);
+                    g.fillRect(val[0], 700 - pair.intValue(), 2, 2);
                     val[0]++;
                 });
                 val[0] = 0;
@@ -34,11 +37,11 @@ public class TestAnimation {
         List<Double> doubles2 = new Vector<>();
         List<List<Double>> res = new Vector<>();
 
-        AnimationNode node = new AnimationNode(0, 1000, 0, 750);
+        AnimationNode node = new AnimationNode(0, 1000, 0, 500);
         for (int i = 0; i < 1000; i++) {
-            doubles.add(AnimationGenerator.CIRCULAR_EASEIN.applyAsDouble(node));
-            doubles1.add(AnimationGenerator.CIRCULAR_EASEOUT.applyAsDouble(node));
-            doubles2.add(AnimationGenerator.CIRCULAR_EASEINOUT.applyAsDouble(node));
+            doubles.add(AnimationGenerator.BOUNCE_EASEIN.applyAsDouble(node));
+            doubles1.add(AnimationGenerator.BOUNCE_EASEOUT.applyAsDouble(node));
+            doubles2.add(AnimationGenerator.BOUNCE_EASEINOUT.applyAsDouble(node));
             node.nextFrame();
         }
 
