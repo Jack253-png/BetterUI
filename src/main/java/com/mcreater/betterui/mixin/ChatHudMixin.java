@@ -3,11 +3,15 @@ package com.mcreater.betterui.mixin;
 import com.google.common.collect.Queues;
 import com.mcreater.betterui.animation.AnimationGenerator;
 import com.mcreater.betterui.animation.AnimationNode;
+import com.mcreater.betterui.config.Configuration;
 import com.mojang.blaze3d.systems.RenderSystem;
+import dzwdz.chat_heads.ChatHeads;
+import dzwdz.chat_heads.mixinterface.GuiMessageOwnerAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -59,10 +63,12 @@ public abstract class ChatHudMixin extends DrawableHelper {
     @Shadow
     private boolean hasUnreadNewMessages;
 
-    private final Map<ChatHudLine<OrderedText>, AnimationNode> animationMap = new WeakHashMap<>();
+    private final Map<ChatHudLine<OrderedText>, AnimationNode> animationMap = new HashMap<>();
+    private final List<ChatHudLine<OrderedText>> animatedVisibleMessages = Lists.newArrayList();
 
-    @Inject(at = @At("HEAD"), method = "render", cancellable = true)
+    @Inject(at = @At(value = "HEAD"), method = "render", cancellable = true)
     public void onRender(MatrixStack matrices, int tickDelta, CallbackInfo ci) {
+        if (!Configuration.OPTION_ENABLE_CHAT_ANIMATION.getValue()) return;
         if (!this.isChatHidden()) {
             this.processMessageQueue();
             int visibleLineCount = this.getVisibleLineCount();
@@ -87,9 +93,13 @@ public abstract class ChatHudMixin extends DrawableHelper {
                 for(index = 0; index + this.scrolledLines < this.visibleMessages.size() && index < visibleLineCount; ++index) {
                     ChatHudLine<OrderedText> chatHudLine = this.visibleMessages.get(index + this.scrolledLines);
                     if (chatHudLine != null) {
-                        if (!animationMap.containsKey(chatHudLine)) animationMap.put(chatHudLine, new AnimationNode(0, 1000, -scaledWidth, scaledWidth));
+                        if (!animationMap.containsKey(chatHudLine) && !animatedVisibleMessages.contains(chatHudLine)) {
+                            animationMap.put(chatHudLine, new AnimationNode(0, 1000, -scaledWidth, scaledWidth));
+                            animatedVisibleMessages.add(chatHudLine);
+                        }
 
-                        int lineBase = (int) AnimationGenerator.SINUSOIDAL_EASEOUT.applyAsDouble(animationMap.get(chatHudLine));
+                        AnimationNode node = animationMap.get(chatHudLine);
+                        int lineBase = node != null ? (int) AnimationGenerator.SINUSOIDAL_EASEOUT.applyAsDouble(node) : 0;
 
                         timeTick = tickDelta - chatHudLine.getCreationTick();
                         if (timeTick < 200 || chatFocused) {
@@ -111,15 +121,25 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                 );
                                 RenderSystem.enableBlend();
                                 matrices.translate(0.0, 0.0, 50.0);
+
+                                float newX = modifyTextRenderArg2(matrices,
+                                        chatHudLine.getText(),
+                                        0.0F + lineBase,
+                                        (float)((int)(s + lineSpacing2)),
+                                        16777215 + (opacityTextTemp << 24),
+                                        lineBase
+                                );
                                 this.client.textRenderer.drawWithShadow(
                                         matrices, 
-                                        chatHudLine.getText(), 
-                                        0.0F + lineBase,
-                                        (float)((int)(s + lineSpacing2)), 
+                                        chatHudLine.getText(),
+                                        newX + lineBase,
+                                        (float)((int)(s + lineSpacing2)),
                                         16777215 + (opacityTextTemp << 24)
                                 );
                                 RenderSystem.disableBlend();
                                 matrices.pop();
+
+                                callAfterRenderingText(matrices, tickDelta, ci, lineBase);
                             }
                             else animationMap.remove(chatHudLine);
                         }
@@ -162,5 +182,50 @@ public abstract class ChatHudMixin extends DrawableHelper {
         }
 
         ci.cancel();
+    }
+
+    @Inject(at = @At("RETURN"), method = "addMessage(Lnet/minecraft/text/Text;IIZ)V")
+    public void onAddingMessage(Text message, int messageId, int timestamp, boolean refresh, CallbackInfo ci) {
+        // Chat heads patch
+        try {
+            ChatHeads.lastGuiMessage = visibleMessages.get(visibleMessages.size() - 1);
+            ChatHeads.lastChatOffset = ChatHeads.getChatOffset(visibleMessages.get(visibleMessages.size() - 1));
+        }
+        catch (Exception ignored) {
+
+        }
+    }
+
+    private float modifyTextRenderArg2(MatrixStack poseStack, OrderedText formattedCharSequence, float x, float y, int color, int lineBase) {
+        try {
+            ChatHeads.lastY = (int) y;
+            ChatHeads.lastOpacity = (float) (((color >> 24) + 256) % 256) / 255.0F;
+            return (float) ChatHeads.lastChatOffset;
+        }
+        catch (Exception ignored) {}
+        return y;
+    }
+
+    private void callAfterRenderingText(MatrixStack matrices, int tickDelta, CallbackInfo ci, int lineBase) {
+        // Chat heads patch
+        try {
+            if (ChatHeads.lastGuiMessage != null) {
+                PlayerListEntry owner = ((GuiMessageOwnerAccessor) ChatHeads.lastGuiMessage).chatheads$getOwner();
+                if (owner != null) {
+                    matrices.push();
+                    matrices.translate(0.0, 0.0, 50.0);
+                    // ChatHeads.lastOpacity
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.1F);
+                    RenderSystem.setShaderTexture(0, owner.getSkinTexture());
+                    DrawableHelper.drawTexture(matrices, lineBase, ChatHeads.lastY, 8, 8, 8.0F, 8.0F, 8, 8, 64, 64);
+                    DrawableHelper.drawTexture(matrices, lineBase, ChatHeads.lastY, 8, 8, 40.0F, 8.0F, 8, 8, 64, 64);
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                    matrices.pop();
+                }
+            }
+        }
+        catch (Exception ignored) {
+
+        }
     }
 }

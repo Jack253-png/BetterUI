@@ -70,6 +70,46 @@ public class AnimationProvider {
                         () -> CUBIC_EASEINOUT
                 );
                 break;
+            case QUARTIC:
+                generator = getGenerator(
+                        type,
+                        () -> QUARTIC_EASEIN,
+                        () -> QUARTIC_EASEOUT,
+                        () -> QUARTIC_EASEINOUT
+                );
+                break;
+            case QUINTIC:
+                generator = getGenerator(
+                        type,
+                        () -> QUINTIC_EASEIN,
+                        () -> QUINTIC_EASEOUT,
+                        () -> QUINTIC_EASEINOUT
+                );
+                break;
+            case ELASTIC:
+                generator = getGenerator(
+                        type,
+                        () -> ELASTIC_EASEIN,
+                        () -> ELASTIC_EASEOUT,
+                        () -> ELASTIC_EASEINOUT
+                );
+                break;
+            case BACK:
+                generator = getGenerator(
+                        type,
+                        () -> BACK_EASEIN,
+                        () -> BACK_EASEOUT,
+                        () -> BACK_EASEINOUT
+                );
+                break;
+            case BOUNCE:
+                generator = getGenerator(
+                        type,
+                        () -> BOUNCE_EASEIN,
+                        () -> BOUNCE_EASEOUT,
+                        () -> BOUNCE_EASEINOUT
+                );
+                break;
         }
 
         return generator.applyAsDouble(node);

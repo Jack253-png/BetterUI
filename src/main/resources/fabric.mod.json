@@ -16,8 +16,8 @@
     "client": [
       "com.mcreater.betterui.BetterUIClient"
     ],
-    "main": [
-      "com.mcreater.betterui.BetterUI"
+    "modmenu": [
+      "com.mcreater.betterui.config.ModMenuApiImpl"
     ]
   },
   "mixins": [
