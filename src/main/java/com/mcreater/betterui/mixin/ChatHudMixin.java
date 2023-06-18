@@ -1,6 +1,7 @@
 package com.mcreater.betterui.mixin;
 
 import com.google.common.collect.Queues;
+import com.mcreater.betterui.animation.AnimationGenerator;
 import com.mcreater.betterui.animation.AnimationNode;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
@@ -86,6 +87,10 @@ public abstract class ChatHudMixin extends DrawableHelper {
                 for(index = 0; index + this.scrolledLines < this.visibleMessages.size() && index < visibleLineCount; ++index) {
                     ChatHudLine<OrderedText> chatHudLine = this.visibleMessages.get(index + this.scrolledLines);
                     if (chatHudLine != null) {
+                        if (!animationMap.containsKey(chatHudLine)) animationMap.put(chatHudLine, new AnimationNode(0, 1000, -scaledWidth, scaledWidth));
+
+                        int lineBase = (int) AnimationGenerator.SINUSOIDAL_EASEOUT.applyAsDouble(animationMap.get(chatHudLine));
+
                         timeTick = tickDelta - chatHudLine.getCreationTick();
                         if (timeTick < 200 || chatFocused) {
                             double o = chatFocused ? 1.0 : getMessageOpacityMultiplier(timeTick);
@@ -96,14 +101,29 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                 double s = (double)(-index) * lineSpacing;
                                 matrices.push();
                                 matrices.translate(0.0, 0.0, 50.0);
-                                fill(matrices, -4, (int)(s - lineSpacing), scaledWidth + 4, (int)s, opacityBgTemp << 24);
+                                fill(
+                                        matrices, 
+                                        -4 + lineBase, 
+                                        (int)(s - lineSpacing), 
+                                        scaledWidth + 4 + lineBase, 
+                                        (int)s, 
+                                        opacityBgTemp << 24
+                                );
                                 RenderSystem.enableBlend();
                                 matrices.translate(0.0, 0.0, 50.0);
-                                this.client.textRenderer.drawWithShadow(matrices, (OrderedText)chatHudLine.getText(), 0.0F, (float)((int)(s + lineSpacing2)), 16777215 + (opacityTextTemp << 24));
+                                this.client.textRenderer.drawWithShadow(
+                                        matrices, 
+                                        chatHudLine.getText(), 
+                                        0.0F + lineBase,
+                                        (float)((int)(s + lineSpacing2)), 
+                                        16777215 + (opacityTextTemp << 24)
+                                );
                                 RenderSystem.disableBlend();
                                 matrices.pop();
                             }
+                            else animationMap.remove(chatHudLine);
                         }
+                        else animationMap.remove(chatHudLine);
                     }
                 }
 

@@ -39,9 +39,9 @@ public class TestAnimation {
 
         AnimationNode node = new AnimationNode(0, 1000, 0, 500);
         for (int i = 0; i < 1000; i++) {
-            doubles.add(AnimationGenerator.BOUNCE_EASEIN.applyAsDouble(node));
-            doubles1.add(AnimationGenerator.BOUNCE_EASEOUT.applyAsDouble(node));
-            doubles2.add(AnimationGenerator.BOUNCE_EASEINOUT.applyAsDouble(node));
+            doubles.add(AnimationGenerator.SINUSOIDAL_EASEIN.applyAsDouble(node));
+            doubles1.add(AnimationGenerator.SINUSOIDAL_EASEOUT.applyAsDouble(node));
+            doubles2.add(AnimationGenerator.SINUSOIDAL_EASEINOUT.applyAsDouble(node));
             node.nextFrame();
         }
 
