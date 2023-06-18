@@ -211,14 +211,11 @@ public abstract class ChatHudMixin extends DrawableHelper {
             if (ChatHeads.lastGuiMessage != null) {
                 PlayerListEntry owner = ((GuiMessageOwnerAccessor) ChatHeads.lastGuiMessage).chatheads$getOwner();
                 if (owner != null) {
-                    matrices.push();
-                    matrices.translate(0.0, 0.0, 50.0);
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, ChatHeads.lastOpacity);
                     RenderSystem.setShaderTexture(0, owner.getSkinTexture());
                     DrawableHelper.drawTexture(matrices, lineBase, ChatHeads.lastY, 8, 8, 8.0F, 8.0F, 8, 8, 64, 64);
                     DrawableHelper.drawTexture(matrices, lineBase, ChatHeads.lastY, 8, 8, 40.0F, 8.0F, 8, 8, 64, 64);
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-                    matrices.pop();
                 }
             }
         }
