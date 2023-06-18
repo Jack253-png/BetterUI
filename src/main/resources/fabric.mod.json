@@ -3,13 +3,13 @@
   "id": "betterui",
   "version": "1.0.0",
   "name": "Better UI",
-  "description": "Changes the color of subtitles based on their sound category.",
+  "description": "A minecraft mod for improving UI elements with animations",
   "authors": [
     "jack253-png"
   ],
   "contact": {
-    "homepage": "https://github.com/haykam821/Colorful-Subtitles#readme",
-    "issues": "https://github.com/haykam821/Colorful-Subtitles/issues"
+    "homepage": "https://github.com/Jack253-png/BetterUI",
+    "issues": "https://github.com/Jack253-png/BetterUI/issues"
   },
   "environment": "client",
   "entrypoints": {
