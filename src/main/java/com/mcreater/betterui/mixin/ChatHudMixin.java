@@ -90,7 +90,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                 int timeTick;
                 int opacityTextTemp;
                 int opacityBgTemp;
-                for(index = 0; index + this.scrolledLines < this.visibleMessages.size() && index < visibleLineCount; ++index) {
+                for (index = 0; index + this.scrolledLines < this.visibleMessages.size() && index < visibleLineCount; ++index) {
                     ChatHudLine<OrderedText> chatHudLine = this.visibleMessages.get(index + this.scrolledLines);
                     if (chatHudLine != null) {
                         if (!animationMap.containsKey(chatHudLine) && !animatedVisibleMessages.contains(chatHudLine)) {
@@ -129,6 +129,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                         16777215 + (opacityTextTemp << 24),
                                         lineBase
                                 );
+                                callBeforeRenderingText(matrices, tickDelta, ci, lineBase);
                                 this.client.textRenderer.drawWithShadow(
                                         matrices, 
                                         chatHudLine.getText(),
@@ -138,8 +139,6 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                 );
                                 RenderSystem.disableBlend();
                                 matrices.pop();
-
-                                callAfterRenderingText(matrices, tickDelta, ci, lineBase);
                             }
                             else animationMap.remove(chatHudLine);
                         }
@@ -206,7 +205,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
         return y;
     }
 
-    private void callAfterRenderingText(MatrixStack matrices, int tickDelta, CallbackInfo ci, int lineBase) {
+    private void callBeforeRenderingText(MatrixStack matrices, int tickDelta, CallbackInfo ci, int lineBase) {
         // Chat heads patch
         try {
             if (ChatHeads.lastGuiMessage != null) {
@@ -214,8 +213,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                 if (owner != null) {
                     matrices.push();
                     matrices.translate(0.0, 0.0, 50.0);
-                    // ChatHeads.lastOpacity
-                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.1F);
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, ChatHeads.lastOpacity);
                     RenderSystem.setShaderTexture(0, owner.getSkinTexture());
                     DrawableHelper.drawTexture(matrices, lineBase, ChatHeads.lastY, 8, 8, 8.0F, 8.0F, 8, 8, 64, 64);
                     DrawableHelper.drawTexture(matrices, lineBase, ChatHeads.lastY, 8, 8, 40.0F, 8.0F, 8, 8, 64, 64);
