@@ -5,14 +5,10 @@ import com.mcreater.betterui.animation.AnimationGenerator;
 import com.mcreater.betterui.animation.AnimationNode;
 import com.mcreater.betterui.config.Configuration;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dzwdz.chat_heads.ChatHeads;
-import dzwdz.chat_heads.mixinterface.GuiMessageOwnerAccessor;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
-import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -123,14 +119,14 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                 RenderSystem.enableBlend();
                                 matrices.translate(0.0, 0.0, 50.0);
 
-                                float newX = modifyTextRenderArg2(matrices,
+                                float newX = ChatHeadsPatch.modifyTextRenderArg2(matrices,
                                         chatHudLine.getText(),
                                         0.0F + lineBase,
                                         (float)((int)(s + lineSpacing2)),
                                         16777215 + (opacityTextTemp << 24),
                                         lineBase
                                 );
-                                callBeforeRenderingText(matrices, tickDelta, ci, lineBase);
+                                ChatHeadsPatch.callBeforeRenderingText(matrices, tickDelta, ci, lineBase);
                                 this.client.textRenderer.drawWithShadow(
                                         matrices, 
                                         chatHudLine.getText(),
@@ -186,47 +182,6 @@ public abstract class ChatHudMixin extends DrawableHelper {
 
     @Inject(at = @At("RETURN"), method = "addMessage(Lnet/minecraft/text/Text;IIZ)V")
     public void onAddingMessage(Text message, int messageId, int timestamp, boolean refresh, CallbackInfo ci) {
-        // Chat heads patch
-        if (FabricLoader.getInstance().isModLoaded("chat_heads")) {
-            try {
-                ChatHeads.lastGuiMessage = visibleMessages.get(visibleMessages.size() - 1);
-                ChatHeads.lastChatOffset = ChatHeads.getChatOffset(visibleMessages.get(visibleMessages.size() - 1));
-            } catch (Exception ignored) {
-
-            }
-        }
-    }
-
-    private float modifyTextRenderArg2(MatrixStack poseStack, OrderedText formattedCharSequence, float x, float y, int color, int lineBase) {
-        // Chat heads patch
-        if (FabricLoader.getInstance().isModLoaded("chat_heads")) {
-            try {
-                ChatHeads.lastY = (int) y;
-                ChatHeads.lastOpacity = (float) (((color >> 24) + 256) % 256) / 255.0F;
-                return (float) ChatHeads.lastChatOffset;
-            } catch (Exception ignored) {
-            }
-        }
-        return y;
-    }
-
-    private void callBeforeRenderingText(MatrixStack matrices, int tickDelta, CallbackInfo ci, int lineBase) {
-        // Chat heads patch
-        if (FabricLoader.getInstance().isModLoaded("chat_heads")) {
-            try {
-                if (ChatHeads.lastGuiMessage != null) {
-                    PlayerListEntry owner = ((GuiMessageOwnerAccessor) ChatHeads.lastGuiMessage).chatheads$getOwner();
-                    if (owner != null) {
-                        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, ChatHeads.lastOpacity);
-                        RenderSystem.setShaderTexture(0, owner.getSkinTexture());
-                        DrawableHelper.drawTexture(matrices, lineBase, ChatHeads.lastY, 8, 8, 8.0F, 8.0F, 8, 8, 64, 64);
-                        DrawableHelper.drawTexture(matrices, lineBase, ChatHeads.lastY, 8, 8, 40.0F, 8.0F, 8, 8, 64, 64);
-                        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-                    }
-                }
-            } catch (Exception ignored) {
-
-            }
-        }
+        ChatHeadsPatch.onAddingMessage(visibleMessages);
     }
 }
