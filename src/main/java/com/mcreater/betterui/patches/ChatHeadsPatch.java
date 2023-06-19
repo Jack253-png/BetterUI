@@ -1,4 +1,4 @@
-package com.mcreater.betterui.mixin;
+package com.mcreater.betterui.patches;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dzwdz.chat_heads.ChatHeads;

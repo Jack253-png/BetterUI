@@ -4,6 +4,7 @@ import com.google.common.collect.Queues;
 import com.mcreater.betterui.animation.AnimationGenerator;
 import com.mcreater.betterui.animation.AnimationNode;
 import com.mcreater.betterui.config.Configuration;
+import com.mcreater.betterui.patches.ChatHeadsPatch;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
