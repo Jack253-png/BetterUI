@@ -40,6 +40,7 @@ public class Configuration {
             OPTION_ENABLE_CHAT_ANIMATION_INTRO.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_ANIMATION_INTRO.getKey())));
             OPTION_ENABLE_CHAT_ANIMATION_OUTRO.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getKey())));
             OPTION_ENABLE_CHAT_ANIMATION_VANILLA.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getKey())));
+            writeConfig();
             return true;
         }
         catch (Exception e) {

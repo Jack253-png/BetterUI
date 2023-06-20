@@ -6,8 +6,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.TranslatableText;
 
-import static com.mcreater.betterui.config.Configuration.OPTION_ENABLE_CHAT_ANIMATION_INTRO;
-import static com.mcreater.betterui.config.Configuration.OPTION_ENABLE_CHAT_ANIMATION_OUTRO;
+import static com.mcreater.betterui.config.Configuration.*;
 
 class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
     public Screen create(Screen parent) {
@@ -34,6 +33,15 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                 )
                                 .setSaveConsumer(OPTION_ENABLE_CHAT_ANIMATION_OUTRO::setValue)
                                 .setDefaultValue(OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getDefaultValue())
+                                .build()
+                )
+                .addEntry(
+                        entryBuilder.startBooleanToggle(
+                                        new TranslatableText("ui.config.chat.enable_animation_vanilla.text"),
+                                        OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue()
+                                )
+                                .setSaveConsumer(OPTION_ENABLE_CHAT_ANIMATION_VANILLA::setValue)
+                                .setDefaultValue(OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getDefaultValue())
                                 .build()
                 );
 
