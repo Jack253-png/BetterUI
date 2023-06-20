@@ -21,8 +21,9 @@ public class AnimationNode {
     }
     private int index;
     private final int all;
-    private final double base;
-    private final double addition;
+    private double base;
+    private double addition;
+    private boolean backed = false;
     public AnimationNode(int i, int all, double base, double addition) {
         index = i;
         this.all = all;
@@ -49,8 +50,21 @@ public class AnimationNode {
     public void nextFrame() {
         if (index < all) index++;
     }
+    public void back() {
+        backed = true;
+        index = 0;
+        double tempBase = base;
+        double tempAddition = addition;
+
+        base = tempBase + tempAddition;
+        addition = -addition;
+    }
+
+    public boolean isBacked() {
+        return backed;
+    }
 
     public String toString() {
-        return String.format("%d / %d animation frames", index, all);
+        return String.format("%d / %d animation frames, %f start, %f addition", index, all, base, addition);
     }
 }

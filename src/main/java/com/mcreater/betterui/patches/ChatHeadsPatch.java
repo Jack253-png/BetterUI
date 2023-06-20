@@ -15,7 +15,6 @@ import java.util.List;
 
 public class ChatHeadsPatch {
     public static void callBeforeRenderingText(MatrixStack matrices, int tickDelta, CallbackInfo ci, int lineBase) {
-        // Chat heads patch
         if (FabricLoader.getInstance().isModLoaded("chat_heads")) {
             try {
                 if (ChatHeads.lastGuiMessage != null) {
@@ -34,12 +33,11 @@ public class ChatHeadsPatch {
         }
     }
 
-    public static float modifyTextRenderArg2(MatrixStack poseStack, OrderedText formattedCharSequence, float x, float y, int color, int lineBase) {
-        // Chat heads patch
+    public static float modifyTextRenderArg2(MatrixStack poseStack, OrderedText formattedCharSequence, float x, float y, int color, int lineBase, boolean fixedColor) {
         if (FabricLoader.getInstance().isModLoaded("chat_heads")) {
             try {
                 ChatHeads.lastY = (int) y;
-                ChatHeads.lastOpacity = (float) (((color >> 24) + 256) % 256) / 255.0F;
+                ChatHeads.lastOpacity = fixedColor ? 254 : (float) (((color >> 24) + 256) % 256) / 255.0F;
                 return (float) ChatHeads.lastChatOffset;
             } catch (Exception ignored) {
             }
@@ -48,7 +46,6 @@ public class ChatHeadsPatch {
     }
 
     public static void onAddingMessage(List<ChatHudLine<OrderedText>> visibleMessages) {
-        // Chat heads patch
         if (FabricLoader.getInstance().isModLoaded("chat_heads")) {
             try {
                 ChatHeads.lastGuiMessage = visibleMessages.get(visibleMessages.size() - 1);

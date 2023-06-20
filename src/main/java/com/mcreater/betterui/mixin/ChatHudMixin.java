@@ -26,6 +26,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.*;
 
+import static com.mcreater.betterui.config.Configuration.OPTION_ENABLE_CHAT_ANIMATION_OUTRO;
+import static com.mcreater.betterui.config.Configuration.OPTION_ENABLE_CHAT_ANIMATION_VANILLA;
+
 @Mixin(value = {ChatHud.class}, priority = Integer.MAX_VALUE)
 public abstract class ChatHudMixin extends DrawableHelper {
     @Shadow
@@ -66,7 +69,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
 
     @Inject(at = @At(value = "HEAD"), method = "render", cancellable = true)
     public void onRender(MatrixStack matrices, int tickDelta, CallbackInfo ci) {
-        if (!Configuration.OPTION_ENABLE_CHAT_ANIMATION.getValue()) return;
+        if (!Configuration.OPTION_ENABLE_CHAT_ANIMATION_INTRO.getValue()) return;
         if (!this.isChatHidden()) {
             this.processMessageQueue();
             int visibleLineCount = this.getVisibleLineCount();
@@ -86,26 +89,28 @@ public abstract class ChatHudMixin extends DrawableHelper {
                 int linesCount = 0;
                 int index;
                 int timeTick;
-                int opacityTextTemp;
-                int opacityBgTemp;
+                int opacityText;
+                int opacityBg;
                 for (index = 0; index + this.scrolledLines < this.visibleMessages.size() && index < visibleLineCount; ++index) {
                     ChatHudLine<OrderedText> chatHudLine = this.visibleMessages.get(index + this.scrolledLines);
                     if (chatHudLine != null) {
-                        if (!animationMap.containsKey(chatHudLine) && !animatedVisibleMessages.contains(chatHudLine)) {
-                            animationMap.put(chatHudLine, new AnimationNode(0, 1000, -scaledWidth, scaledWidth));
-                            animatedVisibleMessages.add(chatHudLine);
-                        }
-
-                        AnimationNode node = animationMap.get(chatHudLine);
-                        int lineBase = node != null ? (int) AnimationGenerator.SINUSOIDAL_EASEOUT.applyAsDouble(node) : 0;
-
                         timeTick = tickDelta - chatHudLine.getCreationTick();
                         if (timeTick < 200 || chatFocused) {
-                            double o = chatFocused ? 1.0 : getMessageOpacityMultiplier(timeTick);
-                            opacityTextTemp = (int)(255.0 * o * chatOpacity);
-                            opacityBgTemp = (int)(255.0 * o * textBackgroundOpacity);
+                            double opacity = chatFocused ? 1.0 : getMessageOpacityMultiplier(timeTick);
+                            opacityText = (int)(255.0 * opacity * chatOpacity);
+                            opacityBg = (int)(255.0 * opacity * textBackgroundOpacity);
                             ++linesCount;
-                            if (opacityTextTemp > 3) {
+                            if (opacityText > 3) {
+                                if (!animationMap.containsKey(chatHudLine) && !animatedVisibleMessages.contains(chatHudLine)) {                                    animationMap.put(chatHudLine, new AnimationNode(0, 1000, -scaledWidth, scaledWidth));
+                                    animatedVisibleMessages.add(chatHudLine);
+                                }
+
+                                AnimationNode node = animationMap.get(chatHudLine);
+                                int lineBase = node != null ? (int) AnimationGenerator.SINUSOIDAL_EASEOUT.applyAsDouble(node) : 0;
+
+                                if (node != null && opacityText < 254 && !node.isBacked() && OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getValue()) node.back();
+                                if (OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getValue() || !OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue()) opacityText = opacityBg = 254;
+
                                 double s = (double)(-index) * lineSpacing;
                                 matrices.push();
                                 matrices.translate(0.0, 0.0, 50.0);
@@ -115,7 +120,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                         (int)(s - lineSpacing), 
                                         scaledWidth + 4 + lineBase, 
                                         (int)s, 
-                                        opacityBgTemp << 24
+                                        opacityBg << 24
                                 );
                                 RenderSystem.enableBlend();
                                 matrices.translate(0.0, 0.0, 50.0);
@@ -124,8 +129,9 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                         chatHudLine.getText(),
                                         0.0F + lineBase,
                                         (float)((int)(s + lineSpacing2)),
-                                        16777215 + (opacityTextTemp << 24),
-                                        lineBase
+                                        16777215 + (opacityText << 24),
+                                        lineBase,
+                                        true
                                 );
                                 ChatHeadsPatch.callBeforeRenderingText(matrices, tickDelta, ci, lineBase);
                                 this.client.textRenderer.drawWithShadow(
@@ -133,7 +139,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                         chatHudLine.getText(),
                                         newX + lineBase,
                                         (float)((int)(s + lineSpacing2)),
-                                        16777215 + (opacityTextTemp << 24)
+                                        16777215 + (opacityText << 24)
                                 );
                                 RenderSystem.disableBlend();
                                 matrices.pop();
@@ -166,11 +172,11 @@ public abstract class ChatHudMixin extends DrawableHelper {
                     int lineBase = this.scrolledLines * timeTick / visibleMessagesCount;
                     int lineHeight = timeTick * timeTick / textBgOpacityTemp2;
                     if (textBgOpacityTemp2 != timeTick) {
-                        opacityTextTemp = lineBase > 0 ? 170 : 96;
-                        opacityBgTemp = this.hasUnreadNewMessages ? 13382451 : 3355562;
+                        opacityText = lineBase > 0 ? 170 : 96;
+                        opacityBg = this.hasUnreadNewMessages ? 13382451 : 3355562;
                         matrices.translate(-4.0, 0.0, 0.0);
-                        fill(matrices, 0, -lineBase, 2, -lineBase - lineHeight, opacityBgTemp + (opacityTextTemp << 24));
-                        fill(matrices, 2, -lineBase, 1, -lineBase - lineHeight, 13421772 + (opacityTextTemp << 24));
+                        fill(matrices, 0, -lineBase, 2, -lineBase - lineHeight, opacityBg + (opacityText << 24));
+                        fill(matrices, 2, -lineBase, 1, -lineBase - lineHeight, 13421772 + (opacityText << 24));
                     }
                 }
 

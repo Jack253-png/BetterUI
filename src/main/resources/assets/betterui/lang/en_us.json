@@ -1,5 +1,6 @@
 {
   "ui.config.title": "Better UI configuration",
   "ui.config.chat.title": "Chat HUD",
-  "ui.config.chat.enable_animation.text": "Enable animation"
+  "ui.config.chat.enable_animation_intro.text": "Enable intro animation",
+  "ui.config.chat.enable_animation_outro.text": "Enable outro animation"
 }

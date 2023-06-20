@@ -1,4 +1,6 @@
 {
   "ui.config.title": "Better UI 设置",
-  "ui.config.chat.title": "聊天 HUD"
+  "ui.config.chat.title": "聊天 HUD",
+  "ui.config.chat.enable_animation_intro.text": "启用淡入动画",
+  "ui.config.chat.enable_animation_outro.text": "启用淡出动画"
 }
