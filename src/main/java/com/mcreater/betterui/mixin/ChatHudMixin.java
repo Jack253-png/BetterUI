@@ -3,7 +3,6 @@ package com.mcreater.betterui.mixin;
 import com.google.common.collect.Queues;
 import com.mcreater.betterui.animation.AnimationGenerator;
 import com.mcreater.betterui.animation.AnimationNode;
-import com.mcreater.betterui.config.Configuration;
 import com.mcreater.betterui.patches.ChatHeadsPatch;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
@@ -26,8 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.*;
 
-import static com.mcreater.betterui.config.Configuration.OPTION_ENABLE_CHAT_ANIMATION_OUTRO;
-import static com.mcreater.betterui.config.Configuration.OPTION_ENABLE_CHAT_ANIMATION_VANILLA;
+import static com.mcreater.betterui.config.Configuration.*;
 
 @Mixin(value = {ChatHud.class}, priority = Integer.MAX_VALUE)
 public abstract class ChatHudMixin extends DrawableHelper {
@@ -69,7 +67,6 @@ public abstract class ChatHudMixin extends DrawableHelper {
 
     @Inject(at = @At(value = "HEAD"), method = "render", cancellable = true)
     public void onRender(MatrixStack matrices, int tickDelta, CallbackInfo ci) {
-        if (!Configuration.OPTION_ENABLE_CHAT_ANIMATION_INTRO.getValue()) return;
         if (!this.isChatHidden()) {
             this.processMessageQueue();
             int visibleLineCount = this.getVisibleLineCount();
@@ -101,7 +98,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                             opacityBg = (int)(255.0 * opacity * textBackgroundOpacity);
                             ++linesCount;
                             if (opacityText > 3) {
-                                if (!animationMap.containsKey(chatHudLine) && !animatedVisibleMessages.contains(chatHudLine)) {                                    animationMap.put(chatHudLine, new AnimationNode(0, 1000, -scaledWidth, scaledWidth));
+                                if (!animationMap.containsKey(chatHudLine) && !animatedVisibleMessages.contains(chatHudLine)) {                                    animationMap.put(chatHudLine, new AnimationNode(OPTION_ENABLE_CHAT_ANIMATION_INTRO.getValue() ? 0 : 1000, 1000, -scaledWidth, scaledWidth));
                                     animatedVisibleMessages.add(chatHudLine);
                                 }
 
@@ -109,7 +106,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                 int lineBase = node != null ? (int) AnimationGenerator.SINUSOIDAL_EASEOUT.applyAsDouble(node) : 0;
 
                                 if (node != null && opacityText < 254 && !node.isBacked() && OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getValue()) node.back();
-                                if (OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getValue() || !OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue()) opacityText = opacityBg = 254;
+                                if (!OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue()) opacityText = opacityBg = 254;
 
                                 double s = (double)(-index) * lineSpacing;
                                 matrices.push();
@@ -131,7 +128,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                         (float)((int)(s + lineSpacing2)),
                                         16777215 + (opacityText << 24),
                                         lineBase,
-                                        true
+                                        !OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue()
                                 );
                                 ChatHeadsPatch.callBeforeRenderingText(matrices, tickDelta, ci, lineBase);
                                 this.client.textRenderer.drawWithShadow(
