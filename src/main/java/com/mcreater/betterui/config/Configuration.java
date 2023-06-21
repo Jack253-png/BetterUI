@@ -21,6 +21,7 @@ public class Configuration {
     public static final BooleanConfigOption OPTION_ENABLE_CHAT_ANIMATION_INTRO = new BooleanConfigOption("enable_chat_animation_intro", true);
     public static final BooleanConfigOption OPTION_ENABLE_CHAT_ANIMATION_OUTRO = new BooleanConfigOption("enable_chat_animation_outro", true);
     public static final BooleanConfigOption OPTION_ENABLE_CHAT_ANIMATION_VANILLA = new BooleanConfigOption("enable_chat_animation_vanilla", false);
+    public static final BooleanConfigOption OPTION_ENABLE_CHAT_VANILLA_RENDERING = new BooleanConfigOption("enable_chat_vanilla_rendering", false);
 
     static {
         if (!configFile.exists()) {
@@ -40,6 +41,7 @@ public class Configuration {
             OPTION_ENABLE_CHAT_ANIMATION_INTRO.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_ANIMATION_INTRO.getKey())));
             OPTION_ENABLE_CHAT_ANIMATION_OUTRO.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getKey())));
             OPTION_ENABLE_CHAT_ANIMATION_VANILLA.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getKey())));
+            OPTION_ENABLE_CHAT_VANILLA_RENDERING.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_VANILLA_RENDERING.getKey())));
             writeConfig();
             return true;
         }
@@ -55,6 +57,7 @@ public class Configuration {
         maps.put(OPTION_ENABLE_CHAT_ANIMATION_INTRO.getKey(), OPTION_ENABLE_CHAT_ANIMATION_INTRO.getValue());
         maps.put(OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getKey(), OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getValue());
         maps.put(OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getKey(), OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue());
+        maps.put(OPTION_ENABLE_CHAT_VANILLA_RENDERING.getKey(), OPTION_ENABLE_CHAT_VANILLA_RENDERING.getValue());
 
         try {
             Files.delete(configFile.toPath());
@@ -72,6 +75,7 @@ public class Configuration {
         maps.put(OPTION_ENABLE_CHAT_ANIMATION_INTRO.getKey(), OPTION_ENABLE_CHAT_ANIMATION_INTRO.getDefaultValue());
         maps.put(OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getKey(), OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getDefaultValue());
         maps.put(OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getKey(), OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getDefaultValue());
+        maps.put(OPTION_ENABLE_CHAT_VANILLA_RENDERING.getKey(), OPTION_ENABLE_CHAT_VANILLA_RENDERING.getDefaultValue());
 
         try {
             Files.delete(configFile.toPath());

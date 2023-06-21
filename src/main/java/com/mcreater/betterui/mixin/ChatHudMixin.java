@@ -67,6 +67,8 @@ public abstract class ChatHudMixin extends DrawableHelper {
 
     @Inject(at = @At(value = "HEAD"), method = "render", cancellable = true)
     public void onRender(MatrixStack matrices, int tickDelta, CallbackInfo ci) {
+        if (OPTION_ENABLE_CHAT_VANILLA_RENDERING.getValue()) return;
+
         if (!this.isChatHidden()) {
             this.processMessageQueue();
             int visibleLineCount = this.getVisibleLineCount();
@@ -98,15 +100,19 @@ public abstract class ChatHudMixin extends DrawableHelper {
                             opacityBg = (int)(255.0 * opacity * textBackgroundOpacity);
                             ++linesCount;
                             if (opacityText > 3) {
-                                if (!animationMap.containsKey(chatHudLine) && !animatedVisibleMessages.contains(chatHudLine)) {                                    animationMap.put(chatHudLine, new AnimationNode(OPTION_ENABLE_CHAT_ANIMATION_INTRO.getValue() ? 0 : 1000, 1000, -scaledWidth, scaledWidth));
+                                if (!animationMap.containsKey(chatHudLine) && !animatedVisibleMessages.contains(chatHudLine)) {
+                                    animationMap.put(chatHudLine, new AnimationNode(OPTION_ENABLE_CHAT_ANIMATION_INTRO.getValue() ? 0 : 1000, 1000, -scaledWidth, scaledWidth));
                                     animatedVisibleMessages.add(chatHudLine);
                                 }
 
                                 AnimationNode node = animationMap.get(chatHudLine);
                                 int lineBase = node != null ? (int) AnimationGenerator.SINUSOIDAL_EASEOUT.applyAsDouble(node) : 0;
 
-                                if (node != null && opacityText < 254 && !node.isBacked() && OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getValue()) node.back();
-                                if (!OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue()) opacityText = opacityBg = 254;
+                                if (node != null && opacity < 1.0 && !node.isBacked() && OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getValue()) node.back();
+                                if (!OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue()) {
+                                    opacityText = (int)(255.0 * chatOpacity);
+                                    opacityBg = (int)(255.0 * textBackgroundOpacity);
+                                }
 
                                 double s = (double)(-index) * lineSpacing;
                                 matrices.push();

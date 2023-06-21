@@ -4,9 +4,13 @@ import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
+import java.util.Optional;
+
 import static com.mcreater.betterui.config.Configuration.*;
+import static com.mcreater.betterui.util.SafeValue.safeBoolean;
 
 class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
     public Screen create(Screen parent) {
@@ -42,6 +46,19 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                 )
                                 .setSaveConsumer(OPTION_ENABLE_CHAT_ANIMATION_VANILLA::setValue)
                                 .setDefaultValue(OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getDefaultValue())
+                                .build()
+                )
+                .addEntry(
+                        entryBuilder.startBooleanToggle(
+                                        new TranslatableText("ui.config.chat.use_vanilla"),
+                                        OPTION_ENABLE_CHAT_VANILLA_RENDERING.getValue()
+                                )
+                                .setTooltipSupplier(aBoolean -> {
+                                    if (safeBoolean(aBoolean)) return Optional.of(new Text[]{new TranslatableText("ui.config.chat.use_vanilla.desc.enable")});
+                                    else return Optional.of(new Text[]{new TranslatableText("ui.config.chat.use_vanilla.desc.disable")});
+                                })
+                                .setSaveConsumer(OPTION_ENABLE_CHAT_VANILLA_RENDERING::setValue)
+                                .setDefaultValue(OPTION_ENABLE_CHAT_VANILLA_RENDERING.getDefaultValue())
                                 .build()
                 );
 

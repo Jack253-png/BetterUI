@@ -1,6 +1,9 @@
 {
   "ui.config.title": "Better UI configuration",
   "ui.config.chat.title": "Chat HUD",
+  "ui.config.chat.use_vanilla": "Enable vanilla rendering",
+  "ui.config.chat.use_vanilla.desc.enable": "Disable injecting to the chat HUD and screen, animations will take no effect",
+  "ui.config.chat.use_vanilla.desc.disable": "Enable injecting to the chat HUD and screen",
   "ui.config.chat.enable_animation_intro.text": "Enable intro animation",
   "ui.config.chat.enable_animation_outro.text": "Enable outro animation",
   "ui.config.chat.enable_animation_vanilla.text": "Enable vanilla transparent animation"
