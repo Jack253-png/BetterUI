@@ -1,5 +1,6 @@
 package com.mcreater.betterui.config;
 
+import com.mcreater.betterui.animation.AnimationProvider;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -25,7 +26,7 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                         entryBuilder.startBooleanToggle(
                                 new TranslatableText("ui.config.chat.enable_animation_intro.text"),
                                 OPTION_ENABLE_CHAT_ANIMATION_INTRO.getValue()
-                        )
+                                )
                                 .setSaveConsumer(OPTION_ENABLE_CHAT_ANIMATION_INTRO::setValue)
                                 .setDefaultValue(OPTION_ENABLE_CHAT_ANIMATION_INTRO.getDefaultValue())
                                 .build()
@@ -59,6 +60,26 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                 })
                                 .setSaveConsumer(OPTION_ENABLE_CHAT_VANILLA_RENDERING::setValue)
                                 .setDefaultValue(OPTION_ENABLE_CHAT_VANILLA_RENDERING.getDefaultValue())
+                                .build()
+                )
+                .addEntry(
+                        entryBuilder.startEnumSelector(
+                                new TranslatableText("ui.config.chat.animation_type.text"),
+                                AnimationProvider.AnimationType.class,
+                                OPTION_CHAT_ANIMATION_TYPE.getValue()
+                                )
+                                .setSaveConsumer(OPTION_CHAT_ANIMATION_TYPE::setValue)
+                                .setDefaultValue(OPTION_CHAT_ANIMATION_TYPE::getDefaultValue)
+                                .build()
+                )
+                .addEntry(
+                        entryBuilder.startEnumSelector(
+                                        new TranslatableText("ui.config.chat.animation_mode.text"),
+                                        AnimationProvider.AnimationMode.class,
+                                        OPTION_CHAT_ANIMATION_MODE.getValue()
+                                )
+                                .setSaveConsumer(OPTION_CHAT_ANIMATION_MODE::setValue)
+                                .setDefaultValue(OPTION_CHAT_ANIMATION_MODE::getDefaultValue)
                                 .build()
                 );
 

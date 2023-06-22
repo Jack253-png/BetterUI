@@ -6,5 +6,7 @@
   "ui.config.chat.use_vanilla.desc.disable": "Enable injecting to the chat HUD and screen",
   "ui.config.chat.enable_animation_intro.text": "Enable intro animation",
   "ui.config.chat.enable_animation_outro.text": "Enable outro animation",
-  "ui.config.chat.enable_animation_vanilla.text": "Enable vanilla transparent animation"
+  "ui.config.chat.enable_animation_vanilla.text": "Enable vanilla transparent animation",
+  "ui.config.chat.animation_type.text": "Animation type",
+  "ui.config.chat.animation_mode.text": "Animation mode"
 }

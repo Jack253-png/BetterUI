@@ -24,8 +24,10 @@ public class AnimationProvider {
         BACK,
         BOUNCE
     }
-
-    public double generate(AnimationNode node, AnimationType type, AnimationMode mode) {
+    public static int generateInteger(AnimationNode node, AnimationType type, AnimationMode mode) {
+        return (int) generate(node, type, mode);
+    }
+    public static double generate(AnimationNode node, AnimationType type, AnimationMode mode) {
         AnimationGenerator generator = LINEAR;
         switch (mode) {
             case LINEAR:
@@ -115,7 +117,7 @@ public class AnimationProvider {
         return generator.applyAsDouble(node);
     }
 
-    private AnimationGenerator getGenerator(AnimationType type, Supplier<AnimationGenerator> easein, Supplier<AnimationGenerator> easeout, Supplier<AnimationGenerator> easeinout) {
+    private static AnimationGenerator getGenerator(AnimationType type, Supplier<AnimationGenerator> easein, Supplier<AnimationGenerator> easeout, Supplier<AnimationGenerator> easeinout) {
         switch (type) {
             default:
             case EASE_OUT:

@@ -1,8 +1,8 @@
 package com.mcreater.betterui.mixin;
 
 import com.google.common.collect.Queues;
-import com.mcreater.betterui.animation.AnimationGenerator;
 import com.mcreater.betterui.animation.AnimationNode;
+import com.mcreater.betterui.animation.AnimationProvider;
 import com.mcreater.betterui.patches.ChatHeadsPatch;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
@@ -106,7 +106,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                 }
 
                                 AnimationNode node = animationMap.get(chatHudLine);
-                                int lineBase = node != null ? (int) AnimationGenerator.SINUSOIDAL_EASEOUT.applyAsDouble(node) : 0;
+                                int lineBase = node != null ? AnimationProvider.generateInteger(node, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.SINUSOIDAL) : 0;
 
                                 if (node != null && opacity < 1.0 && !node.isBacked() && OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getValue()) node.back();
                                 if (!OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue()) {
