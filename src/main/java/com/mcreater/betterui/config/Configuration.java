@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mcreater.betterui.animation.AnimationProvider;
 import com.mcreater.betterui.config.option.BooleanConfigOption;
 import com.mcreater.betterui.config.option.EnumConfigOption;
+import com.mcreater.betterui.config.option.IntegerConfigOption;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.logging.log4j.LogManager;
 
@@ -16,11 +17,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.mcreater.betterui.BetterUIClient.MOD_ID;
-import static com.mcreater.betterui.util.SafeValue.safeBoolean;
-import static com.mcreater.betterui.util.SafeValue.safeEnum;
+import static com.mcreater.betterui.util.SafeValue.*;
 
 public class Configuration {
     public static final File configFile = FabricLoader.getInstance().getConfigDir().resolve(MOD_ID + ".json").toFile();
+    public static final IntegerConfigOption OPTION_ANIMATION_INTERVAL = new IntegerConfigOption("animation_interval", 1);
     public static final BooleanConfigOption OPTION_ENABLE_CHAT_ANIMATION_INTRO = new BooleanConfigOption("enable_chat_animation_intro", true);
     public static final BooleanConfigOption OPTION_ENABLE_CHAT_ANIMATION_OUTRO = new BooleanConfigOption("enable_chat_animation_outro", true);
     public static final BooleanConfigOption OPTION_ENABLE_CHAT_ANIMATION_VANILLA = new BooleanConfigOption("enable_chat_animation_vanilla", false);
@@ -47,8 +48,9 @@ public class Configuration {
             OPTION_ENABLE_CHAT_ANIMATION_OUTRO.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getKey())));
             OPTION_ENABLE_CHAT_ANIMATION_VANILLA.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getKey())));
             OPTION_ENABLE_CHAT_VANILLA_RENDERING.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_VANILLA_RENDERING.getKey())));
-            OPTION_CHAT_ANIMATION_TYPE.setValue(safeEnum(AnimationProvider.AnimationType.class, OPTION_CHAT_ANIMATION_TYPE.getKey(), AnimationProvider.AnimationType.EASE_IN_OUT));
-            OPTION_CHAT_ANIMATION_MODE.setValue(safeEnum(AnimationProvider.AnimationMode.class, OPTION_CHAT_ANIMATION_MODE.getKey(), AnimationProvider.AnimationMode.SINUSOIDAL));
+            OPTION_CHAT_ANIMATION_TYPE.setValue(safeEnum(AnimationProvider.AnimationType.class, map.get(OPTION_CHAT_ANIMATION_TYPE.getKey()), AnimationProvider.AnimationType.EASE_IN_OUT));
+            OPTION_CHAT_ANIMATION_MODE.setValue(safeEnum(AnimationProvider.AnimationMode.class, map.get(OPTION_CHAT_ANIMATION_MODE.getKey()), AnimationProvider.AnimationMode.SINUSOIDAL));
+            OPTION_ANIMATION_INTERVAL.setValue(safeInteger(map.get(OPTION_ANIMATION_INTERVAL.getKey()), OPTION_ANIMATION_INTERVAL.getDefaultValue(), 1, 100));
 
             writeConfig();
             return true;
@@ -68,6 +70,7 @@ public class Configuration {
         maps.put(OPTION_ENABLE_CHAT_VANILLA_RENDERING.getKey(), OPTION_ENABLE_CHAT_VANILLA_RENDERING.getValue());
         maps.put(OPTION_CHAT_ANIMATION_TYPE.getKey(), OPTION_CHAT_ANIMATION_TYPE.getValue());
         maps.put(OPTION_CHAT_ANIMATION_MODE.getKey(), OPTION_CHAT_ANIMATION_MODE.getValue());
+        maps.put(OPTION_ANIMATION_INTERVAL.getKey(), OPTION_ANIMATION_INTERVAL.getValue());
 
         try {
             Files.delete(configFile.toPath());
@@ -88,6 +91,7 @@ public class Configuration {
         maps.put(OPTION_ENABLE_CHAT_VANILLA_RENDERING.getKey(), OPTION_ENABLE_CHAT_VANILLA_RENDERING.getDefaultValue());
         maps.put(OPTION_CHAT_ANIMATION_TYPE.getKey(), OPTION_CHAT_ANIMATION_TYPE.getDefaultValue());
         maps.put(OPTION_CHAT_ANIMATION_MODE.getKey(), OPTION_CHAT_ANIMATION_MODE.getDefaultValue());
+        maps.put(OPTION_ANIMATION_INTERVAL.getKey(), OPTION_ANIMATION_INTERVAL.getDefaultValue());
 
         try {
             Files.delete(configFile.toPath());

@@ -3,6 +3,8 @@ package com.mcreater.betterui.animation;
 import java.util.List;
 import java.util.Vector;
 
+import static com.mcreater.betterui.config.Configuration.OPTION_ANIMATION_INTERVAL;
+
 public class AnimationNode {
     private static final List<AnimationNode> nodes = new Vector<>();
     static {
@@ -11,7 +13,7 @@ public class AnimationNode {
                 while (true) {
                     nodes.forEach(AnimationNode::nextFrame);
                     try {
-                        Thread.sleep(1);
+                        Thread.sleep(OPTION_ANIMATION_INTERVAL.getValue());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -24,6 +26,7 @@ public class AnimationNode {
     private double base;
     private double addition;
     private boolean backed = false;
+    private AnimationNode beforeBackNode;
     public AnimationNode(int i, int all, double base, double addition) {
         index = i;
         this.all = all;
@@ -51,6 +54,8 @@ public class AnimationNode {
         if (index < all) index++;
     }
     public void back() {
+        beforeBackNode = new AnimationNode(index, all, base, addition);
+
         backed = true;
         index = 0;
         double tempBase = base;

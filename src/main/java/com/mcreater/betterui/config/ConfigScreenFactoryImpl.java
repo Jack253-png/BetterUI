@@ -21,6 +21,17 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                 .setSavingRunnable(Configuration::writeConfig);
 
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
+        builder.getOrCreateCategory(new TranslatableText("ui.config.main.title"))
+                        .addEntry(
+                                entryBuilder.startIntSlider(
+                                        new TranslatableText("ui.config.main.animation_interval.text"),
+                                        OPTION_ANIMATION_INTERVAL.getValue(),
+                                        1, 100
+                                )
+                                        .setSaveConsumer(OPTION_ANIMATION_INTERVAL::setValue)
+                                        .setDefaultValue(OPTION_ANIMATION_INTERVAL::getDefaultValue)
+                                        .build()
+                        );
         builder.getOrCreateCategory(new TranslatableText("ui.config.chat.title"))
                 .addEntry(
                         entryBuilder.startBooleanToggle(
@@ -28,7 +39,7 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                 OPTION_ENABLE_CHAT_ANIMATION_INTRO.getValue()
                                 )
                                 .setSaveConsumer(OPTION_ENABLE_CHAT_ANIMATION_INTRO::setValue)
-                                .setDefaultValue(OPTION_ENABLE_CHAT_ANIMATION_INTRO.getDefaultValue())
+                                .setDefaultValue(OPTION_ENABLE_CHAT_ANIMATION_INTRO::getDefaultValue)
                                 .build()
                 )
                 .addEntry(
@@ -37,7 +48,7 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                         OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getValue()
                                 )
                                 .setSaveConsumer(OPTION_ENABLE_CHAT_ANIMATION_OUTRO::setValue)
-                                .setDefaultValue(OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getDefaultValue())
+                                .setDefaultValue(OPTION_ENABLE_CHAT_ANIMATION_OUTRO::getDefaultValue)
                                 .build()
                 )
                 .addEntry(
@@ -46,7 +57,7 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                         OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue()
                                 )
                                 .setSaveConsumer(OPTION_ENABLE_CHAT_ANIMATION_VANILLA::setValue)
-                                .setDefaultValue(OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getDefaultValue())
+                                .setDefaultValue(OPTION_ENABLE_CHAT_ANIMATION_VANILLA::getDefaultValue)
                                 .build()
                 )
                 .addEntry(
@@ -59,7 +70,7 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                     else return Optional.of(new Text[]{new TranslatableText("ui.config.chat.use_vanilla.desc.disable")});
                                 })
                                 .setSaveConsumer(OPTION_ENABLE_CHAT_VANILLA_RENDERING::setValue)
-                                .setDefaultValue(OPTION_ENABLE_CHAT_VANILLA_RENDERING.getDefaultValue())
+                                .setDefaultValue(OPTION_ENABLE_CHAT_VANILLA_RENDERING::getDefaultValue)
                                 .build()
                 )
                 .addEntry(
@@ -82,7 +93,6 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                 .setDefaultValue(OPTION_CHAT_ANIMATION_MODE::getDefaultValue)
                                 .build()
                 );
-
 
         return builder.setParentScreen(parent).setTransparentBackground(true).build();
     }

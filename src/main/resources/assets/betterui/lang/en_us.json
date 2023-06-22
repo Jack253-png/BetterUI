@@ -1,5 +1,7 @@
 {
   "ui.config.title": "Better UI configuration",
+  "ui.config.main.title": "Main config",
+  "ui.config.main.animation_interval.text": "Animation interval (ms)",
   "ui.config.chat.title": "Chat HUD",
   "ui.config.chat.use_vanilla": "Enable vanilla rendering",
   "ui.config.chat.use_vanilla.desc.enable": "Disable injecting to the chat HUD and screen, animations will take no effect",
