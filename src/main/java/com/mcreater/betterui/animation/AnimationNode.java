@@ -54,15 +54,17 @@ public class AnimationNode {
         if (index < all) index++;
     }
     public void back() {
-        beforeBackNode = new AnimationNode(index, all, base, addition);
+        if (!backed) {
+            beforeBackNode = new AnimationNode(index, all, base, addition);
 
-        backed = true;
-        index = 0;
-        double tempBase = base;
-        double tempAddition = addition;
+            backed = true;
+            index = 0;
+            double tempBase = base;
+            double tempAddition = addition;
 
-        base = tempBase + tempAddition;
-        addition = -addition;
+            base = tempBase + tempAddition;
+            addition = -addition;
+        }
     }
 
     public boolean isBacked() {
