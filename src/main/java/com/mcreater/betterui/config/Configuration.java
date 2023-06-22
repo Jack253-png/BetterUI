@@ -22,6 +22,7 @@ import static com.mcreater.betterui.util.SafeValue.*;
 public class Configuration {
     public static final File configFile = FabricLoader.getInstance().getConfigDir().resolve(MOD_ID + ".json").toFile();
     public static final IntegerConfigOption OPTION_ANIMATION_INTERVAL = new IntegerConfigOption("animation_interval", 1);
+    public static final IntegerConfigOption OPTION_MOTION_BLUR_FACTOR = new IntegerConfigOption("motion_blur_factor", 0);
     public static final BooleanConfigOption OPTION_ENABLE_CHAT_ANIMATION_INTRO = new BooleanConfigOption("enable_chat_animation_intro", true);
     public static final BooleanConfigOption OPTION_ENABLE_CHAT_ANIMATION_OUTRO = new BooleanConfigOption("enable_chat_animation_outro", true);
     public static final BooleanConfigOption OPTION_ENABLE_CHAT_ANIMATION_VANILLA = new BooleanConfigOption("enable_chat_animation_vanilla", false);
@@ -50,7 +51,8 @@ public class Configuration {
             OPTION_ENABLE_CHAT_VANILLA_RENDERING.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_VANILLA_RENDERING.getKey())));
             OPTION_CHAT_ANIMATION_TYPE.setValue(safeEnum(AnimationProvider.AnimationType.class, map.get(OPTION_CHAT_ANIMATION_TYPE.getKey()), AnimationProvider.AnimationType.EASE_IN_OUT));
             OPTION_CHAT_ANIMATION_MODE.setValue(safeEnum(AnimationProvider.AnimationMode.class, map.get(OPTION_CHAT_ANIMATION_MODE.getKey()), AnimationProvider.AnimationMode.SINUSOIDAL));
-            OPTION_ANIMATION_INTERVAL.setValue(safeInteger(map.get(OPTION_ANIMATION_INTERVAL.getKey()), OPTION_ANIMATION_INTERVAL.getDefaultValue(), 1, 100));
+            OPTION_ANIMATION_INTERVAL.setValue(safeInteger(map.get(OPTION_ANIMATION_INTERVAL.getKey()), OPTION_ANIMATION_INTERVAL.getDefaultValue(), 1, 10));
+            OPTION_MOTION_BLUR_FACTOR.setValue(safeInteger(map.get(OPTION_MOTION_BLUR_FACTOR.getKey()), OPTION_MOTION_BLUR_FACTOR.getDefaultValue(), 0, 99));
 
             writeConfig();
             return true;
@@ -71,6 +73,7 @@ public class Configuration {
         maps.put(OPTION_CHAT_ANIMATION_TYPE.getKey(), OPTION_CHAT_ANIMATION_TYPE.getValue());
         maps.put(OPTION_CHAT_ANIMATION_MODE.getKey(), OPTION_CHAT_ANIMATION_MODE.getValue());
         maps.put(OPTION_ANIMATION_INTERVAL.getKey(), OPTION_ANIMATION_INTERVAL.getValue());
+        maps.put(OPTION_MOTION_BLUR_FACTOR.getKey(), OPTION_MOTION_BLUR_FACTOR.getValue());
 
         try {
             Files.delete(configFile.toPath());
@@ -92,6 +95,7 @@ public class Configuration {
         maps.put(OPTION_CHAT_ANIMATION_TYPE.getKey(), OPTION_CHAT_ANIMATION_TYPE.getDefaultValue());
         maps.put(OPTION_CHAT_ANIMATION_MODE.getKey(), OPTION_CHAT_ANIMATION_MODE.getDefaultValue());
         maps.put(OPTION_ANIMATION_INTERVAL.getKey(), OPTION_ANIMATION_INTERVAL.getDefaultValue());
+        maps.put(OPTION_MOTION_BLUR_FACTOR.getKey(), OPTION_MOTION_BLUR_FACTOR.getDefaultValue());
 
         try {
             Files.delete(configFile.toPath());

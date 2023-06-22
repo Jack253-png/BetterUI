@@ -26,10 +26,20 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                 entryBuilder.startIntSlider(
                                         new TranslatableText("ui.config.main.animation_interval.text"),
                                         OPTION_ANIMATION_INTERVAL.getValue(),
-                                        1, 100
+                                        1, 10
                                 )
                                         .setSaveConsumer(OPTION_ANIMATION_INTERVAL::setValue)
                                         .setDefaultValue(OPTION_ANIMATION_INTERVAL::getDefaultValue)
+                                        .build()
+                        )
+                        .addEntry(
+                                entryBuilder.startIntSlider(
+                                        new TranslatableText("ui.config.main.motion_blur.text"),
+                                        OPTION_MOTION_BLUR_FACTOR.getValue(),
+                                        0, 99
+                                )
+                                        .setSaveConsumer(OPTION_MOTION_BLUR_FACTOR::setValue)
+                                        .setDefaultValue(OPTION_MOTION_BLUR_FACTOR::getDefaultValue)
                                         .build()
                         );
         builder.getOrCreateCategory(new TranslatableText("ui.config.chat.title"))

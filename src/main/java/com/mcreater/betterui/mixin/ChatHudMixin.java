@@ -1,6 +1,5 @@
 package com.mcreater.betterui.mixin;
 
-import com.google.common.collect.Queues;
 import com.mcreater.betterui.animation.AnimationNode;
 import com.mcreater.betterui.animation.AnimationProvider;
 import com.mcreater.betterui.patches.ChatHeadsPatch;
@@ -49,16 +48,17 @@ public abstract class ChatHudMixin extends DrawableHelper {
     @Shadow
     @Final
     @Mutable
-    private final List<ChatHudLine<OrderedText>> visibleMessages = Lists.newArrayList();
+    private List<ChatHudLine<OrderedText>> visibleMessages;
     @Shadow
     @Final
     @Mutable
-    private final MinecraftClient client = MinecraftClient.getInstance();
+    private MinecraftClient client;
     @Shadow
     private int scrolledLines;
     @Shadow
     @Final
-    private final Deque<Text> messageQueue = Queues.newArrayDeque();
+    @Mutable
+    private Deque<Text> messageQueue;
     @Shadow
     private boolean hasUnreadNewMessages;
 

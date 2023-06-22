@@ -2,6 +2,7 @@
   "ui.config.title": "Better UI 设置",
   "ui.config.main.title": "主要设置",
   "ui.config.main.animation_interval.text": "动画间隔 （毫秒）",
+  "ui.config.main.motion_blur.text": "动态模糊强度",
   "ui.config.chat.title": "聊天 HUD",
   "ui.config.chat.use_vanilla": "启用原版渲染",
   "ui.config.chat.use_vanilla.desc.enable": "禁用对聊天 HUD 和 聊天屏幕的注入， 动画将会失效",

@@ -6,10 +6,10 @@ public class SafeValue {
     }
 
     public static int safeInteger(Object aInteger) {
-        return aInteger instanceof Integer ? (Integer) aInteger : 0;
+        return safeInteger(aInteger, 0);
     }
     public static int safeInteger(Object aInteger, int def) {
-        return aInteger instanceof Integer ? (Integer) aInteger : def;
+        return aInteger instanceof Number ? ((Number) aInteger).intValue() : def;
     }
 
     public static int safeInteger(Object aInteger, int def, int min, int max) {
