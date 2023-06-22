@@ -104,8 +104,17 @@ public abstract class ChatHudMixin extends DrawableHelper {
                         }
 
                         AnimationNode node = animationMap.get(chatHudLine);
-                        int lineBase =(node != null && !isChatFocused()) ? AnimationProvider.generateInteger(node, OPTION_CHAT_ANIMATION_TYPE.getValue(), OPTION_CHAT_ANIMATION_MODE.getValue()) : 0;
+                        int lineBase = 0;
+                        if (node != null) {
+                            AnimationNode nex = !isChatFocused() ? node : node.isBacked() ? node.getBeforeBackNode() : node;
 
+                            lineBase = AnimationProvider.generateInteger(
+                                    nex,
+                                    OPTION_CHAT_ANIMATION_TYPE.getValue(),
+                                    OPTION_CHAT_ANIMATION_MODE.getValue());
+                        }
+
+                        if (node != null && isChatFocused() && node.isBacked()) node.reset();
                         if (node != null && opacity < 1.0 && !node.isBacked() && OPTION_ENABLE_CHAT_ANIMATION_OUTRO.getValue()) node.back();
                         if (!OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue()) {
                             opacityText = (int)(255.0 * chatOpacity);

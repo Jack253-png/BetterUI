@@ -27,6 +27,11 @@ public class AnimationNode {
     private double addition;
     private boolean backed = false;
     private AnimationNode beforeBackNode;
+
+    public AnimationNode getBeforeBackNode() {
+        return beforeBackNode;
+    }
+
     public AnimationNode(int i, int all, double base, double addition) {
         index = i;
         this.all = all;
@@ -58,7 +63,7 @@ public class AnimationNode {
             beforeBackNode = new AnimationNode(index, all, base, addition);
 
             backed = true;
-            index = 0;
+            reset();
             double tempBase = base;
             double tempAddition = addition;
 
@@ -69,6 +74,10 @@ public class AnimationNode {
 
     public boolean isBacked() {
         return backed;
+    }
+
+    public void reset() {
+        index = 0;
     }
 
     public String toString() {
