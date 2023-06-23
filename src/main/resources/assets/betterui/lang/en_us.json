@@ -1,9 +1,8 @@
 {
   "ui.config.title": "Better UI configuration",
   "ui.config.main.title": "Main config",
-  "ui.config.main.animation_interval.text": "Animation interval (ms)",
   "ui.config.main.motion_blur.text": "Motion blur strength",
-  "ui.config.chat.title": "Chat HUD",
+  "ui.config.chat.title": "Chat screen & HUD",
   "ui.config.chat.use_vanilla": "Enable vanilla rendering",
   "ui.config.chat.use_vanilla.desc.enable": "Disable injecting to the chat HUD and screen, animations will take no effect",
   "ui.config.chat.use_vanilla.desc.disable": "Enable injecting to the chat HUD and screen",
@@ -11,5 +10,10 @@
   "ui.config.chat.enable_animation_outro.text": "Enable outro animation",
   "ui.config.chat.enable_animation_vanilla.text": "Enable vanilla transparent animation",
   "ui.config.chat.animation_type.text": "Animation type",
-  "ui.config.chat.animation_mode.text": "Animation mode"
+  "ui.config.chat.animation_mode.text": "Animation mode",
+  "ui.config.chat.field.animation_type.text": "Field animation type",
+  "ui.config.chat.field.animation_mode.text": "Field animation mode",
+  "ui.config.chat.enable_chat_screen_animation.text": "Enable chat field animation",
+  "ui.config.chat.hud.animation_length.text": "Chat HUD animation length (ms)",
+  "ui.config.chat.screen.animation_length.text": "Chat screen animation length (ms)"
 }

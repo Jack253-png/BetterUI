@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 public class ChatHeadsPatch {
-    public static void callBeforeRenderingText(MatrixStack matrices, int tickDelta, CallbackInfo ci, int lineBase) {
+    public static void ChatHUD_callBeforeRenderingText(MatrixStack matrices, int tickDelta, CallbackInfo ci, int lineBase) {
         if (FabricLoader.getInstance().isModLoaded("chat_heads")) {
             try {
                 if (ChatHeads.lastGuiMessage != null) {
@@ -33,7 +33,7 @@ public class ChatHeadsPatch {
         }
     }
 
-    public static float modifyTextRenderArg2(MatrixStack poseStack, OrderedText formattedCharSequence, float x, float y, int color, int lineBase, boolean fixedColor) {
+    public static float ChatHUD_modifyTextRenderArg2(MatrixStack poseStack, OrderedText formattedCharSequence, float x, float y, int color, int lineBase, boolean fixedColor) {
         if (FabricLoader.getInstance().isModLoaded("chat_heads")) {
             try {
                 ChatHeads.lastY = (int) y;
@@ -45,7 +45,7 @@ public class ChatHeadsPatch {
         return y;
     }
 
-    public static void onAddingMessage(List<ChatHudLine<OrderedText>> visibleMessages) {
+    public static void ChatHUD_onAddingMessage(List<ChatHudLine<OrderedText>> visibleMessages) {
         if (FabricLoader.getInstance().isModLoaded("chat_heads")) {
             try {
                 ChatHeads.lastGuiMessage = visibleMessages.get(visibleMessages.size() - 1);

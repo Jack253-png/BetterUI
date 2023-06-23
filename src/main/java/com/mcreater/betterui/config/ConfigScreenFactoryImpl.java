@@ -24,16 +24,6 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
         builder.getOrCreateCategory(new TranslatableText("ui.config.main.title"))
                         .addEntry(
                                 entryBuilder.startIntSlider(
-                                        new TranslatableText("ui.config.main.animation_interval.text"),
-                                        OPTION_ANIMATION_INTERVAL.getValue(),
-                                        1, 10
-                                )
-                                        .setSaveConsumer(OPTION_ANIMATION_INTERVAL::setValue)
-                                        .setDefaultValue(OPTION_ANIMATION_INTERVAL::getDefaultValue)
-                                        .build()
-                        )
-                        .addEntry(
-                                entryBuilder.startIntSlider(
                                         new TranslatableText("ui.config.main.motion_blur.text"),
                                         OPTION_MOTION_BLUR_FACTOR.getValue(),
                                         0, 99
@@ -43,6 +33,16 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                         .build()
                         );
         builder.getOrCreateCategory(new TranslatableText("ui.config.chat.title"))
+                .addEntry(
+                        entryBuilder.startIntSlider(
+                                new TranslatableText("ui.config.chat.hud.animation_length.text"),
+                                OPTION_CHAT_HUD_ANIMATION_LENGTH.getValue(),
+                                100, 1000
+                        )
+                                .setSaveConsumer(OPTION_CHAT_HUD_ANIMATION_LENGTH::setValue)
+                                .setDefaultValue(OPTION_CHAT_HUD_ANIMATION_LENGTH::getDefaultValue)
+                                .build()
+                )
                 .addEntry(
                         entryBuilder.startBooleanToggle(
                                 new TranslatableText("ui.config.chat.enable_animation_intro.text"),
@@ -101,6 +101,45 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                 )
                                 .setSaveConsumer(OPTION_CHAT_ANIMATION_MODE::setValue)
                                 .setDefaultValue(OPTION_CHAT_ANIMATION_MODE::getDefaultValue)
+                                .build()
+                )
+                .addEntry(
+                        entryBuilder.startIntSlider(
+                                        new TranslatableText("ui.config.chat.screen.animation_length.text"),
+                                        OPTION_CHAT_SCREEN_ANIMATION_LENGTH.getValue(),
+                                        100, 1000
+                                )
+                                .setSaveConsumer(OPTION_CHAT_SCREEN_ANIMATION_LENGTH::setValue)
+                                .setDefaultValue(OPTION_CHAT_SCREEN_ANIMATION_LENGTH::getDefaultValue)
+                                .build()
+                )
+                .addEntry(
+                        entryBuilder.startBooleanToggle(
+                                new TranslatableText("ui.config.chat.enable_chat_screen_animation.text"),
+                                OPTION_ENABLE_CHAT_SCREEN_ANIMATION.getValue()
+                        )
+                                .setSaveConsumer(OPTION_ENABLE_CHAT_SCREEN_ANIMATION::setValue)
+                                .setDefaultValue(OPTION_ENABLE_CHAT_SCREEN_ANIMATION::getDefaultValue)
+                                .build()
+                )
+                .addEntry(
+                        entryBuilder.startEnumSelector(
+                                new TranslatableText("ui.config.chat.field.animation_type.text"),
+                                AnimationProvider.AnimationType.class,
+                                OPTION_CHAT_FIELD_ANIMATION_TYPE.getValue()
+                        )
+                                .setSaveConsumer(OPTION_CHAT_FIELD_ANIMATION_TYPE::setValue)
+                                .setDefaultValue(OPTION_CHAT_FIELD_ANIMATION_TYPE::getDefaultValue)
+                                .build()
+                )
+                .addEntry(
+                        entryBuilder.startEnumSelector(
+                                new TranslatableText("ui.config.chat.field.animation_mode.text"),
+                                AnimationProvider.AnimationMode.class,
+                                OPTION_CHAT_FIELD_ANIMATION_MODE.getValue()
+                        )
+                                .setSaveConsumer(OPTION_CHAT_FIELD_ANIMATION_MODE::setValue)
+                                .setDefaultValue(OPTION_CHAT_FIELD_ANIMATION_MODE::getDefaultValue)
                                 .build()
                 );
 
