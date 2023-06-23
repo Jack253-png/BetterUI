@@ -11,7 +11,7 @@ public class AnimationNode {
         new Thread("Animation Thread") {
             public void run() {
                 while (true) {
-                    nodes.forEach(AnimationNode::nextFrame);
+                    nodes.stream().filter(a -> !a.stopped).forEach(AnimationNode::nextFrame);
                     try {
                         Thread.sleep(OPTION_ANIMATION_INTERVAL.getValue());
                     } catch (InterruptedException e) {
@@ -26,6 +26,7 @@ public class AnimationNode {
     private double base;
     private double addition;
     private boolean backed = false;
+    private boolean stopped = false;
     private AnimationNode beforeBackNode;
 
     public AnimationNode getBeforeBackNode() {
@@ -78,6 +79,22 @@ public class AnimationNode {
 
     public void reset() {
         index = 0;
+    }
+
+    public void setBase(double base) {
+        this.base = base;
+    }
+
+    public void setAddition(double addition) {
+        this.addition = addition;
+    }
+
+    public void setStopped(boolean stopped) {
+        this.stopped = stopped;
+    }
+
+    public boolean isStopped() {
+        return stopped;
     }
 
     public String toString() {

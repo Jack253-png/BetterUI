@@ -81,8 +81,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                 matrices.push();
                 matrices.translate(4.0, 8.0, 0.0);
                 matrices.scale(chatScale, chatScale, 1.0F);
-//                double chatOpacity = this.client.options.chatOpacity * 0.8999999761581421 + 0.10000000149011612;
-                double chatOpacity = this.client.options.chatOpacity;
+                double chatOpacity = this.client.options.chatOpacity * 0.8999999761581421 + 0.10000000149011612;
                 double textBackgroundOpacity = this.client.options.textBackgroundOpacity;
                 double lineSpacing = 9.0 * (this.client.options.chatLineSpacing + 1.0);
                 double lineSpacing2 = -8.0 * (this.client.options.chatLineSpacing + 1.0) + 4.0 * this.client.options.chatLineSpacing;

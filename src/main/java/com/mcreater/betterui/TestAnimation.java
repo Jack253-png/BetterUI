@@ -2,7 +2,6 @@ package com.mcreater.betterui;
 
 import com.mcreater.betterui.animation.AnimationGenerator;
 import com.mcreater.betterui.animation.AnimationNode;
-import net.minecraft.util.math.MathHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,10 +29,6 @@ public class TestAnimation {
         }
     }
     public static void main(String[] args) {
-        for (int i = -200; i <= 200; i++) {
-            System.out.printf("%d, %f\n", i, getMessageOpacityMultiplier(i));
-        }
-
         JFrame frame = new JFrame("Animation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -58,14 +53,5 @@ public class TestAnimation {
 
         frame.setSize(1000, 1000);
         frame.setVisible(true);
-    }
-
-    private static double getMessageOpacityMultiplier(int age) {
-        double d = (double)age / 200.0;
-        d = 1.0 - d;
-        d *= 10.0;
-        d = MathHelper.clamp(d, 0.0, 1.0);
-        d *= d;
-        return d;
     }
 }

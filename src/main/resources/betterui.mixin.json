@@ -3,7 +3,8 @@
   "package": "com.mcreater.betterui.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "ChatHudMixin"
+    "ChatHudMixin",
+    "ChatScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
