@@ -99,7 +99,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                         opacityBg = (int)(255.0 * opacity * textBackgroundOpacity);
                         ++linesCount;
                         if (!animationMap.containsKey(chatHudLine) && !animatedVisibleMessages.contains(chatHudLine)) {
-                            animationMap.put(chatHudLine, new AnimationNode(OPTION_ENABLE_CHAT_ANIMATION_INTRO.getValue() ? 0 : 1000, 1000, -scaledWidth, scaledWidth));
+                            animationMap.put(chatHudLine, new AnimationNode(OPTION_ENABLE_CHAT_ANIMATION_INTRO.getValue() ? 0 : OPTION_CHAT_HUD_ANIMATION_LENGTH.getValue(), 1000, -scaledWidth, scaledWidth));
                             animatedVisibleMessages.add(chatHudLine);
                         }
 
@@ -135,7 +135,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                         RenderSystem.enableBlend();
                         matrices.translate(0.0, 0.0, 50.0);
 
-                        float newX = ChatHeadsPatch.modifyTextRenderArg2(matrices,
+                        float newX = ChatHeadsPatch.ChatHUD_modifyTextRenderArg2(matrices,
                                 chatHudLine.getText(),
                                 0.0F + lineBase,
                                 (float)((int)(s + lineSpacing2)),
@@ -143,7 +143,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                 lineBase,
                                 !OPTION_ENABLE_CHAT_ANIMATION_VANILLA.getValue()
                         );
-                        ChatHeadsPatch.callBeforeRenderingText(matrices, tickDelta, ci, lineBase);
+                        ChatHeadsPatch.ChatHUD_callBeforeRenderingText(matrices, tickDelta, ci, lineBase);
                         this.client.textRenderer.drawWithShadow(
                                 matrices,
                                 chatHudLine.getText(),
@@ -195,6 +195,6 @@ public abstract class ChatHudMixin extends DrawableHelper {
 
     @Inject(at = @At("RETURN"), method = "addMessage(Lnet/minecraft/text/Text;IIZ)V")
     public void onAddingMessage(Text message, int messageId, int timestamp, boolean refresh, CallbackInfo ci) {
-        ChatHeadsPatch.onAddingMessage(visibleMessages);
+        ChatHeadsPatch.ChatHUD_onAddingMessage(visibleMessages);
     }
 }

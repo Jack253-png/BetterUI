@@ -2,8 +2,7 @@ package com.mcreater.betterui.animation;
 
 import java.util.List;
 import java.util.Vector;
-
-import static com.mcreater.betterui.config.Configuration.OPTION_ANIMATION_INTERVAL;
+import java.util.function.Consumer;
 
 public class AnimationNode {
     private static final List<AnimationNode> nodes = new Vector<>();
@@ -11,9 +10,16 @@ public class AnimationNode {
         new Thread("Animation Thread") {
             public void run() {
                 while (true) {
-                    nodes.stream().filter(a -> !a.stopped).forEach(AnimationNode::nextFrame);
                     try {
-                        Thread.sleep(OPTION_ANIMATION_INTERVAL.getValue());
+                        nodes.stream()
+                                .filter(a -> !a.stopped)
+                                .forEach(AnimationNode::nextFrame);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        Thread.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -28,6 +34,7 @@ public class AnimationNode {
     private boolean backed = false;
     private boolean stopped = false;
     private AnimationNode beforeBackNode;
+    private Consumer<AnimationNode> onAnimation = m -> {};
 
     public AnimationNode getBeforeBackNode() {
         return beforeBackNode;
@@ -57,7 +64,10 @@ public class AnimationNode {
     }
 
     public void nextFrame() {
-        if (index < all) index++;
+        if (index < all) {
+            index++;
+            onAnimation.accept(this);
+        }
     }
     public void back() {
         if (!backed) {
@@ -70,6 +80,7 @@ public class AnimationNode {
 
             base = tempBase + tempAddition;
             addition = -addition;
+            onAnimation.accept(this);
         }
     }
 
@@ -79,6 +90,7 @@ public class AnimationNode {
 
     public void reset() {
         index = 0;
+        onAnimation.accept(this);
     }
 
     public void setBase(double base) {
@@ -95,6 +107,10 @@ public class AnimationNode {
 
     public boolean isStopped() {
         return stopped;
+    }
+
+    public void setOnAnimation(Consumer<AnimationNode> onAnimation) {
+        this.onAnimation = onAnimation;
     }
 
     public String toString() {
