@@ -30,9 +30,10 @@ public class Configuration {
     public static final BooleanConfigOption OPTION_ENABLE_CHAT_VANILLA_RENDERING = new BooleanConfigOption("enable_chat_vanilla_rendering", false);
     public static final EnumConfigOption<AnimationProvider.AnimationType> OPTION_CHAT_ANIMATION_TYPE = new EnumConfigOption<>("chat_animation_type", AnimationProvider.AnimationType.EASE_OUT);
     public static final EnumConfigOption<AnimationProvider.AnimationMode> OPTION_CHAT_ANIMATION_MODE = new EnumConfigOption<>("chat_animation_mode", AnimationProvider.AnimationMode.SINUSOIDAL);
+    public static final BooleanConfigOption OPTION_ENABLE_CHAT_SCREEN_ANIMATION = new BooleanConfigOption("enable_chat_screen_animation", true);
     public static final EnumConfigOption<AnimationProvider.AnimationType> OPTION_CHAT_FIELD_ANIMATION_TYPE = new EnumConfigOption<>("chat_field_animation_type", AnimationProvider.AnimationType.EASE_OUT);
     public static final EnumConfigOption<AnimationProvider.AnimationMode> OPTION_CHAT_FIELD_ANIMATION_MODE = new EnumConfigOption<>("chat_field_animation_mode", AnimationProvider.AnimationMode.SINUSOIDAL);
-    public static final BooleanConfigOption OPTION_ENABLE_CHAT_SCREEN_ANIMATION = new BooleanConfigOption("enable_chat_screen_animation", true);
+    public static final BooleanConfigOption OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING = new BooleanConfigOption("enable_chat_screen_vanilla_rendering", false);
 
     static {
         if (!configFile.exists()) {
@@ -61,6 +62,7 @@ public class Configuration {
             OPTION_ENABLE_CHAT_SCREEN_ANIMATION.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_SCREEN_ANIMATION.getKey())));
             OPTION_CHAT_FIELD_ANIMATION_TYPE.setValue(safeEnum(AnimationProvider.AnimationType.class, map.get(OPTION_CHAT_FIELD_ANIMATION_TYPE.getKey()), AnimationProvider.AnimationType.EASE_OUT));
             OPTION_CHAT_FIELD_ANIMATION_MODE.setValue(safeEnum(AnimationProvider.AnimationMode.class, map.get(OPTION_CHAT_FIELD_ANIMATION_MODE.getKey()), AnimationProvider.AnimationMode.SINUSOIDAL));
+            OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.setValue(safeBoolean(map.get(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getKey())));
 
             writeConfig();
             return true;
@@ -86,6 +88,7 @@ public class Configuration {
         maps.put(OPTION_ENABLE_CHAT_SCREEN_ANIMATION.getKey(), OPTION_ENABLE_CHAT_SCREEN_ANIMATION.getValue());
         maps.put(OPTION_CHAT_FIELD_ANIMATION_TYPE.getKey(), OPTION_CHAT_FIELD_ANIMATION_TYPE.getValue());
         maps.put(OPTION_CHAT_FIELD_ANIMATION_MODE.getKey(), OPTION_CHAT_FIELD_ANIMATION_MODE.getValue());
+        maps.put(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getKey(), OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getValue());
 
         try {
             Files.delete(configFile.toPath());
@@ -112,6 +115,7 @@ public class Configuration {
         maps.put(OPTION_ENABLE_CHAT_SCREEN_ANIMATION.getKey(), OPTION_ENABLE_CHAT_SCREEN_ANIMATION.getDefaultValue());
         maps.put(OPTION_CHAT_FIELD_ANIMATION_TYPE.getKey(), OPTION_CHAT_FIELD_ANIMATION_TYPE.getDefaultValue());
         maps.put(OPTION_CHAT_FIELD_ANIMATION_MODE.getKey(), OPTION_CHAT_FIELD_ANIMATION_MODE.getDefaultValue());
+        maps.put(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getKey(), OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getDefaultValue());
 
         try {
             Files.delete(configFile.toPath());

@@ -2,10 +2,10 @@
   "ui.config.title": "Better UI 设置",
   "ui.config.main.title": "主要设置",
   "ui.config.main.motion_blur.text": "动态模糊强度",
-  "ui.config.chat.title": "聊天屏幕 & HUD",
-  "ui.config.chat.use_vanilla": "启用原版渲染",
-  "ui.config.chat.use_vanilla.desc.enable": "禁用对聊天 HUD 和 聊天屏幕的注入， 动画将会失效",
-  "ui.config.chat.use_vanilla.desc.disable": "启用对聊天 HUD 和 聊天屏幕的注入",
+  "ui.config.chat.title": "聊天 HUD",
+  "ui.config.chat.use_vanilla": "聊天 HUD 使用原版渲染",
+  "ui.config.chat.use_vanilla.desc.enable": "禁用对聊天 HUD 的注入， 动画将会失效",
+  "ui.config.chat.use_vanilla.desc.disable": "启用对聊天 HUD 的注入",
   "ui.config.chat.enable_animation_intro.text": "启用淡入动画",
   "ui.config.chat.enable_animation_outro.text": "启用淡出动画",
   "ui.config.chat.enable_animation_vanilla.text": "启用原版透明度动画",
@@ -15,5 +15,9 @@
   "ui.config.chat.field.animation_mode.text": "输入框动画模式",
   "ui.config.chat.enable_chat_screen_animation.text": "启用聊天输入框动画",
   "ui.config.chat.hud.animation_length.text": "聊天 HUD 动画长度 (毫秒)",
-  "ui.config.chat.screen.animation_length.text": "聊天屏幕动画长度 (毫秒)"
+  "ui.config.chat.screen.animation_length.text": "聊天屏幕动画长度 (毫秒)",
+  "ui.config.chat.screen.title": "聊天屏幕",
+  "ui.config.chat.screen.vanilla": "聊天屏幕使用原版渲染",
+  "ui.config.chat.screen.use_vanilla.desc.enable": "禁用对聊天屏幕的注入， 动画将会失效",
+  "ui.config.chat.screen.use_vanilla.desc.disable": "启用对聊天屏幕的注入"
 }

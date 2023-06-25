@@ -31,6 +31,32 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                         .setSaveConsumer(OPTION_MOTION_BLUR_FACTOR::setValue)
                                         .setDefaultValue(OPTION_MOTION_BLUR_FACTOR::getDefaultValue)
                                         .build()
+                        )
+                        .addEntry(
+                                entryBuilder.startBooleanToggle(
+                                                new TranslatableText("ui.config.chat.use_vanilla"),
+                                                OPTION_ENABLE_CHAT_VANILLA_RENDERING.getValue()
+                                        )
+                                        .setTooltipSupplier(aBoolean -> {
+                                            if (safeBoolean(aBoolean)) return Optional.of(new Text[]{new TranslatableText("ui.config.chat.use_vanilla.desc.enable")});
+                                            else return Optional.of(new Text[]{new TranslatableText("ui.config.chat.use_vanilla.desc.disable")});
+                                        })
+                                        .setSaveConsumer(OPTION_ENABLE_CHAT_VANILLA_RENDERING::setValue)
+                                        .setDefaultValue(OPTION_ENABLE_CHAT_VANILLA_RENDERING::getDefaultValue)
+                                        .build()
+                        )
+                        .addEntry(
+                                entryBuilder.startBooleanToggle(
+                                                new TranslatableText("ui.config.chat.screen.vanilla"),
+                                                OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getValue()
+                                        )
+                                        .setTooltipSupplier(aBoolean -> {
+                                            if (safeBoolean(aBoolean)) return Optional.of(new Text[]{new TranslatableText("ui.config.chat.screen.use_vanilla.desc.enable")});
+                                            else return Optional.of(new Text[]{new TranslatableText("ui.config.chat.screen.use_vanilla.desc.disable")});
+                                        })
+                                        .setSaveConsumer(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING::setValue)
+                                        .setDefaultValue(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING::getDefaultValue)
+                                        .build()
                         );
         builder.getOrCreateCategory(new TranslatableText("ui.config.chat.title"))
                 .addEntry(
@@ -71,19 +97,6 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                 .build()
                 )
                 .addEntry(
-                        entryBuilder.startBooleanToggle(
-                                        new TranslatableText("ui.config.chat.use_vanilla"),
-                                        OPTION_ENABLE_CHAT_VANILLA_RENDERING.getValue()
-                                )
-                                .setTooltipSupplier(aBoolean -> {
-                                    if (safeBoolean(aBoolean)) return Optional.of(new Text[]{new TranslatableText("ui.config.chat.use_vanilla.desc.enable")});
-                                    else return Optional.of(new Text[]{new TranslatableText("ui.config.chat.use_vanilla.desc.disable")});
-                                })
-                                .setSaveConsumer(OPTION_ENABLE_CHAT_VANILLA_RENDERING::setValue)
-                                .setDefaultValue(OPTION_ENABLE_CHAT_VANILLA_RENDERING::getDefaultValue)
-                                .build()
-                )
-                .addEntry(
                         entryBuilder.startEnumSelector(
                                 new TranslatableText("ui.config.chat.animation_type.text"),
                                 AnimationProvider.AnimationType.class,
@@ -102,6 +115,17 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                 .setSaveConsumer(OPTION_CHAT_ANIMATION_MODE::setValue)
                                 .setDefaultValue(OPTION_CHAT_ANIMATION_MODE::getDefaultValue)
                                 .build()
+                );
+
+        builder.getOrCreateCategory(new TranslatableText("ui.config.chat.screen.title"))
+                .addEntry(
+                        entryBuilder.startBooleanToggle(
+                                        new TranslatableText("ui.config.chat.enable_chat_screen_animation.text"),
+                                        OPTION_ENABLE_CHAT_SCREEN_ANIMATION.getValue()
+                                )
+                                .setSaveConsumer(OPTION_ENABLE_CHAT_SCREEN_ANIMATION::setValue)
+                                .setDefaultValue(OPTION_ENABLE_CHAT_SCREEN_ANIMATION::getDefaultValue)
+                                .build()
                 )
                 .addEntry(
                         entryBuilder.startIntSlider(
@@ -111,15 +135,6 @@ class ConfigScreenFactoryImpl implements ConfigScreenFactory<Screen> {
                                 )
                                 .setSaveConsumer(OPTION_CHAT_SCREEN_ANIMATION_LENGTH::setValue)
                                 .setDefaultValue(OPTION_CHAT_SCREEN_ANIMATION_LENGTH::getDefaultValue)
-                                .build()
-                )
-                .addEntry(
-                        entryBuilder.startBooleanToggle(
-                                new TranslatableText("ui.config.chat.enable_chat_screen_animation.text"),
-                                OPTION_ENABLE_CHAT_SCREEN_ANIMATION.getValue()
-                        )
-                                .setSaveConsumer(OPTION_ENABLE_CHAT_SCREEN_ANIMATION::setValue)
-                                .setDefaultValue(OPTION_ENABLE_CHAT_SCREEN_ANIMATION::getDefaultValue)
                                 .build()
                 )
                 .addEntry(

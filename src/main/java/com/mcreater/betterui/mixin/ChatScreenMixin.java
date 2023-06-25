@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import static com.mcreater.betterui.config.Configuration.*;
+import static com.mcreater.betterui.util.SafeValue.safeBoolean;
 import static com.mojang.blaze3d.systems.RenderSystem.recordRenderCall;
 
 @Mixin(value = {ChatScreen.class}, priority = Integer.MAX_VALUE)
@@ -35,6 +36,8 @@ public abstract class ChatScreenMixin extends Screen {
 
     @Inject(at = @At("HEAD"), method = "render")
     public void onRender(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        if (safeBoolean(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getValue())) return;
+
         if (node == null) {
             node = new AnimationNode(0, OPTION_CHAT_SCREEN_ANIMATION_LENGTH.getValue(), chatField.getHeight(), -chatField.getHeight());
             node.setOnAnimation(animationNode -> {
@@ -54,11 +57,15 @@ public abstract class ChatScreenMixin extends Screen {
 
     @Inject(at = @At("HEAD"), method = "removed")
     public void onRemoved(CallbackInfo ci) {
+        if (safeBoolean(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getValue())) return;
+
         node.back();
     }
 
     @ModifyArgs(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ChatScreen;fill(Lnet/minecraft/client/util/math/MatrixStack;IIIII)V"), method = "render")
     public void modifyFillArg(Args args) {
+        if (safeBoolean(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getValue())) return;
+
         int y1 = args.get(2);
         int y2 = args.get(4);
 

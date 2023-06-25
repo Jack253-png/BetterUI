@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "betterui",
-  "version": "1.0.0",
+  "version": "1.0.0-beta1",
   "name": "Better UI",
   "description": "A minecraft mod for improving UI elements with animations",
   "authors": [
