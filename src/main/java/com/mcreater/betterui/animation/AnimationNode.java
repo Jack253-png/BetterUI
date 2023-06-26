@@ -1,11 +1,11 @@
 package com.mcreater.betterui.animation;
 
-import java.util.List;
-import java.util.Vector;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
 
 public class AnimationNode {
-    private static final List<AnimationNode> nodes = new Vector<>();
+    private static final Queue<AnimationNode> nodes = new ConcurrentLinkedQueue<>();
     static {
         new Thread("Animation Thread") {
             public void run() {
