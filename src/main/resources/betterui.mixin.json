@@ -5,7 +5,10 @@
   "client": [
     "ChatHudMixin",
     "ChatScreenMixin",
-    "MinecraftClientMixin"
+    "MinecraftClientMixin",
+    "RotatingCubeMapRendererMixin",
+    "SplashOverlayMixin",
+    "SubtitlesHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1
