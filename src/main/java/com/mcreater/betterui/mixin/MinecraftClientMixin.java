@@ -19,6 +19,7 @@ public class MinecraftClientMixin {
 
     @Inject(at  = @At("HEAD"), method = "setScreen", cancellable = true)
     public void onSetScreen(Screen screen, CallbackInfo ci) {
+        System.out.println(screen);
         if (safeBoolean(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getValue())) return;
 
         if (screen == null) {

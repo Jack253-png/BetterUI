@@ -5,9 +5,12 @@
   "client": [
     "ChatHudMixin",
     "ChatScreenMixin",
+    "DownloadingTerrainScreenMixin",
+    "GameMenuScreenMixin",
+    "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
-    "RotatingCubeMapRendererMixin",
-    "SplashOverlayMixin",
+    "ProgressScreenMixin",
+    "SaveLevelScreenMixin",
     "SubtitlesHudMixin"
   ],
   "injectors": {

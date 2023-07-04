@@ -1,0 +1,11 @@
+{
+    "providers": [
+        {
+            "type": "ttf",
+            "file": "betterui:custom.ttf",
+            "shift": [0, 1],
+            "size": 10.0,
+            "oversample": 4.0
+        }
+    ]
+}

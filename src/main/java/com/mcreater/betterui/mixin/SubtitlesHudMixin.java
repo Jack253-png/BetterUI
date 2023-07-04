@@ -11,6 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class SubtitlesHudMixin {
     @Inject(at = @At("HEAD"), method = "render")
     public void onRender(MatrixStack matrices, CallbackInfo ci) {
-        System.out.println("subtitles rendering");
+
     }
 }

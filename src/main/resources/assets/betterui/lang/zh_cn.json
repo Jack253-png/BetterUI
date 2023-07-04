@@ -19,5 +19,7 @@
   "ui.config.chat.screen.title": "聊天屏幕",
   "ui.config.chat.screen.vanilla": "聊天屏幕使用原版渲染",
   "ui.config.chat.screen.use_vanilla.desc.enable": "禁用对聊天屏幕的注入， 动画将会失效",
-  "ui.config.chat.screen.use_vanilla.desc.disable": "启用对聊天屏幕的注入"
+  "ui.config.chat.screen.use_vanilla.desc.disable": "启用对聊天屏幕的注入",
+  "ui.splash.craft_table.title": "工作台",
+  "ui.splash.craft_table.desc": "Minecraft 的核心"
 }
