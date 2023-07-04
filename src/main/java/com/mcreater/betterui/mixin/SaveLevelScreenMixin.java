@@ -30,13 +30,15 @@ public class SaveLevelScreenMixin extends Screen {
 
     @Inject(at = @At("RETURN"), method = "<init>")
     public void onInit(Text text, CallbackInfo ci) {
+        System.out.println("onInit");
+        System.out.println(text);
         node = null;
     }
 
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void onRender(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (node == null) {
-            node = new AnimationNode(0, 1000, 0, 255);
+            node = new AnimationNode(0, 3000, 0, 255);
         }
         fillScreen(matrices, AnimationProvider.generateInteger(node, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
         drawCenteredTextWithoutShadow(

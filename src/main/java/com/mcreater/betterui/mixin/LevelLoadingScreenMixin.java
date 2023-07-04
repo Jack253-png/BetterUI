@@ -2,7 +2,9 @@ package com.mcreater.betterui.mixin;
 
 import com.mcreater.betterui.animation.AnimationNode;
 import com.mcreater.betterui.animation.AnimationProvider;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.WorldGenerationProgressTracker;
 import net.minecraft.client.gui.screen.LevelLoadingScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -22,6 +24,7 @@ import java.awt.*;
 
 import static com.mcreater.betterui.render.InternalFonts.STANDARD;
 import static com.mcreater.betterui.render.InternalFonts.TITLE;
+import static com.mcreater.betterui.render.LogoProvider.CRAFT_TABLE;
 import static com.mcreater.betterui.screens.ScreenHelper.*;
 
 @Mixin(value = {LevelLoadingScreen.class}, priority = Integer.MAX_VALUE)
@@ -93,6 +96,13 @@ public class LevelLoadingScreenMixin extends Screen {
                 new Color(100, 100, 100).getRGB()
         );
         if (!hided) {
+            RenderSystem.enableBlend();
+            matrix.translate(0.0, 0.0, 50.0);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, getOpacity() / 255F);
+            RenderSystem.setShaderTexture(0, CRAFT_TABLE.getLight());
+            DrawableHelper.drawTexture(matrix, width / 2 - 16, height / 4 - 16, 32, 32, 0.0F, 0.0F, 16, 16, 16, 16);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+
             drawCenteredTextWithoutShadow(
                     matrix,
                     CLIENT.textRenderer,
@@ -109,6 +119,8 @@ public class LevelLoadingScreenMixin extends Screen {
                     y1 - 30,
                     new Color(100, 100, 100, getOpacity()).getRGB()
             );
+            RenderSystem.disableBlend();
+            matrix.pop();
         }
     }
 }
