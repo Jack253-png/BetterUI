@@ -14,7 +14,7 @@ public abstract class ScreenHelper extends Screen {
         super(title);
     }
     public static void fillScreen(MatrixStack matrices, int opacity) {
-        fill(matrices, 0, 0, CLIENT.getWindow().getWidth(), CLIENT.getWindow().getHeight(), new Color(235, 235, 235, opacity).getRGB());
+        fill(matrices, 0, 0, CLIENT.getWindow().getWidth(), CLIENT.getWindow().getHeight(), new Color(253, 253, 253, opacity).getRGB());
     }
     public static void drawCenteredTextWithoutShadow(MatrixStack matrices, TextRenderer textRenderer, Text text, int centerX, int y, int color) {
         textRenderer.draw(matrices, text, (float)(centerX - textRenderer.getWidth(text) / 2), (float)y, color);

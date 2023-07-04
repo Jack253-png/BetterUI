@@ -100,7 +100,7 @@ public class LevelLoadingScreenMixin extends Screen {
             matrix.translate(0.0, 0.0, 50.0);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, getOpacity() / 255F);
             RenderSystem.setShaderTexture(0, CRAFT_TABLE.getLight());
-            DrawableHelper.drawTexture(matrix, width / 2 - 16, height / 4 - 16, 32, 32, 0.0F, 0.0F, 16, 16, 16, 16);
+            DrawableHelper.drawTexture(matrix, width / 2 - 16, (int) (height / 5 * 2.2 - 16), 32, 32, 0.0F, 0.0F, 16, 16, 16, 16);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
             drawCenteredTextWithoutShadow(
@@ -108,7 +108,7 @@ public class LevelLoadingScreenMixin extends Screen {
                     CLIENT.textRenderer,
                     new TranslatableText("ui.splash.craft_table.title").fillStyle(Style.EMPTY.withFont(TITLE)),
                     width / 2,
-                    y1 - 30 - 20,
+                    y1 - 30 - 10,
                     new Color(100, 100, 100, getOpacity()).getRGB()
             );
             drawCenteredTextWithoutShadow(

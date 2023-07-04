@@ -30,8 +30,6 @@ public class SaveLevelScreenMixin extends Screen {
 
     @Inject(at = @At("RETURN"), method = "<init>")
     public void onInit(Text text, CallbackInfo ci) {
-        System.out.println("onInit");
-        System.out.println(text);
         node = null;
     }
 
