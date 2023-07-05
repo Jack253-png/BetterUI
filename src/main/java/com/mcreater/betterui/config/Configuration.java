@@ -16,7 +16,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.mcreater.betterui.BetterUIClient.MOD_ID;
+import static com.mcreater.betterui.GenshinUIClient.MOD_ID;
 import static com.mcreater.betterui.util.SafeValue.*;
 
 public class Configuration {

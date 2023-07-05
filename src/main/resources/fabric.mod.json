@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "betterui",
-  "version": "1.0.0-beta1",
-  "name": "Better UI",
-  "description": "A minecraft mod for improving UI elements with animations",
+  "id": "genshinui",
+  "version": "0.0.1-beta1",
+  "name": "Genshin UI",
+  "description": "A minecraft mod brings Genshin Impact's UI experience to minecraft",
   "authors": [
     "jack253-png"
   ],
@@ -14,14 +14,14 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "com.mcreater.betterui.BetterUIClient"
+      "com.mcreater.betterui.GenshinUIClient"
     ],
     "modmenu": [
       "com.mcreater.betterui.config.ModMenuApiImpl"
     ]
   },
   "mixins": [
-    "betterui.mixin.json"
+    "genshinui.mixin.json"
   ],
   "license": "MIT",
   "depends": {

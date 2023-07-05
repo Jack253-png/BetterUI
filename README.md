@@ -1,2 +1,2 @@
-# BetterUI
-A minecraft mod for improving UI elements with animations
+# Genshin UI
+A minecraft mod brings Genshin Impact's UI experience to minecraft

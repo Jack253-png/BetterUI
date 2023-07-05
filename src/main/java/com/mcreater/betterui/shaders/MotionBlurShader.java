@@ -5,7 +5,7 @@ import ladysnake.satin.api.managed.ManagedShaderEffect;
 import ladysnake.satin.api.managed.ShaderEffectManager;
 import net.minecraft.util.Identifier;
 
-import static com.mcreater.betterui.BetterUIClient.MOD_ID;
+import static com.mcreater.betterui.GenshinUIClient.MOD_ID;
 import static com.mcreater.betterui.config.Configuration.OPTION_MOTION_BLUR_FACTOR;
 
 public class MotionBlurShader {
