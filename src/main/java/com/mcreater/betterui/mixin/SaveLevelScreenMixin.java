@@ -14,11 +14,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.awt.*;
-
 import static com.mcreater.betterui.render.InternalFonts.STANDARD;
-import static com.mcreater.betterui.screens.ScreenHelper.drawCenteredTextWithoutShadow;
-import static com.mcreater.betterui.screens.ScreenHelper.fillScreen;
+import static com.mcreater.betterui.screens.ScreenHelper.*;
 
 @Mixin(value = {SaveLevelScreen.class}, priority = Integer.MAX_VALUE)
 public class SaveLevelScreenMixin extends Screen {
@@ -45,7 +42,7 @@ public class SaveLevelScreenMixin extends Screen {
                 title instanceof MutableText ? ((MutableText) title).fillStyle(Style.EMPTY.withFont(STANDARD)) : title,
                 width / 2,
                 height - 20 - 1 - 30,
-                new Color(142, 149, 158).getRGB()
+                getTextColor()
         );
         ci.cancel();
     }

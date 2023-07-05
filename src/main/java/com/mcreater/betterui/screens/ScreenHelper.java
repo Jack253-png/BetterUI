@@ -10,6 +10,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Vector;
 
@@ -19,7 +21,35 @@ public abstract class ScreenHelper extends Screen {
         super(title);
     }
     public static void fillScreen(MatrixStack matrices, int opacity) {
-        fill(matrices, 0, 0, CLIENT.getWindow().getWidth(), CLIENT.getWindow().getHeight(), new Color(253, 253, 253, opacity).getRGB());
+        fill(matrices, 0, 0, CLIENT.getWindow().getWidth(), CLIENT.getWindow().getHeight(), getBackgroundColor(opacity));
+    }
+    public static boolean isNight() {
+        int hour = LocalDateTime.now(ZoneId.systemDefault()).getHour();
+        return hour >= 18 || hour <= 6;
+    }
+    public static int getBackgroundColor() {
+        return getBackgroundColor(255);
+    }
+    public static int getBackgroundColor(int opacity) {
+        return isNight() ?
+                new Color(50, 50, 50, opacity).getRGB() :
+                new Color(253, 253, 253, opacity).getRGB();
+    }
+    public static int getTextColor() {
+        return getTextColor(255);
+    }
+    public static int getTextColor(int opacity) {
+        return isNight() ?
+                new Color(253, 253, 253, opacity).getRGB() :
+                new Color(142, 149, 158, opacity).getRGB();
+    }
+    public static int getNarrationColor() {
+        return getNarrationColor(255);
+    }
+    public static int getNarrationColor(int opacity) {
+        return isNight() ?
+                new Color(29, 29, 29, opacity).getRGB() :
+                new Color(226, 226, 226, opacity).getRGB();
     }
     public static void drawCenteredTextWithoutShadow(MatrixStack matrices, TextRenderer textRenderer, Text text, int centerX, int y, int color) {
         textRenderer.draw(matrices, text, (float)(centerX - textRenderer.getWidth(text) / 2), (float)y, color);
@@ -34,7 +64,6 @@ public abstract class ScreenHelper extends Screen {
         matrix.translate(0.0, 0.0, 50.0);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, opacity);
         RenderSystem.setShaderTexture(0, logo.getLight());
-        System.out.println(width * percent);
         DrawableHelper.drawTexture(matrix, x, tarY, (int) (width * percent), height, 0.0F, 0.0F, (int) (imgW * percent), imgH, imgW, imgH);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
@@ -54,13 +83,13 @@ public abstract class ScreenHelper extends Screen {
 
     public static void draw7Elements(MatrixStack matrix, int xStart, int y, double progress) {
         List<Double> a = splitProgress(progress);
-        drawTexture(matrix, LogoProvider.PICKAXE, 0.5F, xStart, y, 16, 16, a.get(0));
-        drawTexture(matrix, LogoProvider.AXE, 0.5F, xStart + 16, y, 16, 16, a.get(1));
-        drawTexture(matrix, LogoProvider.SWORD, 0.5F, xStart + 16*2, y, 16, 16, a.get(2));
-        drawTexture(matrix, LogoProvider.COMPASS, 0.5F, xStart + 16*3, y, 16, 16, a.get(3));
-        drawTexture(matrix, LogoProvider.BOW, 0.5F, xStart + 16*4, y, 16, 16, a.get(4));
-        drawTexture(matrix, LogoProvider.ENDER_EYE, 0.5F, xStart + 16*5, y, 16, 16, a.get(5));
-        drawTexture(matrix, LogoProvider.NETHER_STAR, 0.5F, xStart + 16*6, y, 16, 16, a.get(6));
+        drawTexture(matrix, LogoProvider.PICKAXE, 0.7F, xStart, y, 16, 16, a.get(0)); // 稿子 (挖矿)
+        drawTexture(matrix, LogoProvider.AXE, 0.7F, xStart + 16, y, 16, 16, a.get(1)); // 斧头 (打怪（划掉）伐木)
+        drawTexture(matrix, LogoProvider.SWORD, 0.7F, xStart + 16*2, y, 16, 16, a.get(2)); // 剑 (PVP)
+        drawTexture(matrix, LogoProvider.COMPASS, 0.7F, xStart + 16*3, y, 16, 16, a.get(3)); // 指南针 (冒险)
+        drawTexture(matrix, LogoProvider.BOW, 0.7F, xStart + 16*4, y, 16, 16, a.get(4)); // 弓 (boss空战)
+        drawTexture(matrix, LogoProvider.ENDER_EYE, 0.7F, xStart + 16*5, y, 16, 16, a.get(5)); // 末影之眼 (深渊（)
+        drawTexture(matrix, LogoProvider.NETHER_STAR, 0.7F, xStart + 16*6, y, 16, 16, a.get(6)); // 下界之星 (原石（误)
     }
 
     public static java.util.List<Double> splitProgress(double va) {

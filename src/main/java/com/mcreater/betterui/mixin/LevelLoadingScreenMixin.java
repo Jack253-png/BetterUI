@@ -19,8 +19,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.awt.*;
-
 import static com.mcreater.betterui.render.InternalFonts.STANDARD;
 import static com.mcreater.betterui.render.InternalFonts.TITLE;
 import static com.mcreater.betterui.screens.ScreenHelper.*;
@@ -86,8 +84,8 @@ public class LevelLoadingScreenMixin extends Screen {
         ScreenHelper.draw7ElementsBase(matrix, mix_start, y);
         ScreenHelper.draw7Elements(matrix, mix_start, y, progress);
 
-        fill(matrix, 0, y, mix_start - 15, y + 1, new Color(226, 226, 226).getRGB());
-        fill(matrix, mix_end + 15, y, width, y + 1, new Color(226, 226, 226).getRGB());
+        fill(matrix, 0, y, mix_start - 15, y + 1, getNarrationColor());
+        fill(matrix, mix_end + 15, y, width, y + 1, getNarrationColor());
 
         drawTextWithoutShadow(
                 matrix,
@@ -95,7 +93,7 @@ public class LevelLoadingScreenMixin extends Screen {
                 new TranslatableText("ui.splash.core.world_load", Math.min((int) (progress * 100), 100) + "%").fillStyle(Style.EMPTY.withFont(STANDARD)),
                 5,
                 y - 10,
-                new Color(142, 149, 158).getRGB()
+                getTextColor()
         );
         // 66 83 103
         if (!hided) {
@@ -105,7 +103,7 @@ public class LevelLoadingScreenMixin extends Screen {
                     new TranslatableText("ui.splash.craft_table.title").fillStyle(Style.EMPTY.withFont(TITLE)),
                     width / 2,
                     y - 1 - 30 - 10,
-                    new Color(142, 149, 158, getOpacity()).getRGB()
+                    getTextColor(getOpacity())
             );
             drawCenteredTextWithoutShadow(
                     matrix,
@@ -113,7 +111,7 @@ public class LevelLoadingScreenMixin extends Screen {
                     new TranslatableText("ui.splash.craft_table.desc").fillStyle(Style.EMPTY.withFont(STANDARD)),
                     width / 2,
                     y - 1 - 30,
-                    new Color(142, 149, 158, getOpacity()).getRGB()
+                    getTextColor(getOpacity())
             );
             RenderSystem.disableBlend();
             matrix.pop();
