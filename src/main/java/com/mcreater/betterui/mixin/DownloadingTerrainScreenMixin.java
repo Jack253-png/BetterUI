@@ -37,7 +37,7 @@ public class DownloadingTerrainScreenMixin extends Screen {
                 TEXT instanceof MutableText ? ((MutableText) TEXT).fillStyle(Style.EMPTY.withFont(STANDARD)) : TEXT,
                 width / 2,
                 height - 20 - 1 - 30,
-                new Color(100, 100, 100).getRGB()
+                new Color(142, 149, 158).getRGB()
         );
         ci.cancel();
     }

@@ -1,11 +1,27 @@
 {
     "providers": [
         {
-            "type": "ttf",
-            "file": "betterui:custom.ttf",
-            "shift": [0, 1],
-            "size": 12.0,
-            "oversample": 4.0
+            "type": "caxton",
+            "regular": {
+                "file": "betterui:custom.ttf",
+                "shadow_offset": 0.5,
+                "scale_factor": 1.2
+            },
+            "bold": {
+                "file": "betterui:custom.ttf",
+                "shadow_offset": 0.5,
+                "scale_factor": 1.2
+            },
+            "italic": {
+                "file": "betterui:custom.ttf",
+                "shadow_offset": 0.5,
+                "scale_factor": 1.2
+            },
+            "bold_italic": {
+                "file": "betterui:custom.ttf",
+                "shadow_offset": 0.5,
+                "scale_factor": 1.2
+            }
         }
     ]
 }

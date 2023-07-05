@@ -30,6 +30,7 @@
   },
   "jars": [
     {"file": "META-INF/jars/cloth-config-6.3.81-fabric.jar"},
-    {"file": "META-INF/jars/satin-1.7.2.jar"}
+    {"file": "META-INF/jars/satin-1.7.2.jar"},
+    {"file": "META-INF/jars/caxton.jar"}
   ]
 }

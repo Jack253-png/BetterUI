@@ -2,14 +2,13 @@ package com.mcreater.betterui.mixin;
 
 import com.mcreater.betterui.animation.AnimationNode;
 import com.mcreater.betterui.animation.AnimationProvider;
+import com.mcreater.betterui.screens.ScreenHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.WorldGenerationProgressTracker;
 import net.minecraft.client.gui.screen.LevelLoadingScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -24,7 +23,6 @@ import java.awt.*;
 
 import static com.mcreater.betterui.render.InternalFonts.STANDARD;
 import static com.mcreater.betterui.render.InternalFonts.TITLE;
-import static com.mcreater.betterui.render.LogoProvider.CRAFT_TABLE;
 import static com.mcreater.betterui.screens.ScreenHelper.*;
 
 @Mixin(value = {LevelLoadingScreen.class}, priority = Integer.MAX_VALUE)
@@ -63,7 +61,7 @@ public class LevelLoadingScreenMixin extends Screen {
         if (progressProvider.getProgressPercentage() >= 100) {
             fadeNode.back();
         }
-        drawProgressBar(matrices, width / 2, height - 20, progress);
+        renderInternal(matrices, height - 20, progress);
         ci.cancel();
     }
 
@@ -79,45 +77,43 @@ public class LevelLoadingScreenMixin extends Screen {
         return va;
     }
 
-    public void drawProgressBar(MatrixStack matrix, int x, int y, double progress) {
-        int barLength = width;
-        int barHeight = 2;
-        int x1 = x - barLength / 2;
-        int y1 = y - barHeight / 2;
-        int x2 = (int) (x1 + barLength * progress);
-        int y2 = y + barHeight / 2;
-        fill(matrix, x1, y1, x2, y2, new Color(50, 50, 50).getRGB());
+    public void renderInternal(MatrixStack matrix, int y, double progress) {
+        RenderSystem.enableBlend();
+
+        int mix_start = width / 2 - 16 * 7 / 2;
+        int mix_end = width / 2 + 16 * 7 / 2;
+
+        ScreenHelper.draw7ElementsBase(matrix, mix_start, y);
+        ScreenHelper.draw7Elements(matrix, mix_start, y, progress);
+
+        fill(matrix, 0, y, mix_start - 15, y + 1, new Color(226, 226, 226).getRGB());
+        fill(matrix, mix_end + 15, y, width, y + 1, new Color(226, 226, 226).getRGB());
+
         drawTextWithoutShadow(
                 matrix,
                 CLIENT.textRenderer,
-                new LiteralText(Math.min((int) (progress * 100), 100) + "%").fillStyle(Style.EMPTY.withFont(STANDARD)),
-                0,
-                y1 - 10,
-                new Color(100, 100, 100).getRGB()
+                new TranslatableText("ui.splash.core.world_load", Math.min((int) (progress * 100), 100) + "%").fillStyle(Style.EMPTY.withFont(STANDARD)),
+                5,
+                y - 10,
+                new Color(142, 149, 158).getRGB()
         );
+        // 66 83 103
         if (!hided) {
-            RenderSystem.enableBlend();
-            matrix.translate(0.0, 0.0, 50.0);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, getOpacity() / 255F);
-            RenderSystem.setShaderTexture(0, CRAFT_TABLE.getLight());
-            DrawableHelper.drawTexture(matrix, width / 2 - 16, (int) (height / 5 * 2.2 - 16), 32, 32, 0.0F, 0.0F, 16, 16, 16, 16);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
             drawCenteredTextWithoutShadow(
                     matrix,
                     CLIENT.textRenderer,
                     new TranslatableText("ui.splash.craft_table.title").fillStyle(Style.EMPTY.withFont(TITLE)),
                     width / 2,
-                    y1 - 30 - 10,
-                    new Color(100, 100, 100, getOpacity()).getRGB()
+                    y - 1 - 30 - 10,
+                    new Color(142, 149, 158, getOpacity()).getRGB()
             );
             drawCenteredTextWithoutShadow(
                     matrix,
                     CLIENT.textRenderer,
                     new TranslatableText("ui.splash.craft_table.desc").fillStyle(Style.EMPTY.withFont(STANDARD)),
                     width / 2,
-                    y1 - 30,
-                    new Color(100, 100, 100, getOpacity()).getRGB()
+                    y - 1 - 30,
+                    new Color(142, 149, 158, getOpacity()).getRGB()
             );
             RenderSystem.disableBlend();
             matrix.pop();

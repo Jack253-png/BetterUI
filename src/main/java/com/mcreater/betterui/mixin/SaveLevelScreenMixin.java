@@ -45,7 +45,7 @@ public class SaveLevelScreenMixin extends Screen {
                 title instanceof MutableText ? ((MutableText) title).fillStyle(Style.EMPTY.withFont(STANDARD)) : title,
                 width / 2,
                 height - 20 - 1 - 30,
-                new Color(100, 100, 100).getRGB()
+                new Color(142, 149, 158).getRGB()
         );
         ci.cancel();
     }

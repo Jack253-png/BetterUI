@@ -21,5 +21,6 @@
   "ui.config.chat.screen.use_vanilla.desc.enable": "Disable injecting to the chat screen, animations will take no effect",
   "ui.config.chat.screen.use_vanilla.desc.disable": "Enable injecting to the chat screen",
   "ui.splash.craft_table.title": "Craft table",
-  "ui.splash.craft_table.desc": "The core of Minecraft"
+  "ui.splash.craft_table.desc": "The core of Minecraft",
+  "ui.splash.core.world_load": "Loading world, %s completed..."
 }

@@ -1,12 +1,8 @@
 package com.mcreater.betterui;
 
-import com.mcreater.betterui.animation.AnimationGenerator;
-import com.mcreater.betterui.animation.AnimationNode;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.Vector;
 
 public class TestAnimation {
     public static class FuncShow extends JPanel {
@@ -29,7 +25,7 @@ public class TestAnimation {
         }
     }
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Animation");
+        /*JFrame frame = new JFrame("Animation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         List<Double> doubles = new Vector<>();
@@ -42,7 +38,6 @@ public class TestAnimation {
             doubles.add(AnimationGenerator.SINUSOIDAL_EASEIN.applyAsDouble(node));
             doubles1.add(AnimationGenerator.SINUSOIDAL_EASEOUT.applyAsDouble(node));
             doubles2.add(AnimationGenerator.SINUSOIDAL_EASEINOUT.applyAsDouble(node));
-            node.nextFrame();
         }
 
         res.add(doubles);
@@ -52,6 +47,6 @@ public class TestAnimation {
         frame.add(new FuncShow(res));
 
         frame.setSize(1000, 1000);
-        frame.setVisible(true);
+        frame.setVisible(true);*/
     }
 }
