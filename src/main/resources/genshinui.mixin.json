@@ -7,7 +7,7 @@
     "ChatScreenMixin",
     "DownloadingTerrainScreenMixin",
     "GameMenuScreenMixin",
-    "GameRenderMixin",
+    "GameRendererMixin",
     "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
     "ProgressScreenMixin",
