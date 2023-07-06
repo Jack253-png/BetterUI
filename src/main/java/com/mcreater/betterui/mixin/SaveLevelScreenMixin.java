@@ -20,7 +20,8 @@ import static com.mcreater.betterui.screens.ScreenHelper.*;
 @Mixin(value = {SaveLevelScreen.class}, priority = Integer.MAX_VALUE)
 public class SaveLevelScreenMixin extends Screen {
     private final MinecraftClient CLIENT = MinecraftClient.getInstance();
-    private static AnimationNode node;
+    private AnimationNode node;
+    private AnimationNode fakeProgress;
     protected SaveLevelScreenMixin(Text title) {
         super(title);
     }
@@ -30,12 +31,18 @@ public class SaveLevelScreenMixin extends Screen {
         node = null;
     }
 
+    public void removed() {
+        node = null;
+        fakeProgress = null;
+    }
+
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void onRender(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (node == null) {
-            node = new AnimationNode(0, 3000, 0, 255);
-        }
+        if (node == null) node = new AnimationNode(0, 3000, 0, 255);
+        if (fakeProgress == null) fakeProgress = new AnimationNode(0, 1000, 0, 1);
+
         fillScreen(matrices, AnimationProvider.generateInteger(node, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+
         drawCenteredTextWithoutShadow(
                 matrices,
                 CLIENT.textRenderer,

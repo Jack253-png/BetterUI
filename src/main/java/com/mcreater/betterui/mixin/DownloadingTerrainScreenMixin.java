@@ -1,5 +1,8 @@
 package com.mcreater.betterui.mixin;
 
+import com.mcreater.betterui.animation.AnimationNode;
+import com.mcreater.betterui.animation.AnimationProvider;
+import com.mcreater.betterui.screens.ScreenHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.DownloadingTerrainScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -20,6 +23,13 @@ import static com.mcreater.betterui.screens.ScreenHelper.*;
 public class DownloadingTerrainScreenMixin extends Screen {
     private final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private static final Text TEXT = new TranslatableText("multiplayer.downloadingTerrain");
+    private AnimationNode node;
+    private AnimationNode fakeProgress;
+
+    public void removed() {
+        node = null;
+        fakeProgress = null;
+    }
 
     protected DownloadingTerrainScreenMixin(Text title) {
         super(title);
@@ -27,7 +37,19 @@ public class DownloadingTerrainScreenMixin extends Screen {
 
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void onRender(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        fillScreen(matrices, 255);
+        if (node == null) node = new AnimationNode(0, 3000, 0, 255);
+        if (fakeProgress == null) fakeProgress = new AnimationNode(0, 1000, 0, 1);
+
+        fillScreen(matrices, AnimationProvider.generateInteger(node, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+        int y = height - 20;
+        int mix_start = width / 2 - 16 * 7 / 2;
+        int mix_end = width / 2 + 16 * 7 / 2;
+
+        ScreenHelper.draw7ElementsBase(matrices, mix_start, y);
+        ScreenHelper.draw7Elements(matrices, mix_start, y, AnimationProvider.generateInteger(fakeProgress, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+        fill(matrices, 0, y, mix_start - 15, y + 1, getNarrationColor());
+        fill(matrices, mix_end + 15, y, width, y + 1, getNarrationColor());
+
         drawCenteredTextWithoutShadow(
                 matrices,
                 CLIENT.textRenderer,

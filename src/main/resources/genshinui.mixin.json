@@ -5,9 +5,9 @@
   "client": [
     "ChatHudMixin",
     "ChatScreenMixin",
+    "ClientWorldMixin",
     "DownloadingTerrainScreenMixin",
     "GameMenuScreenMixin",
-    "GameRendererMixin",
     "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
     "ProgressScreenMixin",

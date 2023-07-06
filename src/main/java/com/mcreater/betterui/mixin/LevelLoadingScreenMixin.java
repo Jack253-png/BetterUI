@@ -1,5 +1,6 @@
 package com.mcreater.betterui.mixin;
 
+import com.mcreater.betterui.animation.AnimatedValue;
 import com.mcreater.betterui.animation.AnimationNode;
 import com.mcreater.betterui.animation.AnimationProvider;
 import com.mcreater.betterui.screens.ScreenHelper;
@@ -27,11 +28,8 @@ import static com.mcreater.betterui.screens.ScreenHelper.*;
 public class LevelLoadingScreenMixin extends Screen {
     @Shadow @Final private WorldGenerationProgressTracker progressProvider;
     private final MinecraftClient CLIENT = MinecraftClient.getInstance();
-    private double excepted = 0;
-    private double progress = 0;
-    private AnimationNode node;
+    private AnimatedValue value;
     private AnimationNode fadeNode;
-    private boolean hided = false;
 
     protected LevelLoadingScreenMixin(Text title) {
         super(title);
@@ -41,38 +39,35 @@ public class LevelLoadingScreenMixin extends Screen {
     public void onRender(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         fillScreen(matrices, 255);
 
-        if (node == null) {
-            excepted = 0;
-            progress = 0;
-            hided = false;
+        if (value == null) {
+            value = new AnimatedValue(0, 0, 200, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
         }
 
-        if (fadeNode == null) {
-            fadeNode = new AnimationNode(0, 1000, 0, 255);
-        }
+        initFadeNode();
 
-        if ((double) progressProvider.getProgressPercentage() / 100 != excepted) {
-            excepted = (double) progressProvider.getProgressPercentage() / 100;
-            node = new AnimationNode(0, 200, progress, excepted - progress);
+        if ((double) progressProvider.getProgressPercentage() / 100 != value.getExpectedValue()) {
+            double excepted = (double) progressProvider.getProgressPercentage() / 100;
+            value.setExpectedValue(excepted);
         }
-        progress = node == null ? 0 : AnimationProvider.generate(node, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL);
+        double progress = value == null ? 0 : value.getCurrentValue();
         if (progressProvider.getProgressPercentage() >= 100) {
             fadeNode.back();
         }
         renderInternal(matrices, height - 20, progress);
         ci.cancel();
     }
+    private void initFadeNode() {
+        if (fadeNode == null) fadeNode = new AnimationNode(0, 1000, 0, 255);
+    }
 
     @Inject(at = @At("RETURN"), method = "removed")
     public void onRemove(CallbackInfo ci) {
-        node = null;
+        value = null;
         fadeNode = null;
-        hided = false;
     }
     private int getOpacity() {
-        int va = fadeNode == null ? 0 : AnimationProvider.generateInteger(fadeNode, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL);
-        if (va < 5) hided = true;
-        return va;
+        initFadeNode();
+        return AnimationProvider.generateInteger(fadeNode, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL);
     }
 
     public void renderInternal(MatrixStack matrix, int y, double progress) {
@@ -95,8 +90,7 @@ public class LevelLoadingScreenMixin extends Screen {
                 y - 10,
                 getTextColor()
         );
-        // 66 83 103
-        if (!hided) {
+        if (getOpacity() >= 5) {
             drawCenteredTextWithoutShadow(
                     matrix,
                     CLIENT.textRenderer,
@@ -113,8 +107,8 @@ public class LevelLoadingScreenMixin extends Screen {
                     y - 1 - 30,
                     getTextColor(getOpacity())
             );
-            RenderSystem.disableBlend();
-            matrix.pop();
         }
+        RenderSystem.disableBlend();
+        matrix.pop();
     }
 }
