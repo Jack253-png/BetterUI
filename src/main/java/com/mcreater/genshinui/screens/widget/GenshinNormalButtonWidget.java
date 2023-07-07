@@ -17,6 +17,10 @@ public class GenshinNormalButtonWidget extends ButtonWidget {
 
     }
 
+    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        
+    }
+
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         super.render(matrices, mouseX, mouseY, delta);
         renderIcon();

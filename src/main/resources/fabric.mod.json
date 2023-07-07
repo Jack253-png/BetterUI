@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "genshinui",
-  "version": "0.0.1-beta3",
+  "version": "0.0.1-beta4",
   "name": "Genshin UI",
   "description": "A minecraft mod brings Genshin Impact's UI experience to minecraft",
   "authors": [
@@ -29,8 +29,9 @@
     "minecraft": "1.18.x"
   },
   "jars": [
-    {"file": "META-INF/jars/cloth-config-6.3.81-fabric.jar"},
-    {"file": "META-INF/jars/satin-1.7.2.jar"},
-    {"file": "META-INF/jars/caxton.jar"}
+    {"file": "META-INF/jars/cloth-config-fabric.jar"},
+    {"file": "META-INF/jars/satin.jar"},
+    {"file": "META-INF/jars/caxton.jar"},
+    {"file": "META-INF/jars/blur.jar"}
   ]
 }

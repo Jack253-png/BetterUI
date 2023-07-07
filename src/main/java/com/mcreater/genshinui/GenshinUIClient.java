@@ -31,9 +31,7 @@ public class GenshinUIClient implements ClientModInitializer {
                                                 public void run() {
                                                     try {
                                                         Thread.sleep(1000);
-                                                        recordRenderCall(() -> {
-                                                            MinecraftClient.getInstance().setScreen(new TimeSelectionScreen(new LiteralText("TIME_SELECTION")));
-                                                        });
+                                                        recordRenderCall(() -> MinecraftClient.getInstance().setScreen(new TimeSelectionScreen(new LiteralText("TIME_SELECTION"))));
                                                     } catch (InterruptedException e) {
                                                         e.printStackTrace();
                                                     }

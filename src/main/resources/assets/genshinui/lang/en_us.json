@@ -22,5 +22,6 @@
   "ui.config.chat.screen.use_vanilla.desc.disable": "Enable injecting to the chat screen",
   "ui.splash.craft_table.title": "Craft table",
   "ui.splash.craft_table.desc": "The core of Minecraft",
-  "ui.splash.core.world_load": "Loading world, %s completed..."
+  "ui.splash.core.world_load": "Loading world, %s completed...",
+  "ui.tech.warn": "Early technical testing, not indicative of final quality"
 }

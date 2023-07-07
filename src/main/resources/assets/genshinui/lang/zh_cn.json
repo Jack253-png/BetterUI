@@ -22,5 +22,6 @@
   "ui.config.chat.screen.use_vanilla.desc.disable": "启用对聊天屏幕的注入",
   "ui.splash.craft_table.title": "工作台",
   "ui.splash.craft_table.desc": "Minecraft 的核心",
-  "ui.splash.core.world_load": "加载世界中，%s 已完成..."
+  "ui.splash.core.world_load": "加载世界中，%s 已完成...",
+  "ui.tech.warn": "早期技术性测试，不代表最终品质"
 }

@@ -90,6 +90,14 @@ public class LevelLoadingScreenMixin extends Screen {
                 y - 10,
                 getTextColor()
         );
+        drawCenteredTextWithoutShadow(
+                matrix,
+                CLIENT.textRenderer,
+                new TranslatableText("ui.tech.warn").fillStyle(Style.EMPTY.withFont(STANDARD)),
+                width / 2,
+                height - 10,
+                getTextColor()
+        );
         if (getOpacity() >= 5) {
             drawCenteredTextWithoutShadow(
                     matrix,
