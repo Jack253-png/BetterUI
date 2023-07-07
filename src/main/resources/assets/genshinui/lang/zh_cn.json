@@ -37,6 +37,10 @@
   "ui.splash.ender_pearl.desc": "在几秒内传送至另一个地方",
   "ui.splash.nether.title": "下界",
   "ui.splash.nether.desc": "一个富饶但危险的维度",
+  "ui.splash.the_end.title": "末地",
+  "ui.splash.the_end.desc": "可能是游戏的结局，也可能是新的开端",
+  "ui.splash.elytra.title": "鞘翅",
+  "ui.splash.elytra.desc": "突破天空的极限",
 
   "ui.splash.core.world_load": "加载世界中，%s 已完成...",
   "ui.tech.warn": "早期技术性测试，不代表最终品质"

@@ -20,6 +20,7 @@
   "ui.config.chat.screen.vanilla": "Chat screen use vanilla rendering",
   "ui.config.chat.screen.use_vanilla.desc.enable": "Disable injecting to the chat screen, animations will take no effect",
   "ui.config.chat.screen.use_vanilla.desc.disable": "Enable injecting to the chat screen",
+
   "ui.splash.craft_table.title": "Craft table",
   "ui.splash.craft_table.desc": "The core of Minecraft",
   "ui.splash.pickaxe.title": "Pickaxe",
@@ -36,6 +37,11 @@
   "ui.splash.ender_pearl.desc": "Teleport to another place between several seconds",
   "ui.splash.nether.title": "The nether",
   "ui.splash.nether.desc": "A dangerous but rich dimension",
+  "ui.splash.the_end.title": "The end",
+  "ui.splash.the_end.desc": "Perhaps it is both the end and a new beginning of the game",
+  "ui.splash.elytra.title": "Elytra",
+  "ui.splash.elytra.desc": "Break the limit of the sky",
+
   "ui.splash.core.world_load": "Loading world, %s completed...",
   "ui.tech.warn": "Early technical testing, not indicative of final quality"
 }
