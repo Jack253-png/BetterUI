@@ -3,6 +3,7 @@ package com.mcreater.genshinui;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.Random;
 
 public class TestAnimation {
     public static class FuncShow extends JPanel {
@@ -48,5 +49,9 @@ public class TestAnimation {
 
         frame.setSize(1000, 1000);
         frame.setVisible(true);*/
+        Random random = new Random();
+        while (true) {
+            if (random.nextInt(0, 10) == 10) System.out.println("test");
+        }
     }
 }

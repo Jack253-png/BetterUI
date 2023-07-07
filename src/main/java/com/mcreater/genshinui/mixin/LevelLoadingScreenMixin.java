@@ -20,6 +20,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 import static com.mcreater.genshinui.render.InternalFonts.STANDARD;
 import static com.mcreater.genshinui.render.InternalFonts.TITLE;
 import static com.mcreater.genshinui.screens.ScreenHelper.*;
@@ -30,9 +34,16 @@ public class LevelLoadingScreenMixin extends Screen {
     private final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private AnimatedValue value;
     private AnimationNode fadeNode;
+    private static final List<String> SPLASHES = Arrays.asList("craft_table", "pickaxe", "axe", "ender_eye", "compass", "map", "ender_pearl", "nether", "the_end", "elytra");
+    private static int splash_index = 0;
 
     protected LevelLoadingScreenMixin(Text title) {
         super(title);
+    }
+
+    @Inject(at = @At("HEAD"), method = "<init>")
+    private static void onInit(WorldGenerationProgressTracker progressProvider, CallbackInfo ci) {
+        splash_index = new Random(progressProvider.hashCode()).nextInt(0, SPLASHES.size());
     }
 
     @Inject(at = @At(value = "HEAD"), method = "render", cancellable = true)
@@ -102,7 +113,7 @@ public class LevelLoadingScreenMixin extends Screen {
             drawCenteredTextWithoutShadow(
                     matrix,
                     CLIENT.textRenderer,
-                    new TranslatableText("ui.splash.craft_table.title").fillStyle(Style.EMPTY.withFont(TITLE)),
+                    new TranslatableText(String.format("ui.splash.%s.title", SPLASHES.get(splash_index))).fillStyle(Style.EMPTY.withFont(TITLE)),
                     width / 2,
                     y - 1 - 30 - 10,
                     getTextColor(getOpacity())
@@ -110,7 +121,7 @@ public class LevelLoadingScreenMixin extends Screen {
             drawCenteredTextWithoutShadow(
                     matrix,
                     CLIENT.textRenderer,
-                    new TranslatableText("ui.splash.craft_table.desc").fillStyle(Style.EMPTY.withFont(STANDARD)),
+                    new TranslatableText(String.format("ui.splash.%s.desc", SPLASHES.get(splash_index))).fillStyle(Style.EMPTY.withFont(STANDARD)),
                     width / 2,
                     y - 1 - 30,
                     getTextColor(getOpacity())
