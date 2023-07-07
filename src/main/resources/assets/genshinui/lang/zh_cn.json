@@ -20,8 +20,24 @@
   "ui.config.chat.screen.vanilla": "聊天屏幕使用原版渲染",
   "ui.config.chat.screen.use_vanilla.desc.enable": "禁用对聊天屏幕的注入， 动画将会失效",
   "ui.config.chat.screen.use_vanilla.desc.disable": "启用对聊天屏幕的注入",
+
   "ui.splash.craft_table.title": "工作台",
   "ui.splash.craft_table.desc": "Minecraft 的核心",
+  "ui.splash.pickaxe.title": "镐子",
+  "ui.splash.pickaxe.desc": "使用稿开采石头和矿物",
+  "ui.splash.axe.title": "斧",
+  "ui.splash.axe.desc": "最好的战斗工具",
+  "ui.splash.ender_eye.title": "末影之眼",
+  "ui.splash.ender_eye.desc": "通往游戏结局的钥匙",
+  "ui.splash.compass.title": "指南针",
+  "ui.splash.compass.desc": "永远会指明出生点的方向",
+  "ui.splash.map.title": "地图",
+  "ui.splash.map.desc": "存储你探险过的地方",
+  "ui.splash.ender_pearl.title": "末影珍珠",
+  "ui.splash.ender_pearl.desc": "在几秒内传送至另一个地方",
+  "ui.splash.nether.title": "下界",
+  "ui.splash.nether.desc": "一个富饶但危险的维度",
+
   "ui.splash.core.world_load": "加载世界中，%s 已完成...",
   "ui.tech.warn": "早期技术性测试，不代表最终品质"
 }
