@@ -1,11 +1,13 @@
 {
   "required": true,
-  "package": "com.mcreater.betterui.mixin",
+  "package": "com.mcreater.genshinui.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
     "ChatHudMixin",
     "ChatScreenMixin",
+    "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
+    "ClientWorldMixin$ClientWorldPropertiesMixin",
     "DownloadingTerrainScreenMixin",
     "GameMenuScreenMixin",
     "LevelLoadingScreenMixin",

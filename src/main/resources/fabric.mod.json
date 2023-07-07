@@ -14,10 +14,10 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "com.mcreater.betterui.GenshinUIClient"
+      "com.mcreater.genshinui.GenshinUIClient"
     ],
     "modmenu": [
-      "com.mcreater.betterui.config.ModMenuApiImpl"
+      "com.mcreater.genshinui.config.ModMenuApiImpl"
     ]
   },
   "mixins": [
