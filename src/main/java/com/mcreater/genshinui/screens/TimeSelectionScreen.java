@@ -12,7 +12,7 @@ import static com.mcreater.genshinui.screens.ScreenHelper.fillScreen;
 
 @IgnoredScreen
 public class TimeSelectionScreen extends Screen {
-    private final AnimatedValue value = new AnimatedValue(115, 0, 500, animationNode -> AnimationProvider.generate(animationNode, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+    private AnimatedValue value;
     public TimeSelectionScreen(Text title) {
         super(title);
     }
@@ -23,11 +23,12 @@ public class TimeSelectionScreen extends Screen {
 
     protected void init() {
         super.init();
-        this.addDrawableChild(new GenshinNormalButtonWidget(0, 0, 100, 20, new LiteralText("test"), a -> {}));
+        this.addDrawableChild(new GenshinNormalButtonWidget(0, 0, 300, 20, new LiteralText("test"), a -> {}));
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        if (value == null) value = new AnimatedValue(115, 0, 500, animationNode -> AnimationProvider.generate(animationNode, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
         fillScreen(matrices, (int) value.getCurrentValue());
         super.render(matrices, mouseX, mouseY, delta);
     }

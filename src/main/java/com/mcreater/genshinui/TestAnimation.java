@@ -3,7 +3,6 @@ package com.mcreater.genshinui;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.Random;
 
 public class TestAnimation {
     public static class FuncShow extends JPanel {
@@ -26,32 +25,31 @@ public class TestAnimation {
         }
     }
     public static void main(String[] args) {
-        /*JFrame frame = new JFrame("Animation");
+        /*
+        * 0, 10 -> 10, 0
+          90, 0 -> 100, 10
+          100, 10 -> 90, 20
+          10, 20 -> 0, 10
+        * */
+        /*
+        JFrame frame = new JFrame("Animation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         List<Double> doubles = new Vector<>();
-        List<Double> doubles1 = new Vector<>();
-        List<Double> doubles2 = new Vector<>();
         List<List<Double>> res = new Vector<>();
 
-        AnimationNode node = new AnimationNode(0, 1000, 0, 500);
-        for (int i = 0; i < 1000; i++) {
-            doubles.add(AnimationGenerator.SINUSOIDAL_EASEIN.applyAsDouble(node));
-            doubles1.add(AnimationGenerator.SINUSOIDAL_EASEOUT.applyAsDouble(node));
-            doubles2.add(AnimationGenerator.SINUSOIDAL_EASEINOUT.applyAsDouble(node));
-        }
+        genArc(10, 20, 0, 10)
+                .forEach(i -> {
+                    System.out.printf("%d, %d\n", i.getLeft(), i.getRight());
+//                    doubles.add(i.getLeft(), Double.valueOf(i.getRight()));
+                });
 
         res.add(doubles);
-        res.add(doubles1);
-        res.add(doubles2);
 
         frame.add(new FuncShow(res));
 
         frame.setSize(1000, 1000);
-        frame.setVisible(true);*/
-        Random random = new Random();
-        while (true) {
-            if (random.nextInt(0, 10) == 10) System.out.println("test");
-        }
+        frame.setVisible(true);
+        */
     }
 }

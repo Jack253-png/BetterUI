@@ -20,6 +20,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Random;
+
 import static com.mcreater.genshinui.GenshinUIClient.*;
 import static com.mcreater.genshinui.render.InternalFonts.STANDARD;
 import static com.mcreater.genshinui.render.InternalFonts.TITLE;
@@ -70,6 +72,7 @@ public class LevelLoadingScreenMixin extends Screen {
     public void onRemove(CallbackInfo ci) {
         value = null;
         fadeNode = null;
+        updateSplash(new Random().nextLong());
     }
     private int getOpacity() {
         initFadeNode();
