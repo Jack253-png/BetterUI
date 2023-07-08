@@ -5,6 +5,7 @@
   "client": [
     "ChatHudMixin",
     "ChatScreenMixin",
+    "ClickableWidgetMixin",
     "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
     "ClientWorldMixin$ClientWorldPropertiesMixin",
