@@ -20,10 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-
+import static com.mcreater.genshinui.GenshinUIClient.*;
 import static com.mcreater.genshinui.render.InternalFonts.STANDARD;
 import static com.mcreater.genshinui.render.InternalFonts.TITLE;
 import static com.mcreater.genshinui.screens.ScreenHelper.*;
@@ -34,16 +31,14 @@ public class LevelLoadingScreenMixin extends Screen {
     private final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private AnimatedValue value;
     private AnimationNode fadeNode;
-    private static final List<String> SPLASHES = Arrays.asList("craft_table", "pickaxe", "axe", "ender_eye", "compass", "map", "ender_pearl", "nether", "the_end", "elytra");
-    private static int splash_index = 0;
 
     protected LevelLoadingScreenMixin(Text title) {
         super(title);
     }
 
-    @Inject(at = @At("HEAD"), method = "<init>")
-    private static void onInit(WorldGenerationProgressTracker progressProvider, CallbackInfo ci) {
-        splash_index = new Random(progressProvider.hashCode()).nextInt(0, SPLASHES.size());
+    @Inject(at = @At("HEAD"), method = "removed")
+    private void onRemoved(CallbackInfo ci) {
+        updateSplash(progressProvider.hashCode());
     }
 
     @Inject(at = @At(value = "HEAD"), method = "render", cancellable = true)
