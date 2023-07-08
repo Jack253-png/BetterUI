@@ -54,7 +54,7 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
         this.drawTexture(matrices, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
         this.drawTexture(matrices, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
         this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
-        int j = this.active ? 0x323232 : 0x878787;
+        int j = this.active ? 0xFFFFFF : 0xA0A0A0;
         ClickableWidget.drawCenteredText(matrices, textRenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
     }
 }
