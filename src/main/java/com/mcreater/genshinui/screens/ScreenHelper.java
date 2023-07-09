@@ -6,14 +6,19 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.Matrix4f;
 
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Vector;
+import java.util.function.Function;
+
+import static java.lang.Math.PI;
 
 public abstract class ScreenHelper extends Screen {
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
@@ -25,7 +30,9 @@ public abstract class ScreenHelper extends Screen {
     }
     public static boolean isNight() {
         int hour = LocalDateTime.now(ZoneId.systemDefault()).getHour();
-        return hour >= 18 || hour <= 6;
+        int min = LocalDateTime.now(ZoneId.systemDefault()).getMinute();
+        double mixed = hour + min / 60D;
+        return mixed >= 17.5 || mixed <= 6.5;
     }
     public static int getBackgroundColor() {
         return getBackgroundColor(255);
@@ -40,8 +47,8 @@ public abstract class ScreenHelper extends Screen {
     }
     public static int getTextColor(int opacity) {
         return isNight() ?
-//                new Color(229, 200, 137, opacity).getRGB() :
-                new Color(235, 235, 235, opacity).getRGB() :
+                new Color(229, 200, 137, opacity).getRGB() :
+//                new Color(235, 235, 235, opacity).getRGB() :
                 new Color(142, 149, 158, opacity).getRGB();
     }
     public static int getNarrationColor() {
@@ -102,5 +109,111 @@ public abstract class ScreenHelper extends Screen {
         result.add((va / v) - fulled);
         for (int ignored2 = result.size(); ignored2 < 7; ignored2++) result.add(0.0D);
         return result;
+    }
+
+    private static void fill(Matrix4f matrix, double x1, double y1, double x2, double y2, int color) {
+        double i;
+        if (x1 < x2) {
+            i = x1;
+            x1 = x2;
+            x2 = i;
+        }
+        if (y1 < y2) {
+            i = y1;
+            y1 = y2;
+            y2 = i;
+        }
+        float f = (float)(color >> 24 & 0xFF) / 255.0f;
+        float g = (float)(color >> 16 & 0xFF) / 255.0f;
+        float h = (float)(color >> 8 & 0xFF) / 255.0f;
+        float j = (float)(color & 0xFF) / 255.0f;
+        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+        RenderSystem.enableBlend();
+        RenderSystem.disableTexture();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        bufferBuilder.vertex(matrix, (float) x1, (float) y2, 0.0f).color(g, h, j, f).next();
+        bufferBuilder.vertex(matrix, (float) x2, (float) y2, 0.0f).color(g, h, j, f).next();
+        bufferBuilder.vertex(matrix, (float) x2, (float) y1, 0.0f).color(g, h, j, f).next();
+        bufferBuilder.vertex(matrix, (float) x1, (float) y1, 0.0f).color(g, h, j, f).next();
+        bufferBuilder.end();
+        BufferRenderer.draw(bufferBuilder);
+        RenderSystem.enableTexture();
+        RenderSystem.disableBlend();
+    }
+
+    public enum Side {
+        TOP_LEFT(a -> a / 4 * 2, a -> a / 4 * 3),
+        TOP_RIGHT(a -> a / 4 * 3, a -> a),
+        BOTTOM_LEFT(a -> a / 4, a -> a / 4 * 2),
+        BOTTOM_RIGHT(a -> 0, a -> a / 4);
+        public final Function<Integer, Integer> getStart;
+        public final Function<Integer, Integer> getEnd;
+        Side(Function<Integer, Integer> getStart, Function<Integer, Integer> getEnd) {
+            this.getStart = getStart;
+            this.getEnd = getEnd;
+        }
+    }
+
+    public static void drawRoundedRect(MatrixStack matrix, int x1, int y1, int x2, int y2, double r, int color) {
+        int width = Math.abs(x1 - x2);
+        int height = Math.abs(y1 - y2);
+        if (r * 2 > width || r * 2 > height) r = Math.max(width, height) / 2D;
+
+        fill(matrix, (int) (x1 + r), (int) (y1 + r), (int) (x2 - r), (int) (y2 - r), color);
+        fill(matrix, x1, (int) (y1 + r), (int) (x1 + r), (int) (y2 - r), color);
+        fill(matrix, (int) (x2 - r), (int) (y1 + r), x2, (int) (y2 - r), color);
+        fill(matrix, (int) (x1 + r), y1, (int) (x2 - r), (int) (y1 + r), color);
+        fill(matrix, (int) (x1 + r), (int) (y2 - r), (int) (x2 - r), y2, color);
+
+        drawCircle(matrix, (int) (x1 + r), (int) (y1 + r), r, color, Side.TOP_LEFT);
+        drawCircle(matrix, (int) (x2 - r), (int) (y1 + r), r, color, Side.TOP_RIGHT);
+        drawCircle(matrix, (int) (x1 + r), (int) (y2 - r), r, color, Side.BOTTOM_LEFT);
+        drawCircle(matrix, (int) (x2 - r), (int) (y2 - r), r, color, Side.BOTTOM_RIGHT);
+    }
+
+    private static void fill(Matrix4f matrix, float x1, float y1, float x2, float y2, int color) {
+        float i;
+        if (x1 < x2) {
+            i = x1;
+            x1 = x2;
+            x2 = i;
+        }
+        if (y1 < y2) {
+            i = y1;
+            y1 = y2;
+            y2 = i;
+        }
+        float f = (float)(color >> 24 & 0xFF) / 255.0f;
+        float g = (float)(color >> 16 & 0xFF) / 255.0f;
+        float h = (float)(color >> 8 & 0xFF) / 255.0f;
+        float j = (float)(color & 0xFF) / 255.0f;
+        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+        RenderSystem.enableBlend();
+        RenderSystem.disableTexture();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        bufferBuilder.vertex(matrix, x1, y2, 0.0f).color(g, h, j, f).next();
+        bufferBuilder.vertex(matrix, x2, y2, 0.0f).color(g, h, j, f).next();
+        bufferBuilder.vertex(matrix, x2, y1, 0.0f).color(g, h, j, f).next();
+        bufferBuilder.vertex(matrix, x1, y1, 0.0f).color(g, h, j, f).next();
+        bufferBuilder.end();
+        BufferRenderer.draw(bufferBuilder);
+        RenderSystem.enableTexture();
+        RenderSystem.disableBlend();
+    }
+
+    public static void drawCircle(MatrixStack matrix, int x, int y, double radius, int color, Side side) {
+        drawCircle(matrix, x, y, radius, color, side, 70);
+    }
+
+    public static void drawCircle(MatrixStack matrix, int x, int y, double radius, int color, Side side, int rad) {
+        for (int i = side.getStart.apply(rad); i < side.getEnd.apply(rad); i++) {
+            double xtemp = (Math.cos(2 * PI * i / rad)) * radius + x;
+            double ytemp = (Math.sin(2 * PI * i / rad)) * radius + y;
+            fill(matrix.peek().getPositionMatrix(), xtemp, ytemp, x, y, color);
+        }
     }
 }
