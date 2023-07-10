@@ -1,8 +1,13 @@
 package com.mcreater.genshinui;
 
+import net.minecraft.util.Pair;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.Vector;
+
+import static java.lang.Math.PI;
 
 public class TestAnimation {
     public static class FuncShow extends JPanel {
@@ -31,25 +36,29 @@ public class TestAnimation {
           100, 10 -> 90, 20
           10, 20 -> 0, 10
         * */
-        /*
-        JFrame frame = new JFrame("Animation");
+
+        JFrame frame = new JFrame("Animation") {
+            public void paint(Graphics g) {
+                paintComponents(g);
+            }
+
+            public void paintComponents(Graphics g) {
+                List<Pair<Double, Double>> vertices = new Vector<>();
+                int x = 0;
+                int y = 0;
+                int radius = 100;
+                int n = 1000;
+                for (int i = 0; i < n; i++) {
+                    double xtemp = (Math.cos(2 * PI * i / n)) * radius + x;
+                    double ytemp = (Math.sin(2 * PI * i / n)) * radius + y;
+                    System.out.printf("%f,%f");
+                }
+            }
+        };
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        List<Double> doubles = new Vector<>();
-        List<List<Double>> res = new Vector<>();
-
-        genArc(10, 20, 0, 10)
-                .forEach(i -> {
-                    System.out.printf("%d, %d\n", i.getLeft(), i.getRight());
-//                    doubles.add(i.getLeft(), Double.valueOf(i.getRight()));
-                });
-
-        res.add(doubles);
-
-        frame.add(new FuncShow(res));
 
         frame.setSize(1000, 1000);
         frame.setVisible(true);
-        */
+
     }
 }

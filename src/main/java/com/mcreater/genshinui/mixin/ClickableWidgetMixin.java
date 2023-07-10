@@ -53,7 +53,7 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
         this.drawTexture(matrices, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
         this.drawTexture(matrices, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
         this.renderBackground(matrices, minecraftClient, mouseX, mouseY);*/
-        ScreenHelper.drawRoundedRect(matrices, x, y, x + width, y + height, 10, new Color(212, 213, 204).getRGB());
+        ScreenHelper.drawRoundedRect(matrices, x, y, x + width, y + height, 10, new Color(212, 213, 204, this.isHovered() && this.active ? 255 : 50).getRGB());
         int j = this.active ? 0x555962 : 0xAAAAAA;
         int centerX = this.x + this.width / 2;
         int y = this.y + (this.height - 8) / 2;

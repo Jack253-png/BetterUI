@@ -17,6 +17,7 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Vector;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static java.lang.Math.PI;
 
@@ -144,15 +145,17 @@ public abstract class ScreenHelper extends Screen {
     }
 
     public enum Side {
-        TOP_LEFT(a -> a / 4 * 2, a -> a / 4 * 3),
-        TOP_RIGHT(a -> a / 4 * 3, a -> a),
-        BOTTOM_LEFT(a -> a / 4, a -> a / 4 * 2),
-        BOTTOM_RIGHT(a -> 0, a -> a / 4);
+        TOP_LEFT(a -> a / 4 * 2, a -> a / 4 * 3, () -> 0x66000000),
+        TOP_RIGHT(a -> a / 4 * 3, a -> a, () -> 0x66ffff00),
+        BOTTOM_LEFT(a -> a / 4, a -> a / 4 * 2, () -> 0x66ffffff),
+        BOTTOM_RIGHT(a -> 0, a -> a / 4, () -> 0x66ff00ff);
         public final Function<Integer, Integer> getStart;
         public final Function<Integer, Integer> getEnd;
-        Side(Function<Integer, Integer> getStart, Function<Integer, Integer> getEnd) {
+        public final Supplier<Integer> devColor;
+        Side(Function<Integer, Integer> getStart, Function<Integer, Integer> getEnd, Supplier<Integer> devColor) {
             this.getStart = getStart;
             this.getEnd = getEnd;
+            this.devColor = devColor;
         }
     }
 
@@ -213,7 +216,8 @@ public abstract class ScreenHelper extends Screen {
         for (int i = side.getStart.apply(rad); i < side.getEnd.apply(rad); i++) {
             double xtemp = (Math.cos(2 * PI * i / rad)) * radius + x;
             double ytemp = (Math.sin(2 * PI * i / rad)) * radius + y;
-            fill(matrix.peek().getPositionMatrix(), xtemp, ytemp, x, y, color);
+            double ytemp2 = (Math.sin(2 * PI * (i + 1) / rad)) * radius + y;
+            fill(matrix.peek().getPositionMatrix(), xtemp, ytemp, x, ytemp2, color);
         }
     }
 }
