@@ -31,6 +31,10 @@ repositories {
     }
     maven { url "https://maven.shedaniel.me/" }
     maven { url "https://maven.terraformersmc.com/releases/" }
+    maven {
+        name 'IzzelAliz Maven'
+        url 'https://maven.izzel.io/releases/'
+    }
 }
 
 dependencies {
@@ -47,6 +51,7 @@ dependencies {
     }
     modImplementation "com.terraformersmc:modmenu:3.2.5"
     modImplementation files("impmods/chat_heads.jar")
+    // implementation "icyllis.modernui:ModernUI-Core:3.7.1"
 }
 
 processResources {

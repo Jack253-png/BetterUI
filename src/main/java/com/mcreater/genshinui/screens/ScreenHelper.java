@@ -209,7 +209,7 @@ public abstract class ScreenHelper extends Screen {
     }
 
     public static void drawCircle(MatrixStack matrix, int x, int y, double radius, int color, Side side) {
-        drawCircle(matrix, x, y, radius, color, side, 70);
+        drawCircle(matrix, x, y, radius, color, side, 100);
     }
 
     public static void drawCircle(MatrixStack matrix, int x, int y, double radius, int color, Side side, int rad) {

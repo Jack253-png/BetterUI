@@ -1,5 +1,7 @@
 package com.mcreater.genshinui.mixin;
 
+import com.mcreater.genshinui.animation.AnimatedValue;
+import com.mcreater.genshinui.animation.AnimationProvider;
 import com.mcreater.genshinui.screens.ScreenHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -38,23 +40,19 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
 
     @Shadow protected abstract void renderBackground(MatrixStack matrices, MinecraftClient client, int mouseX, int mouseY);
 
+    @Shadow public abstract void render(MatrixStack matrices, int mouseX, int mouseY, float delta);
+
+    private final AnimatedValue opacity = new AnimatedValue(155, 155, 100, a -> AnimationProvider.generate(a, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.CIRCULAR));
+
     @Inject(at = @At("HEAD"), method = "renderButton", cancellable = true)
     public void onRenderButton(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        double value = this.active ? (this.isHovered() ? 235 : 195) : 155;
+        if (opacity.getExpectedValue() != value) opacity.setExpectedValue(value);
+
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         TextRenderer textRenderer = minecraftClient.textRenderer;
-        /*RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, this.alpha);
-
-        int i = this.getYImage(this.isHovered());
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.enableDepthTest();
-        this.drawTexture(matrices, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
-        this.drawTexture(matrices, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
-        this.renderBackground(matrices, minecraftClient, mouseX, mouseY);*/
-        ScreenHelper.drawRoundedRect(matrices, x, y, x + width, y + height, 10, new Color(212, 213, 204, this.isHovered() && this.active ? 255 : 50).getRGB());
-        int j = this.active ? 0x555962 : 0xAAAAAA;
+        ScreenHelper.drawRoundedRect(matrices, x, y, x + width, y + height, 10, new Color(212, 213, 204, (int) opacity.getCurrentValue()).getRGB());
+        int j = this.active ? 0x555962 : 0x888888;
         int centerX = this.x + this.width / 2;
         int y = this.y + (this.height - 8) / 2;
         textRenderer.draw(matrices, this.getMessage().asOrderedText(), (float)(centerX - textRenderer.getWidth(this.getMessage().asOrderedText()) / 2), (float)y, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
