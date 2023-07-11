@@ -49,6 +49,14 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
         return !narrations.isEmpty();
     }
 
+    public Narration popNarration() {
+        return narrations.pop();
+    }
+
+    public void clearNarration() {
+        narrations.clear();
+    }
+
     public static class Narration {
         private final AnimatedValue textValue = new AnimatedValue(1, 0, 1000, animationNode -> AnimationProvider.generate(animationNode, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
         public final MutableText text;
