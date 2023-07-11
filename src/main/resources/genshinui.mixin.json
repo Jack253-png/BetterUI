@@ -13,9 +13,12 @@
     "GameMenuScreenMixin",
     "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
+    "PressableWidgetMixin",
     "ProgressScreenMixin",
     "SaveLevelScreenMixin",
-    "SubtitlesHudMixin"
+    "SubtitlesHudMixin",
+    "interfaces.ClickableWidgetInvoker",
+    "interfaces.PressableWidgetInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

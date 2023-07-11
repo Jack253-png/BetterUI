@@ -86,7 +86,7 @@ public class LevelLoadingScreenMixin extends Screen {
         int mix_end = width / 2 + 16 * 7 / 2;
 
         ScreenHelper.draw7ElementsBase(matrix, mix_start, y);
-        ScreenHelper.draw7Elements(matrix, mix_start, y, progress);
+        ScreenHelper.draw7Elements(matrix, mix_start, y, Math.min(progress, 0.93));
 
         fill(matrix, 0, y, mix_start - 15, y + 1, getNarrationColor());
         fill(matrix, mix_end + 15, y, width, y + 1, getNarrationColor());
