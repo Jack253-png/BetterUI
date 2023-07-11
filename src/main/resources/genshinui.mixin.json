@@ -11,6 +11,7 @@
     "ClientWorldMixin$ClientWorldPropertiesMixin",
     "DownloadingTerrainScreenMixin",
     "GameMenuScreenMixin",
+    "InGameHudMixin",
     "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
     "PressableWidgetMixin",

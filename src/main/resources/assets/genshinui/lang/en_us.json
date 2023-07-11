@@ -43,5 +43,6 @@
   "ui.splash.elytra.desc": "Break the limit of the sky",
 
   "ui.splash.core.world_load": "Loading world, %s completed...",
-  "ui.tech.warn": "Early technical testing, not indicative of final quality"
+  "ui.tech.warn": "Early technical testing, not indicative of final quality",
+  "ui.narration.character.paimon": "Paimon"
 }

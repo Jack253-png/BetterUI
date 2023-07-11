@@ -2,13 +2,14 @@ package com.mcreater.genshinui;
 
 import com.mcreater.genshinui.config.Configuration;
 import com.mcreater.genshinui.render.InternalFonts;
+import com.mcreater.genshinui.screens.widget.GenshinNarrationWidget;
 import com.mcreater.genshinui.shaders.MotionBlurShader;
 import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
 public class GenshinUIClient implements ClientModInitializer {
 
@@ -16,7 +17,7 @@ public class GenshinUIClient implements ClientModInitializer {
     public static boolean isClientTick = false;
     public static final List<String> SPLASHES = Arrays.asList("craft_table", "pickaxe", "axe", "ender_eye", "compass", "map", "ender_pearl", "nether", "the_end", "elytra");
     public static int splash_index;
-    public static final List<Object> buttons = new Vector<>();
+    public static GenshinNarrationWidget NARRATION_WIDGET = new GenshinNarrationWidget(MinecraftClient.getInstance());
     static {
         updateSplash(new Random().nextLong());
     }

@@ -43,5 +43,6 @@
   "ui.splash.elytra.desc": "突破天空的极限",
 
   "ui.splash.core.world_load": "加载世界中，%s 已完成...",
-  "ui.tech.warn": "早期技术性测试，不代表最终品质"
+  "ui.tech.warn": "早期技术性测试，不代表最终品质",
+  "ui.narration.character.paimon": "派蒙"
 }

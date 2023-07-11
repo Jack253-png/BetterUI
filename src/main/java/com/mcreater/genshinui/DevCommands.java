@@ -1,5 +1,6 @@
 package com.mcreater.genshinui;
 
+import com.mcreater.genshinui.command.DevNarrationDebugScreenCommand;
 import com.mcreater.genshinui.command.DevTimeSelectionScreenCommand;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 
@@ -10,6 +11,7 @@ public class DevCommands {
         ClientCommandManager.DISPATCHER.register(
                 literal("genshinui_dev")
                         .then(literal("timeselection").executes(new DevTimeSelectionScreenCommand()))
+                        .then(literal("narration").executes(new DevNarrationDebugScreenCommand()))
         );
     }
 }
