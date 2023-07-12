@@ -62,7 +62,10 @@ public abstract class ScreenHelper extends Screen {
                 new Color(226, 226, 226, opacity).getRGB();
     }
     public static int getNarrationCharacterColor() {
-        return new Color(199, 165, 10).getRGB();
+        return getNarrationCharacterColor(255);
+    }
+    public static int getNarrationCharacterColor(int opacity) {
+        return new Color(199, 165, 10, opacity).getRGB();
     }
     public static void drawCenteredTextWithoutShadow(MatrixStack matrices, TextRenderer textRenderer, Text text, int centerX, int y, int color) {
         textRenderer.draw(matrices, text, (float)(centerX - textRenderer.getWidth(text) / 2), (float)y, color);
@@ -115,7 +118,7 @@ public abstract class ScreenHelper extends Screen {
         return result;
     }
 
-    private static void fill(Matrix4f matrix, double x1, double y1, double x2, double y2, int color) {
+    public static void fill(Matrix4f matrix, double x1, double y1, double x2, double y2, int color) {
         double i;
         if (x1 < x2) {
             i = x1;
