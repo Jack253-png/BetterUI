@@ -67,6 +67,9 @@ public abstract class ScreenHelper extends Screen {
     public static int getNarrationCharacterColor(int opacity) {
         return new Color(199, 165, 10, opacity).getRGB();
     }
+    public static int getTextBaseColor() {
+        return new Color(253, 253, 253).getRGB();
+    }
     public static void drawCenteredTextWithoutShadow(MatrixStack matrices, TextRenderer textRenderer, Text text, int centerX, int y, int color) {
         textRenderer.draw(matrices, text, (float)(centerX - textRenderer.getWidth(text) / 2), (float)y, color);
     }

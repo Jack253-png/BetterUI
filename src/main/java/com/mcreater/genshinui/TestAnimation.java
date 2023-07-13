@@ -1,13 +1,8 @@
 package com.mcreater.genshinui;
 
-import net.minecraft.util.Pair;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.Vector;
-
-import static java.lang.Math.PI;
 
 public class TestAnimation {
     public static class FuncShow extends JPanel {
@@ -37,7 +32,7 @@ public class TestAnimation {
           10, 20 -> 0, 10
         * */
 
-        JFrame frame = new JFrame("Animation") {
+        /*JFrame frame = new JFrame("Animation") {
             public void paint(Graphics g) {
                 paintComponents(g);
             }
@@ -58,7 +53,9 @@ public class TestAnimation {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.setSize(1000, 1000);
-        frame.setVisible(true);
+        frame.setVisible(true);*/
 
+        String text = "欸嘿~";
+        System.out.println(text.substring(0, 3));
     }
 }
