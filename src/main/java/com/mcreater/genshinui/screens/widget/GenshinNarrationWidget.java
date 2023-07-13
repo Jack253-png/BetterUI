@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static com.mcreater.genshinui.render.InternalFonts.CHAR_NAME;
 import static com.mcreater.genshinui.render.InternalFonts.STANDARD;
-import static com.mcreater.genshinui.render.InternalFonts.TITLE;
 import static com.mcreater.genshinui.screens.ScreenHelper.*;
 
 public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
@@ -51,7 +51,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
         // 709 92
         double lineWidth = width * SPAC_WIDTH_SCALE;
         if (nrr != null) {
-            fillGradient(matrices, 0, (int) narrationSplitHeight, (int) width, (int) (height - (SPAC_HEIGHT_SCALE / 4)), new Color(0, 0, 0, 20).getRGB(), new Color(0, 0, 0, 0).getRGB());
+            fillGradient(matrices, 0, (int) narrationSplitHeight, (int) width, (int) (height - (SPAC_HEIGHT_SCALE / 4)), new Color(0, 0, 0, 25).getRGB(), new Color(0, 0, 0, 0).getRGB());
 
             nrr.startNarration();
             lineWidth = Math.min(
@@ -67,7 +67,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
             drawCenteredTextWithoutShadow(
                     matrices,
                     client.textRenderer,
-                    nrr.narrationCharacter.name.fillStyle(Style.EMPTY.withFont(TITLE)),
+                    nrr.narrationCharacter.name.fillStyle(Style.EMPTY.withFont(CHAR_NAME)),
                     (int) width / 2,
                     (int) narrationNameHeight,
                     getNarrationCharacterColor()

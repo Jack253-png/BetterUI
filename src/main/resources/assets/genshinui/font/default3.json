@@ -1,0 +1,27 @@
+{
+  "providers": [
+    {
+      "type": "caxton",
+      "regular": {
+        "file": "genshinui:custom.ttf",
+        "shadow_offset": 0.5,
+        "scale_factor": 1.1
+      },
+      "bold": {
+        "file": "genshinui:custom.ttf",
+        "shadow_offset": 0.5,
+        "scale_factor": 1.1
+      },
+      "italic": {
+        "file": "genshinui:custom.ttf",
+        "shadow_offset": 0.5,
+        "scale_factor": 1.1
+      },
+      "bold_italic": {
+        "file": "genshinui:custom.ttf",
+        "shadow_offset": 0.5,
+        "scale_factor": 1.1
+      }
+    }
+  ]
+}
