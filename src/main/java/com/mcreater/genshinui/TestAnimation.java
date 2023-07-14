@@ -55,7 +55,7 @@ public class TestAnimation {
         frame.setSize(1000, 1000);
         frame.setVisible(true);*/
 
-        String text = "欸嘿~";
-        System.out.println(text.substring(0, 3));
+        /*String text = "欸嘿~";
+        System.out.println(text.substring(0, 3));*/
     }
 }

@@ -9,7 +9,6 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.*;
 
-import java.awt.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
@@ -27,6 +26,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
     private static final double SPAC_HEIGHT_SCALE = 74;
     private static final double TEXT_HEIGHT_SCALE = 69;
     private static final double SPAC_WIDTH_SCALE = 0.56; // 0.74;
+    private static final double SPAC_WIDTH_SCALE_MIN = 0.15;
     private double width;
     private double height;
     public GenshinNarrationWidget(MinecraftClient client) {
@@ -51,7 +51,55 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
         // 709 92
         double lineWidth = width * SPAC_WIDTH_SCALE;
         if (nrr != null) {
-            fillGradient(matrices, 0, (int) narrationSplitHeight, (int) width, (int) (height - (SPAC_HEIGHT_SCALE / 4)), new Color(0, 0, 0, 25).getRGB(), new Color(0, 0, 0, 0).getRGB());
+            // fillGradient(matrices, 0, (int) narrationNameHeight - 12, (int) width, (int) (height - (SPAC_HEIGHT_SCALE / 4)), new Color(0, 0, 0, 25).getRGB(), new Color(0, 0, 0, 0).getRGB());
+
+            drawRect(
+                    matrices,
+                    0,
+                    (int) narrationNameHeight - 12,
+                    (int) width / 2,
+                    (int) height,
+                    new VertexColor(0, 0, 0, 0.3F),
+                    TRANSPARENT,
+                    TRANSPARENT,
+                    TRANSPARENT
+            );
+
+            drawRect(
+                    matrices,
+                    0,
+                    (int) narrationNameHeight - 15,
+                    (int) width / 2,
+                    (int) narrationNameHeight - 12,
+                    TRANSPARENT,
+                    TRANSPARENT,
+                    TRANSPARENT,
+                    new VertexColor(0, 0, 0, 0.3F)
+            );
+
+            drawRect(
+                    matrices,
+                    (int) width / 2,
+                    (int) narrationNameHeight - 12,
+                    (int) width,
+                    (int) height,
+                    TRANSPARENT,
+                    new VertexColor(0, 0, 0, 0.3F),
+                    TRANSPARENT,
+                    TRANSPARENT
+            );
+
+            drawRect(
+                    matrices,
+                    (int) width / 2,
+                    (int) narrationNameHeight - 15,
+                    (int) width,
+                    (int) narrationNameHeight - 12,
+                    TRANSPARENT,
+                    TRANSPARENT,
+                    new VertexColor(0, 0, 0, 0.3F),
+                    TRANSPARENT
+            );
 
             nrr.startNarration();
             lineWidth = Math.min(
@@ -63,6 +111,8 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
                             .max()
                             .orElse((int) lineWidth)
             );
+            lineWidth = Math.max(lineWidth, width * SPAC_WIDTH_SCALE_MIN);
+
             narrationNameHeight -= client.textRenderer.fontHeight;
             drawCenteredTextWithoutShadow(
                     matrices,
@@ -88,14 +138,27 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
                 texts.forEach(text -> {
                     String textS = text.getString();
                     finalLineWidth.set(client.textRenderer.getWidth(fullText.get(texts.indexOf(text))));
-                    drawTextWithoutShadow(
-                            matrices,
-                            client.textRenderer,
-                            new LiteralText(textS).fillStyle(Style.EMPTY.withFont(STANDARD)),
-                            (int) (width - finalLineWidth.get()) / 2,
-                            narrationTextHeight.get().intValue(),
-                            getTextBaseColor()
-                    );
+
+                    if (textS.length() >= 1) {
+                        String pre = textS.substring(0, textS.length() - 1);
+                        drawTextWithoutShadow(
+                                matrices,
+                                client.textRenderer,
+                                new LiteralText(pre).fillStyle(Style.EMPTY.withFont(STANDARD)),
+                                (int) (width - finalLineWidth.get()) / 2,
+                                narrationTextHeight.get().intValue(),
+                                getTextBaseColor()
+                        );
+                        drawTextWithoutShadow(
+                                matrices,
+                                client.textRenderer,
+                                new LiteralText(textS.substring(textS.length() - 1)).fillStyle(Style.EMPTY.withFont(STANDARD)),
+                                (int) (width - finalLineWidth.get()) / 2 + client.textRenderer.getWidth(new LiteralText(pre).fillStyle(Style.EMPTY.withFont(STANDARD))),
+                                narrationTextHeight.get().intValue(),
+                                getTextBaseColor(nrr.getLastTextTransparency())
+                        );
+                    }
+
                     narrationTextHeight.updateAndGet(v -> v + client.textRenderer.getWrappedLinesHeight(text.getString(), finalLineWidth.get()));
                 });
             }
@@ -136,7 +199,11 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
             }
         }
         public int getTextIndex() {
-            return (int) Math.round(textValue.getCurrentValue());
+            return (int) Math.ceil(textValue.getCurrentValue());
+        }
+        public int getLastTextTransparency() {
+            double opa = textValue.getCurrentValue() - Math.floor(textValue.getCurrentValue());
+            return (int) Math.round(255 * opa);
         }
         public Text getRebasedText() {
             return new LiteralText(getText().substring(0, getTextIndex()));

@@ -68,7 +68,10 @@ public abstract class ScreenHelper extends Screen {
         return new Color(199, 165, 10, opacity).getRGB();
     }
     public static int getTextBaseColor() {
-        return new Color(253, 253, 253).getRGB();
+        return getTextBaseColor(255);
+    }
+    public static int getTextBaseColor(int opacity) {
+        return new Color(253, 253, 253, opacity).getRGB();
     }
     public static void drawCenteredTextWithoutShadow(MatrixStack matrices, TextRenderer textRenderer, Text text, int centerX, int y, int color) {
         textRenderer.draw(matrices, text, (float)(centerX - textRenderer.getWidth(text) / 2), (float)y, color);
@@ -88,6 +91,38 @@ public abstract class ScreenHelper extends Screen {
     }
     public static void drawTexture(MatrixStack matrix, LogoProvider logo, float opacity, int x, int y, int width, int height) {
         drawTexture(matrix, logo, opacity, x, y, width, height, 1.0D);
+    }
+
+    public record VertexColor(float r, float g, float b, float a) {}
+    public static final VertexColor TRANSPARENT = new VertexColor(0, 0, 0, 0);
+
+    public static void drawRect(MatrixStack matrices, int x1, int y1, int x2, int y2, VertexColor c1, VertexColor c2, VertexColor c3, VertexColor c4) {
+        RenderSystem.disableTexture();
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+
+        bufferBuilder.vertex(matrices.peek().getPositionMatrix(), x2, y1, 0)
+                .color(c1.r, c1.g, c1.b, c1.a)
+                .next();
+        bufferBuilder.vertex(matrices.peek().getPositionMatrix(), x1, y1, 0)
+                .color(c2.r, c2.g, c2.b, c2.a)
+                .next();
+        bufferBuilder.vertex(matrices.peek().getPositionMatrix(), x1, y2, 0)
+                .color(c3.r, c3.g, c3.b, c3.a)
+                .next();
+        bufferBuilder.vertex(matrices.peek().getPositionMatrix(), x2, y2, 0)
+                .color(c4.r, c4.g, c4.b, c4.a)
+                .next();
+
+        bufferBuilder.end();
+        BufferRenderer.draw(bufferBuilder);
+
+        RenderSystem.disableBlend();
+        RenderSystem.enableTexture();
     }
 
     public static void draw7ElementsBase(MatrixStack matrix, int xStart, int y) {
@@ -183,38 +218,6 @@ public abstract class ScreenHelper extends Screen {
         drawCircle(matrix, (int) (x2 - r), (int) (y1 + r), r, color, Side.TOP_RIGHT);
         drawCircle(matrix, (int) (x1 + r), (int) (y2 - r), r, color, Side.BOTTOM_LEFT);
         drawCircle(matrix, (int) (x2 - r), (int) (y2 - r), r, color, Side.BOTTOM_RIGHT);
-    }
-
-    private static void fill(Matrix4f matrix, float x1, float y1, float x2, float y2, int color) {
-        float i;
-        if (x1 < x2) {
-            i = x1;
-            x1 = x2;
-            x2 = i;
-        }
-        if (y1 < y2) {
-            i = y1;
-            y1 = y2;
-            y2 = i;
-        }
-        float f = (float)(color >> 24 & 0xFF) / 255.0f;
-        float g = (float)(color >> 16 & 0xFF) / 255.0f;
-        float h = (float)(color >> 8 & 0xFF) / 255.0f;
-        float j = (float)(color & 0xFF) / 255.0f;
-        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-        RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-        bufferBuilder.vertex(matrix, x1, y2, 0.0f).color(g, h, j, f).next();
-        bufferBuilder.vertex(matrix, x2, y2, 0.0f).color(g, h, j, f).next();
-        bufferBuilder.vertex(matrix, x2, y1, 0.0f).color(g, h, j, f).next();
-        bufferBuilder.vertex(matrix, x1, y1, 0.0f).color(g, h, j, f).next();
-        bufferBuilder.end();
-        BufferRenderer.draw(bufferBuilder);
-        RenderSystem.enableTexture();
-        RenderSystem.disableBlend();
     }
 
     public static void drawCircle(MatrixStack matrix, int x, int y, double radius, int color, Side side) {

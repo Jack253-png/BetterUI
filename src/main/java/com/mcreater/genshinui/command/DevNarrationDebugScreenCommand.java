@@ -16,7 +16,7 @@ public class DevNarrationDebugScreenCommand implements Command<FabricClientComma
                         GenshinNarrationWidget.NarrationCharacter.PAIMON
                 )
         );
-        context.getSource().sendFeedback(new LiteralText("NARRATION DEBUG"));
+        context.getSource().sendFeedback(new LiteralText("NARRATION_DEBUG"));
         return 0;
     }
 }
