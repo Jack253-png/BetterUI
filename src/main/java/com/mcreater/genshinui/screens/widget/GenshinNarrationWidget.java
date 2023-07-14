@@ -47,12 +47,8 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
         double narrationSplitHeight = height - SPAC_HEIGHT_SCALE;
         AtomicReference<Double> narrationTextHeight = new AtomicReference<>(height - TEXT_HEIGHT_SCALE);
         Narration nrr = narrations.peek();
-        // 525
-        // 709 92
         double lineWidth = width * SPAC_WIDTH_SCALE;
         if (nrr != null) {
-            // fillGradient(matrices, 0, (int) narrationNameHeight - 12, (int) width, (int) (height - (SPAC_HEIGHT_SCALE / 4)), new Color(0, 0, 0, 25).getRGB(), new Color(0, 0, 0, 0).getRGB());
-
             drawRect(
                     matrices,
                     0,
