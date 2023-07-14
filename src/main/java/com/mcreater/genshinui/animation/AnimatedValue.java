@@ -54,7 +54,9 @@ public class AnimatedValue {
     }
 
     public void setExpectedValue(double expectedValue) {
-        this.expectedValue = expectedValue;
-        init();
+        if (this.expectedValue != expectedValue) {
+            this.expectedValue = expectedValue;
+            init();
+        }
     }
 }

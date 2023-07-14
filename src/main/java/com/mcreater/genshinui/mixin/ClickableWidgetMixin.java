@@ -76,8 +76,7 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
 
     @Inject(at = @At("HEAD"), method = "renderButton", cancellable = true)
     public void onRenderButton(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        double value = getOpacity();
-        if (opacity.getExpectedValue() != value) opacity.setExpectedValue(value);
+        opacity.setExpectedValue(getOpacity());
 
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         TextRenderer textRenderer = minecraftClient.textRenderer;

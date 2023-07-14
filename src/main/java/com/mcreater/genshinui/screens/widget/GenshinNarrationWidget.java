@@ -21,6 +21,8 @@ import static com.mcreater.genshinui.screens.ScreenHelper.*;
 
 public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
     private final Deque<Narration> narrations = new ArrayDeque<>();
+    private final Deque<Narration> narrations_backup = new ArrayDeque<>();
+    private final AnimatedValue opacity = new AnimatedValue(0, 0, 250, a -> AnimationProvider.generate(a, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
     private final MinecraftClient client;
     private static final double HEIGHT_SCALE = 78;
     private static final double SPAC_HEIGHT_SCALE = 74;
@@ -35,6 +37,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
 
     public void pushNarration(Narration narration) {
         narrations.add(narration);
+        narrations_backup.add(narration);
     }
     private void updateSize() {
         width = client.getWindow().getScaledWidth();
@@ -46,16 +49,22 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
         double narrationNameHeight = height - HEIGHT_SCALE;
         double narrationSplitHeight = height - SPAC_HEIGHT_SCALE;
         AtomicReference<Double> narrationTextHeight = new AtomicReference<>(height - TEXT_HEIGHT_SCALE);
-        Narration nrr = narrations.peek();
+        Narration nrr = narrations_backup.peek();
         double lineWidth = width * SPAC_WIDTH_SCALE;
         if (nrr != null) {
+            opacity.setExpectedValue(narrations.contains(nrr) ? 1 : 0);
+            double opaci = opacity.getCurrentValue();
+            if (!nrr.needOpacityIn && narrations.contains(nrr)) opaci = 1;
+            if (!nrr.needOpacityOut && !narrations.contains(nrr)) opaci = 1;
+            double opaci2 = opaci;
+
             drawRect(
                     matrices,
                     0,
                     (int) narrationNameHeight - 12,
                     (int) width / 2,
                     (int) height,
-                    new VertexColor(0, 0, 0, 0.3F),
+                    new VertexColor(0, 0, 0, (float) (0.3F * opaci)),
                     TRANSPARENT,
                     TRANSPARENT,
                     TRANSPARENT
@@ -70,7 +79,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
                     TRANSPARENT,
                     TRANSPARENT,
                     TRANSPARENT,
-                    new VertexColor(0, 0, 0, 0.3F)
+                    new VertexColor(0, 0, 0, (float) (0.3F * opaci))
             );
 
             drawRect(
@@ -80,7 +89,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
                     (int) width,
                     (int) height,
                     TRANSPARENT,
-                    new VertexColor(0, 0, 0, 0.3F),
+                    new VertexColor(0, 0, 0, (float) (0.3F * opaci)),
                     TRANSPARENT,
                     TRANSPARENT
             );
@@ -93,11 +102,10 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
                     (int) narrationNameHeight - 12,
                     TRANSPARENT,
                     TRANSPARENT,
-                    new VertexColor(0, 0, 0, 0.3F),
+                    new VertexColor(0, 0, 0, (float) (0.3F * opaci)),
                     TRANSPARENT
             );
 
-            nrr.startNarration();
             lineWidth = Math.min(
                     lineWidth,
                     client.textRenderer.getTextHandler().wrapLines(nrr.text.getString(), (int) lineWidth - 20, Style.EMPTY.withFont(STANDARD))
@@ -110,22 +118,24 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
             lineWidth = Math.max(lineWidth, width * SPAC_WIDTH_SCALE_MIN);
 
             narrationNameHeight -= client.textRenderer.fontHeight;
-            drawCenteredTextWithoutShadow(
-                    matrices,
-                    client.textRenderer,
-                    nrr.narrationCharacter.name.fillStyle(Style.EMPTY.withFont(CHAR_NAME)),
-                    (int) width / 2,
-                    (int) narrationNameHeight,
-                    getNarrationCharacterColor()
-            );
-            ScreenHelper.fill(
-                    matrices.peek().getPositionMatrix(),
-                    (width - lineWidth - 20) / 2D,
-                    narrationSplitHeight,
-                    (width + lineWidth + 20) / 2D,
-                    narrationSplitHeight - 1,
-                    getNarrationCharacterColor(85)
-            );
+            if ((opaci * 255) >= 5) {
+                drawCenteredTextWithoutShadow(
+                        matrices,
+                        client.textRenderer,
+                        nrr.narrationCharacter.name.fillStyle(Style.EMPTY.withFont(CHAR_NAME)),
+                        (int) width / 2,
+                        (int) narrationNameHeight,
+                        getNarrationCharacterColor((int) (opaci * 255))
+                );
+                ScreenHelper.fill(
+                        matrices.peek().getPositionMatrix(),
+                        (width - lineWidth - 20) / 2D,
+                        narrationSplitHeight,
+                        (width + lineWidth + 20) / 2D,
+                        narrationSplitHeight - 1,
+                        getNarrationCharacterColor((int) (85 * opaci))
+                );
+            }
 
             List<StringVisitable> texts = client.textRenderer.getTextHandler().wrapLines(nrr.getRebasedText().getString(), (int) lineWidth, Style.EMPTY.withFont(STANDARD));
             List<StringVisitable> fullText = client.textRenderer.getTextHandler().wrapLines(nrr.text.getString(), (int) lineWidth, Style.EMPTY.withFont(STANDARD));
@@ -137,31 +147,34 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
 
                     if (textS.length() >= 1) {
                         String pre = textS.substring(0, textS.length() - 1);
-                        drawTextWithoutShadow(
+                        if ((opaci2 * 255) >= 5) drawTextWithoutShadow(
                                 matrices,
                                 client.textRenderer,
                                 new LiteralText(pre).fillStyle(Style.EMPTY.withFont(STANDARD)),
                                 (int) (width - finalLineWidth.get()) / 2,
                                 narrationTextHeight.get().intValue(),
-                                getTextBaseColor()
+                                getTextBaseColor((int) (opaci2 * 255))
                         );
-                        drawTextWithoutShadow(
+                        if ((nrr.getLastTextTransparency() * opaci2) >= 5) drawTextWithoutShadow(
                                 matrices,
                                 client.textRenderer,
                                 new LiteralText(textS.substring(textS.length() - 1)).fillStyle(Style.EMPTY.withFont(STANDARD)),
                                 (int) (width - finalLineWidth.get()) / 2 + client.textRenderer.getWidth(new LiteralText(pre).fillStyle(Style.EMPTY.withFont(STANDARD))),
                                 narrationTextHeight.get().intValue(),
-                                getTextBaseColor(nrr.getLastTextTransparency())
+                                getTextBaseColor((int) (nrr.getLastTextTransparency() * opaci2))
                         );
                     }
 
                     narrationTextHeight.updateAndGet(v -> v + client.textRenderer.getWrappedLinesHeight(text.getString(), finalLineWidth.get()));
                 });
             }
+
+            if (opacity.getCurrentValue() < 0.0011 && opacity.getExpectedValue() != 1) narrations_backup.remove(nrr);
+            if (opacity.getCurrentValue() > 0.995) nrr.startNarration();
         }
     }
     public boolean hasNarration() {
-        return !narrations.isEmpty();
+        return !narrations_backup.isEmpty();
     }
 
     public Narration popNarration() {
@@ -177,11 +190,15 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
         public final MutableText text;
         private boolean started = false;
         public final NarrationCharacter narrationCharacter;
+        public final boolean needOpacityIn;
+        public final boolean needOpacityOut;
         public Narration(MutableText text, NarrationCharacter narrationCharacter) {
-            this(text, narrationCharacter, 500);
+            this(text, narrationCharacter, 200, true, true);
         }
-        public Narration(MutableText text, NarrationCharacter narrationCharacter, int duration) {
+        public Narration(MutableText text, NarrationCharacter narrationCharacter, int duration, boolean needOpacityIn, boolean needOpacityOut) {
             this.text = text;
+            this.needOpacityIn = needOpacityIn;
+            this.needOpacityOut = needOpacityOut;
             this.narrationCharacter = narrationCharacter;
             textValue = new AnimatedValue(0, 0, duration, animationNode -> AnimationProvider.generate(animationNode, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.LINEAR));
         }

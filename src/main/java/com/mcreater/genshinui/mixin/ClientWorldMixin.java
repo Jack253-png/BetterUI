@@ -26,16 +26,22 @@ public abstract class ClientWorldMixin {
     public abstract static class ClientWorldPropertiesMixin implements WorldAccess {
         @Shadow private long timeOfDay;
         @Shadow @Final private GameRules gameRules;
-        private static final AnimatedValue value = new AnimatedValue(0, 0, 2000, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.LINEAR));
-        private static final AnimatedValue valueexp = new AnimatedValue(0, 0, 4000, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+        private final AnimatedValue value = new AnimatedValue(-1, -1, 2000, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.LINEAR));
+        private final AnimatedValue valueexp = new AnimatedValue(-1, -1, 2000, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
         private boolean getTicked() {
             return this.gameRules.getBoolean(GameRules.DO_DAYLIGHT_CYCLE);
         }
         @Inject(at = @At("RETURN"), method = "setTimeOfDay", cancellable = true)
         public void onSetTimeOfDay(long timeOfDay, CallbackInfo ci) {
             boolean ticked = getTicked();
-            if (ticked ? value.getExpectedValue() != timeOfDay && !isClientTick : value.getExpectedValue() != timeOfDay) value.setExpectedValue(timeOfDay);
-            if (ticked ? valueexp.getExpectedValue() != timeOfDay && !isClientTick : valueexp.getExpectedValue() != timeOfDay) valueexp.setExpectedValue(timeOfDay);
+            if (!ticked || value.getExpectedValue() != timeOfDay && !isClientTick) {
+                if (value.getCurrentValue() == -1) value.setCurrentValue(timeOfDay);
+                value.setExpectedValue(timeOfDay);
+            }
+            if (!ticked || valueexp.getExpectedValue() != timeOfDay && !isClientTick) {
+                if (valueexp.getCurrentValue() == -1) valueexp.setCurrentValue(timeOfDay);
+                valueexp.setExpectedValue(timeOfDay);
+            }
 
             isClientTick = false;
             ci.cancel();
@@ -43,7 +49,8 @@ public abstract class ClientWorldMixin {
 
         @Inject(at = @At("RETURN"), method = "getTimeOfDay", cancellable = true)
         public void onGetTimeOfDay(CallbackInfoReturnable<Long> cir) {
-            cir.setReturnValue((long) (getTicked() ? value.getCurrentValue() : valueexp.getCurrentValue()));
+            long val = (long) (getTicked() ? value.getCurrentValue() : valueexp.getCurrentValue());
+            cir.setReturnValue(Math.max(0, val));
         }
     }
 }

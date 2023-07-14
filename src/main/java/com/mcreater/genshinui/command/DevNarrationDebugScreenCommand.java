@@ -13,7 +13,17 @@ public class DevNarrationDebugScreenCommand implements Command<FabricClientComma
         NARRATION_WIDGET.pushNarration(
                 new GenshinNarrationWidget.Narration(
                         new LiteralText("欸嘿~"),
-                        GenshinNarrationWidget.NarrationCharacter.PAIMON
+                        GenshinNarrationWidget.NarrationCharacter.PAIMON,
+                        200,
+                        true, false
+                )
+        );
+        NARRATION_WIDGET.pushNarration(
+                new GenshinNarrationWidget.Narration(
+                        new LiteralText("想不到吧。"),
+                        GenshinNarrationWidget.NarrationCharacter.PAIMON,
+                        200,
+                        false, true
                 )
         );
         context.getSource().sendFeedback(new LiteralText("NARRATION_DEBUG"));

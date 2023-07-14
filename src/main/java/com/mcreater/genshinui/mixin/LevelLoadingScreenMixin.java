@@ -53,10 +53,10 @@ public class LevelLoadingScreenMixin extends Screen {
 
         initFadeNode();
 
-        if ((double) progressProvider.getProgressPercentage() / 100 != value.getExpectedValue()) {
-            double excepted = (double) progressProvider.getProgressPercentage() / 100;
-            value.setExpectedValue(excepted);
-        }
+
+        double excepted = (double) progressProvider.getProgressPercentage() / 100;
+        value.setExpectedValue(excepted);
+
         double progress = value == null ? 0 : value.getCurrentValue();
         if (progressProvider.getProgressPercentage() >= 100) {
             fadeNode.back();
