@@ -3,7 +3,7 @@ package com.mcreater.genshinui.mixin;
 import com.mcreater.genshinui.animation.AnimatedValue;
 import com.mcreater.genshinui.animation.AnimationProvider;
 import com.mcreater.genshinui.mixin.interfaces.PressableWidgetInvoker;
-import com.mcreater.genshinui.screens.ScreenHelper;
+import com.mcreater.genshinui.shaders.Shapes;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -79,8 +79,20 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
         opacity.setExpectedValue(getOpacity());
 
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        double d = minecraftClient.getWindow().getScaleFactor();
         TextRenderer textRenderer = minecraftClient.textRenderer;
-        ScreenHelper.drawRoundedRect(matrices, x, y, x + width, y + height, 10, new Color(212, 213, 204, (int) opacity.getCurrentValue()).getRGB());
+        // ScreenHelper.drawRoundedRect(matrices, x, y, x + width, y + height, 10, new Color(212, 213, 204, (int) opacity.getCurrentValue()).getRGB());
+
+        Shapes.fillRoundedRect(
+                delta,
+                10,
+                x,
+                y,
+                x + width,
+                y + height,
+                new Color(212, 213, 204, (int) opacity.getCurrentValue())
+        );
+
         int j = this.active ? 0x555962 : 0x121212;
         int centerX = this.x + this.width / 2;
         int y = this.y + (this.height - 8) / 2;
