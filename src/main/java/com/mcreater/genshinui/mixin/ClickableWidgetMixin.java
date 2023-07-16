@@ -68,8 +68,8 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
     }
 
     private int getOpacity() {
-        if (!this.active) return 185;
-        if (!this.isHovered()) return 205;
+        if (!this.active) return 125;
+        if (!this.isHovered()) return 175;
         if (!clicked) return 225;
         return 255;
     }
