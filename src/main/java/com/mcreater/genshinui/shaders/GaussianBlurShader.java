@@ -10,7 +10,7 @@ import static com.mcreater.genshinui.GenshinUIClient.MOD_ID;
 public class GaussianBlurShader {
     private static final ManagedShaderEffect SHADER_EFFECT = ShaderEffectManager.getInstance().manage(new Identifier(MOD_ID, "shaders/post/gaussian_blur.json"));
 
-    public static void load() {
+    public static void init() {
         ShaderEffectRenderCallback.EVENT.register(SHADER_EFFECT::render);
     }
 }

@@ -29,7 +29,7 @@ public class GenshinUIClient implements ClientModInitializer {
         Configuration.readConfig();
 
         MotionBlurShader.init();
-        GaussianBlurShader.load();
+        GaussianBlurShader.init();
         InternalFonts.loadFont();
 
         DevCommands.registerAll();

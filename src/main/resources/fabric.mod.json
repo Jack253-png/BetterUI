@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "genshinui",
-  "version": "0.0.2-alpha1",
+  "version": "0.0.2-alpha2",
   "name": "Genshin UI",
   "description": "A minecraft mod brings Genshin Impact's UI experience to minecraft",
   "authors": [
@@ -11,11 +11,12 @@
     "homepage": "https://github.com/Jack253-png/BetterUI",
     "issues": "https://github.com/Jack253-png/BetterUI/issues"
   },
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
     "client": [
       "com.mcreater.genshinui.GenshinUIClient"
     ],
+    "server": [],
     "modmenu": [
       "com.mcreater.genshinui.config.ModMenuApiImpl"
     ]
