@@ -3,6 +3,7 @@ package com.mcreater.genshinui;
 import com.mcreater.genshinui.config.Configuration;
 import com.mcreater.genshinui.render.InternalFonts;
 import com.mcreater.genshinui.screens.widget.GenshinNarrationWidget;
+import com.mcreater.genshinui.shaders.GaussianBlurShader;
 import com.mcreater.genshinui.shaders.MotionBlurShader;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
@@ -28,6 +29,7 @@ public class GenshinUIClient implements ClientModInitializer {
         Configuration.readConfig();
 
         MotionBlurShader.init();
+        GaussianBlurShader.load();
         InternalFonts.loadFont();
 
         DevCommands.registerAll();

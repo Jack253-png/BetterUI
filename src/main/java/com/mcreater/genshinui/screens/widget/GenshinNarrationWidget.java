@@ -12,6 +12,7 @@ import net.minecraft.text.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -64,7 +65,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
                     (int) narrationNameHeight - 12,
                     (int) width / 2,
                     (int) height,
-                    new VertexColor(0, 0, 0, (float) (0.3F * opaci)),
+                    new VertexColor(0, 0, 0, (float) (0.4F * opaci)),
                     TRANSPARENT,
                     TRANSPARENT,
                     TRANSPARENT
@@ -79,7 +80,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
                     TRANSPARENT,
                     TRANSPARENT,
                     TRANSPARENT,
-                    new VertexColor(0, 0, 0, (float) (0.3F * opaci))
+                    new VertexColor(0, 0, 0, (float) (0.4F * opaci))
             );
 
             drawRect(
@@ -89,7 +90,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
                     (int) width,
                     (int) height,
                     TRANSPARENT,
-                    new VertexColor(0, 0, 0, (float) (0.3F * opaci)),
+                    new VertexColor(0, 0, 0, (float) (0.4F * opaci)),
                     TRANSPARENT,
                     TRANSPARENT
             );
@@ -102,7 +103,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
                     (int) narrationNameHeight - 12,
                     TRANSPARENT,
                     TRANSPARENT,
-                    new VertexColor(0, 0, 0, (float) (0.3F * opaci)),
+                    new VertexColor(0, 0, 0, (float) (0.4F * opaci)),
                     TRANSPARENT
             );
 
@@ -174,7 +175,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
         }
     }
     public boolean hasNarration() {
-        return !narrations_backup.isEmpty();
+        return !narrations_backup.isEmpty() && Optional.ofNullable(narrations_backup.peek()).map(Narration::isHideHud).orElse(false);
     }
 
     public Narration popNarration() {
@@ -192,14 +193,21 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
         public final NarrationCharacter narrationCharacter;
         public final boolean needOpacityIn;
         public final boolean needOpacityOut;
+        public final boolean hideHud;
         public Narration(MutableText text, NarrationCharacter narrationCharacter) {
-            this(text, narrationCharacter, 200, true, true);
+            this(text, narrationCharacter, 200, true, true, true);
         }
-        public Narration(MutableText text, NarrationCharacter narrationCharacter, int duration, boolean needOpacityIn, boolean needOpacityOut) {
+
+        public boolean isHideHud() {
+            return hideHud;
+        }
+
+        public Narration(MutableText text, NarrationCharacter narrationCharacter, int duration, boolean needOpacityIn, boolean needOpacityOut, boolean hideHud) {
             this.text = text;
             this.needOpacityIn = needOpacityIn;
             this.needOpacityOut = needOpacityOut;
             this.narrationCharacter = narrationCharacter;
+            this.hideHud = hideHud;
             textValue = new AnimatedValue(0, 0, duration, animationNode -> AnimationProvider.generate(animationNode, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.LINEAR));
         }
         private String getText() {

@@ -17,15 +17,16 @@ uniform vec2 Center1 = vec2(0, 0);
 uniform vec2 Center2 = vec2(100, 100);
 uniform vec4 Color = vec4(0.5, 0.5, 0.5, 1.0);
 uniform float Opacity = 0.5;
+uniform int BlurSamples = 20;
 
 float sdfCircle2(vec2 st, vec2 center, float radius) {
     float blur = 0.000000001;
 
-    //float pct = distance(st, center);//计算任意点到圆心的距离
+    //float pct = distance(st, center);
 
-    vec2 tC = st - center; //计算圆心到任意点的向量
-    //float pct = length(tC);//使用length函数求出长度
-    float pct = sqrt(tC.x*tC.x+tC.y*tC.y);//使用开平方的方法求出长度
+    vec2 tC = st - center;
+    //float pct = length(tC);
+    float pct = sqrt(tC.x*tC.x+tC.y*tC.y);
 
     return 1.0-smoothstep(radius,radius+blur,pct);
 }
@@ -57,7 +58,7 @@ bool inRect(vec2 st, vec2 p1, vec2 p2) {
 }
 
 void set() {
-    int samples = 20;
+    int samples = BlurSamples;
     vec4 O = vec4(0.0);
     float r = float(samples)*0.5;
     float sigma = r*0.5;

@@ -15,7 +15,7 @@ public class DevNarrationDebugScreenCommand implements Command<FabricClientComma
                         new LiteralText("欸嘿~"),
                         GenshinNarrationWidget.NarrationCharacter.PAIMON,
                         200,
-                        true, false
+                        true, false, true
                 )
         );
         NARRATION_WIDGET.pushNarration(
@@ -23,7 +23,7 @@ public class DevNarrationDebugScreenCommand implements Command<FabricClientComma
                         new LiteralText("想不到吧。"),
                         GenshinNarrationWidget.NarrationCharacter.PAIMON,
                         200,
-                        false, true
+                        false, true, true
                 )
         );
         context.getSource().sendFeedback(new LiteralText("NARRATION_DEBUG"));
