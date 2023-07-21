@@ -1,5 +1,6 @@
 package com.mcreater.genshinui.mixin;
 
+import com.mcreater.genshinui.shaders.GaussianBlurShader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -22,6 +23,8 @@ public class MinecraftClientMixin {
     public void onSetScreen(Screen screen, CallbackInfo ci) {
         LogManager.getLogger(MinecraftClientMixin.class).info("Screen change: {} -> {}", currentScreen, screen);
         if (safeBoolean(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getValue())) return;
+
+        GaussianBlurShader.setBlurSamples(screen == null ? 0 : 20);
 
         if (screen == null) {
             if (currentScreen instanceof ChatScreen) {

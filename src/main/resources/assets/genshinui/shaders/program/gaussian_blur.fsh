@@ -9,20 +9,27 @@ varying vec2 oneTexel;
 
 uniform vec2 InSize;
 uniform vec2 OutSize;
+uniform int Samples;
 
 void main() {
-    int samples = 20;
-    vec4 O = vec4(0.0);
-    float r = float(samples)*0.5;
-    float sigma = r*0.5;
-    float f = 1./(6.28318530718*sigma*sigma);
+    int samples = Samples;
+    if (samples > 0) {
+        vec4 O = vec4(0.0);
+        float r = float(samples)*0.5;
+        float sigma = r*0.5;
+        float f = 1./(6.28318530718*sigma*sigma);
 
-    int s2 = samples*samples;
-    for (int i = 0; i<s2; i++) {
-        vec2 d = vec2(i%samples, i/samples) - r;
-        O += texture2D(DiffuseSampler, texCoord + oneTexel * d) * exp(-0.5 * dot(d/=sigma, d)) * f;
+        int s2 = samples*samples;
+        for (int i = 0; i<s2; i++) {
+            vec2 d = vec2(i%samples, i/samples) - r;
+            O += texture2D(DiffuseSampler, texCoord + oneTexel * d) * exp(-0.5 * dot(d/=sigma, d)) * f;
+        }
+
+        gl_FragColor = O/O.a;
+        gl_FragColor.w = 1.0;
     }
-
-    gl_FragColor = O/O.a;
-    gl_FragColor.w = 1.0;
+    else {
+        gl_FragColor = texture2D(DiffuseSampler, texCoord);
+        gl_FragColor.w = 1.0;
+    }
 }

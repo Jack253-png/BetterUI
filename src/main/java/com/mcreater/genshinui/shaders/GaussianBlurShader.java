@@ -13,4 +13,8 @@ public class GaussianBlurShader {
     public static void init() {
         ShaderEffectRenderCallback.EVENT.register(SHADER_EFFECT::render);
     }
+
+    public static void setBlurSamples(int samples) {
+        SHADER_EFFECT.findUniform1i("Samples").set(samples);
+    }
 }
