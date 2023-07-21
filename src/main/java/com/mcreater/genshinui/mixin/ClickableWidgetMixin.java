@@ -81,7 +81,6 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         double d = minecraftClient.getWindow().getScaleFactor();
         TextRenderer textRenderer = minecraftClient.textRenderer;
-        // ScreenHelper.drawRoundedRect(matrices, x, y, x + width, y + height, 10, new Color(212, 213, 204, (int) opacity.getCurrentValue()).getRGB());
 
         Shapes.fillRoundedRect(
                 delta,

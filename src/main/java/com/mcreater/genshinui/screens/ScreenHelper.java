@@ -16,10 +16,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Vector;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import static java.lang.Math.PI;
 
 public abstract class ScreenHelper extends Screen {
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
@@ -186,50 +182,5 @@ public abstract class ScreenHelper extends Screen {
         BufferRenderer.draw(bufferBuilder);
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
-    }
-
-    public enum Side {
-        TOP_LEFT(a -> a / 4 * 2, a -> a / 4 * 3, () -> 0x66000000),
-        TOP_RIGHT(a -> a / 4 * 3, a -> a, () -> 0x66ffff00),
-        BOTTOM_LEFT(a -> a / 4, a -> a / 4 * 2, () -> 0x66ffffff),
-        BOTTOM_RIGHT(a -> 0, a -> a / 4, () -> 0x66ff00ff);
-        public final Function<Integer, Integer> getStart;
-        public final Function<Integer, Integer> getEnd;
-        public final Supplier<Integer> devColor;
-        Side(Function<Integer, Integer> getStart, Function<Integer, Integer> getEnd, Supplier<Integer> devColor) {
-            this.getStart = getStart;
-            this.getEnd = getEnd;
-            this.devColor = devColor;
-        }
-    }
-
-    public static void drawRoundedRect(MatrixStack matrix, int x1, int y1, int x2, int y2, double r, int color) {
-        int width = Math.abs(x1 - x2);
-        int height = Math.abs(y1 - y2);
-        if (r * 2 > width || r * 2 > height) r = Math.max(width, height) / 2D;
-
-        fill(matrix, (int) (x1 + r), (int) (y1 + r), (int) (x2 - r), (int) (y2 - r), color);
-        fill(matrix, x1, (int) (y1 + r), (int) (x1 + r), (int) (y2 - r), color);
-        fill(matrix, (int) (x2 - r), (int) (y1 + r), x2, (int) (y2 - r), color);
-        fill(matrix, (int) (x1 + r), y1, (int) (x2 - r), (int) (y1 + r), color);
-        fill(matrix, (int) (x1 + r), (int) (y2 - r), (int) (x2 - r), y2, color);
-
-        drawCircle(matrix, (int) (x1 + r), (int) (y1 + r), r, color, Side.TOP_LEFT);
-        drawCircle(matrix, (int) (x2 - r), (int) (y1 + r), r, color, Side.TOP_RIGHT);
-        drawCircle(matrix, (int) (x1 + r), (int) (y2 - r), r, color, Side.BOTTOM_LEFT);
-        drawCircle(matrix, (int) (x2 - r), (int) (y2 - r), r, color, Side.BOTTOM_RIGHT);
-    }
-
-    public static void drawCircle(MatrixStack matrix, int x, int y, double radius, int color, Side side) {
-        drawCircle(matrix, x, y, radius, color, side, 100);
-    }
-
-    public static void drawCircle(MatrixStack matrix, int x, int y, double radius, int color, Side side, int rad) {
-        for (int i = side.getStart.apply(rad); i < side.getEnd.apply(rad); i++) {
-            double xtemp = (Math.cos(2 * PI * i / rad)) * radius + x;
-            double ytemp = (Math.sin(2 * PI * i / rad)) * radius + y;
-            double ytemp2 = (Math.sin(2 * PI * (i + 1) / rad)) * radius + y;
-            fill(matrix.peek().getPositionMatrix(), xtemp, ytemp, x, ytemp2, color);
-        }
     }
 }
