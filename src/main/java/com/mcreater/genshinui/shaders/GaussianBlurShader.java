@@ -17,4 +17,8 @@ public class GaussianBlurShader {
     public static void setBlurSamples(int samples) {
         SHADER_EFFECT.findUniform1i("Samples").set(samples);
     }
+
+    public static void render(float delta) {
+        SHADER_EFFECT.render(delta);
+    }
 }
