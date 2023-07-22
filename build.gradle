@@ -51,6 +51,7 @@ dependencies {
     }
     modImplementation "com.terraformersmc:modmenu:3.2.5"
     modImplementation files("impmods/chat_heads.jar")
+    modImplementation files("impmods/titleworlds.jar")
 
     // implementation "icyllis.modernui:ModernUI-Core:3.7.1"
     implementation "org.javassist:javassist:3.25.0-GA"

@@ -32,6 +32,10 @@
     "fabricloader": ">=0.4.0",
     "minecraft": "1.18.x"
   },
+  "breaks": {
+    "blur": "*",
+    "blur-fabric": "*"
+  },
   "jars": [
     {"file": "META-INF/jars/cloth-config-fabric.jar"},
     {"file": "META-INF/jars/satin.jar"},

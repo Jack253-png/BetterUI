@@ -34,11 +34,11 @@ public abstract class ClientWorldMixin {
         @Inject(at = @At("RETURN"), method = "setTimeOfDay", cancellable = true)
         public void onSetTimeOfDay(long timeOfDay, CallbackInfo ci) {
             boolean ticked = getTicked();
-            if (!ticked || value.getExpectedValue() != timeOfDay && !isClientTick) {
+            if (!ticked || !isClientTick) {
                 if (value.getCurrentValue() == -1) value.setCurrentValue(timeOfDay);
                 value.setExpectedValue(timeOfDay);
             }
-            if (!ticked || valueexp.getExpectedValue() != timeOfDay && !isClientTick) {
+            if (!ticked || !isClientTick) {
                 if (valueexp.getCurrentValue() == -1) valueexp.setCurrentValue(timeOfDay);
                 valueexp.setExpectedValue(timeOfDay);
             }
