@@ -18,6 +18,7 @@
     "ProgressScreenMixin",
     "SaveLevelScreenMixin",
     "SubtitlesHudMixin",
+    "TitleScreenMixin",
     "interfaces.ClickableWidgetInvoker",
     "interfaces.PressableWidgetInvoker"
   ],
