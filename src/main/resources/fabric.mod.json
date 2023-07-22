@@ -17,6 +17,9 @@
       "com.mcreater.genshinui.GenshinUIClient"
     ],
     "server": [],
+    "main": [
+      "com.mcreater.genshinui.GenshinUI"
+    ],
     "modmenu": [
       "com.mcreater.genshinui.config.ModMenuApiImpl"
     ]

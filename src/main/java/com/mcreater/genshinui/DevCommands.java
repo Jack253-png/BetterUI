@@ -1,9 +1,6 @@
 package com.mcreater.genshinui;
 
-import com.mcreater.genshinui.command.DevNarrationClearCommand;
-import com.mcreater.genshinui.command.DevNarrationDebugScreenCommand;
-import com.mcreater.genshinui.command.DevNarrationPopCommand;
-import com.mcreater.genshinui.command.DevTimeSelectionScreenCommand;
+import com.mcreater.genshinui.command.*;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.literal;
@@ -16,6 +13,7 @@ public class DevCommands {
                         .then(literal("narration_add").executes(new DevNarrationDebugScreenCommand()))
                         .then(literal("narration_clear").executes(new DevNarrationClearCommand()))
                         .then(literal("narration_pop").executes(new DevNarrationPopCommand()))
+                        .then(literal("emoji_c2s").executes(new DevEmojiC2SDebugCommand()))
         );
     }
 }

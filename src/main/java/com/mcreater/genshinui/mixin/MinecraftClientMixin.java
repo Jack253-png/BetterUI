@@ -1,5 +1,7 @@
 package com.mcreater.genshinui.mixin;
 
+import com.mcreater.genshinui.animation.AnimatedValue;
+import com.mcreater.genshinui.animation.AnimationProvider;
 import com.mcreater.genshinui.shaders.GaussianBlurShader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -18,13 +20,19 @@ import static com.mcreater.genshinui.util.SafeValue.safeBoolean;
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
     @Shadow @Nullable public Screen currentScreen;
+    private final AnimatedValue blurSamples = new AnimatedValue(0, 0, 100, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
 
-    @Inject(at  = @At("HEAD"), method = "setScreen", cancellable = true)
+    @Inject(at = @At("HEAD"), method = "render")
+    public void onRender(boolean tick, CallbackInfo ci) {
+        GaussianBlurShader.setBlurSamples((int) blurSamples.getCurrentValue());
+    }
+
+    @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true)
     public void onSetScreen(Screen screen, CallbackInfo ci) {
         LogManager.getLogger(MinecraftClientMixin.class).info("Screen change: {} -> {}", currentScreen, screen);
         if (safeBoolean(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getValue())) return;
 
-        GaussianBlurShader.setBlurSamples(screen == null ? 0 : 20);
+        blurSamples.setExpectedValue(screen == null ? 0 : 20);
 
         if (screen == null) {
             if (currentScreen instanceof ChatScreen) {

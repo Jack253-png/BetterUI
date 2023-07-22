@@ -43,7 +43,7 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
 
     @Shadow public abstract void render(MatrixStack matrices, int mouseX, int mouseY, float delta);
 
-    private final AnimatedValue opacity = new AnimatedValue(155, 155, 100, a -> AnimationProvider.generate(a, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.CIRCULAR));
+    private final AnimatedValue opacity = new AnimatedValue(155, 155, 75, a -> AnimationProvider.generate(a, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.CIRCULAR));
     private boolean clicked = false;
 
     @Inject(at = @At("HEAD"), method = "onClick")
@@ -85,11 +85,12 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
         Shapes.fillRoundedRect(
                 delta,
                 10,
-                x,
+                (float) x,
                 y,
                 x + width,
                 y + height,
-                new Color(212, 213, 204, (int) opacity.getCurrentValue())
+                new Color(212, 213, 204, (int) (opacity.getCurrentValue() * this.alpha)),
+                (int) (20 * this.alpha)
         );
 
         int j = this.active ? 0x555962 : 0x121212;
