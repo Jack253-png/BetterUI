@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "genshinui:block/genshin_sky_island_path_block"
+    }
+  }
+}

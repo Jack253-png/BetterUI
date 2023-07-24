@@ -1,6 +1,7 @@
 package com.mcreater.genshinui;
 
 import com.mcreater.genshinui.config.Configuration;
+import com.mcreater.genshinui.elements.GenshinEntitiesRenderer;
 import com.mcreater.genshinui.network.EmojiHandler;
 import com.mcreater.genshinui.render.InternalFonts;
 import com.mcreater.genshinui.screens.widget.GenshinNarrationWidget;
@@ -30,6 +31,8 @@ public class GenshinUIClient implements ClientModInitializer {
         Configuration.readConfig();
 
         EmojiHandler.registerClient();
+
+        GenshinEntitiesRenderer.register();
 
         MotionBlurShader.init();
         GaussianBlurShader.init();

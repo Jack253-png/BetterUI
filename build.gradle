@@ -35,6 +35,10 @@ repositories {
         name 'IzzelAliz Maven'
         url 'https://maven.izzel.io/releases/'
     }
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+    }
 }
 
 dependencies {
@@ -55,6 +59,7 @@ dependencies {
 
     // implementation "icyllis.modernui:ModernUI-Core:3.7.1"
     implementation "org.javassist:javassist:3.25.0-GA"
+    modImplementation 'software.bernie.geckolib:geckolib-fabric-1.18:3.0.80'
 }
 
 processResources {

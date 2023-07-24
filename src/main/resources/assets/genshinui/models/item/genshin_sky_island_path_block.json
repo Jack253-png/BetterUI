@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "genshinui:genshin_sky_island_path_block"
+  }
+}
