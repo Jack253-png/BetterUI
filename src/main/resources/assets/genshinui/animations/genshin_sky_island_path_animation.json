@@ -1,0 +1,39 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.GenshinSkyIslandPathBlockModel1.new": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 2,
+			"bones": {
+				"pathblock1": {
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"2.0": {
+							"vector": [0, 32, 0],
+							"easing": "easeOutBack",
+							"easingArgs": [2]
+						}
+					}
+				}
+			}
+		},
+		"animation.GenshinSkyIslandPathBlockModel1.new2": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"pathblock1": {
+					"position": {
+						"0.0": {
+							"vector": [0, 32, 0]
+						},
+						"1.0": {
+							"vector": [0, 32, 0]
+						}
+					}
+				}
+			}
+		}
+	}
+}

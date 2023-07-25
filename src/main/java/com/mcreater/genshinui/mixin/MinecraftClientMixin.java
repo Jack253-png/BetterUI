@@ -32,7 +32,7 @@ public class MinecraftClientMixin {
         LogManager.getLogger(MinecraftClientMixin.class).info("Screen change: {} -> {}", currentScreen, screen);
         if (safeBoolean(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getValue())) return;
 
-        blurSamples.setExpectedValue(screen == null ? 0 : 20);
+        blurSamples.setExpectedValue(screen == null ? 0 : 40);
 
         if (screen == null) {
             if (currentScreen instanceof ChatScreen) {

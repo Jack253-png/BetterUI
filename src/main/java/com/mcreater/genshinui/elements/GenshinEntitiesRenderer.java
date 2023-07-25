@@ -1,6 +1,6 @@
 package com.mcreater.genshinui.elements;
 
-import com.mcreater.genshinui.elements.skyisland.GenshinSkyIslandPathBlockEntityRenderer;
+import com.mcreater.genshinui.elements.skyisland.renderer.GenshinSkyIslandPathBlockEntityRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 
 import static com.mcreater.genshinui.elements.GenshinEntities.GENSHIN_SKY_ISLAND_PATH_BLOCK_ENTITY;

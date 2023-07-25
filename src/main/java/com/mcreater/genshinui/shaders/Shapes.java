@@ -10,6 +10,7 @@ import java.awt.*;
 import static com.mcreater.genshinui.GenshinUIClient.MOD_ID;
 
 public class Shapes {
+    private static float LAST_TICK = 0;
     public static final ManagedShaderEffect ROUNDED_RECT_FILL = ShaderEffectManager.getInstance().manage(new Identifier(MOD_ID, "shaders/post/rounded_rect_fill.json"));
     private static float getScale() {
         return (float) MinecraftClient.getInstance().getWindow().getScaleFactor();
@@ -21,6 +22,10 @@ public class Shapes {
         fillRoundedRect(delta, radius, x1, y1, x2, y2, color, 20);
     }
     public static void fillRoundedRect(float delta, int radius, float x1, float y1, float x2, float y2, Color color, int blurSamples) {
+        if (delta == LAST_TICK) {
+            delta++;
+        }
+        LAST_TICK = delta;
         ROUNDED_RECT_FILL.findUniform1f("Radius").set(radius * getScale());
         ROUNDED_RECT_FILL.findUniform2f("Center1").set(x1 * getScale(), y1 * getScale());
         ROUNDED_RECT_FILL.findUniform2f("Center2").set(x2 * getScale(), y2 * getScale());

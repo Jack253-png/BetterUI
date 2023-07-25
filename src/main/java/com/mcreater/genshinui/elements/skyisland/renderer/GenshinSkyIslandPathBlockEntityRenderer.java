@@ -1,4 +1,4 @@
-package com.mcreater.genshinui.elements.skyisland;
+package com.mcreater.genshinui.elements.skyisland.renderer;
 
 import com.mcreater.genshinui.elements.skyisland.entity.GenshinSkyIslandPathBlockEntity;
 import com.mcreater.genshinui.elements.skyisland.model.GenshinSkyIslandPathBlockModel;

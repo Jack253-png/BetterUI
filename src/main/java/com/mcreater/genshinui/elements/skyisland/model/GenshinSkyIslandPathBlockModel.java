@@ -16,6 +16,6 @@ public class GenshinSkyIslandPathBlockModel extends AnimatedGeoModel<GenshinSkyI
     }
 
     public Identifier getAnimationFileLocation(GenshinSkyIslandPathBlockEntity animatable) {
-        return new Identifier(MOD_ID, "animations/empty.json");
+        return new Identifier(MOD_ID, "animations/genshin_sky_island_path_animation.json");
     }
 }
