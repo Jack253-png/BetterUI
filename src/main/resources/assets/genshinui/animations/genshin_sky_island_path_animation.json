@@ -13,7 +13,7 @@
 						"2.0": {
 							"vector": [0, 32, 0],
 							"easing": "easeOutBack",
-							"easingArgs": [2]
+							"easingArgs": [1]
 						}
 					}
 				}

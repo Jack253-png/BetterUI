@@ -8,14 +8,14 @@ import static com.mcreater.genshinui.GenshinUIClient.MOD_ID;
 
 public class GenshinSkyIslandPathBlockModel extends AnimatedGeoModel<GenshinSkyIslandPathBlockEntity> {
     public Identifier getModelLocation(GenshinSkyIslandPathBlockEntity object) {
-        return new Identifier(MOD_ID, "geo/GenshinSkyIslandPathBlockModel1.geo.json");
+        return new Identifier(MOD_ID, "geo/GenshinSkyIslandPath.geo.json");
     }
 
     public Identifier getTextureLocation(GenshinSkyIslandPathBlockEntity object) {
-        return new Identifier(MOD_ID, "textures/texture.png");
+        return new Identifier(MOD_ID, "textures/texture2.png");
     }
 
     public Identifier getAnimationFileLocation(GenshinSkyIslandPathBlockEntity animatable) {
-        return new Identifier(MOD_ID, "animations/genshin_sky_island_path_animation.json");
+        return new Identifier(MOD_ID, "animations/GenshinSkyIslandPath.animation.json");
     }
 }

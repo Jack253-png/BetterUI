@@ -17,8 +17,8 @@ import static com.mcreater.genshinui.elements.GenshinEntities.GENSHIN_SKY_ISLAND
 public class GenshinSkyIslandPathBlockEntity extends BlockEntity implements IAnimatable {
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     private static final AnimationBuilder FLOATING = new AnimationBuilder()
-            .addAnimation("animation.GenshinSkyIslandPathBlockModel1.new")
-            .addAnimation("animation.GenshinSkyIslandPathBlockModel1.new2");
+            .addAnimation("animation.GenshinSkyIslandPath.flake1")
+            .addAnimation("animation.GenshinSkyIslandPath.stop");
     public GenshinSkyIslandPathBlockEntity(BlockPos pos, BlockState state) {
         super(GENSHIN_SKY_ISLAND_PATH_BLOCK_ENTITY, pos, state);
     }
