@@ -2,6 +2,7 @@ package com.mcreater.genshinui.elements.skyisland.entity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -36,5 +37,13 @@ public class GenshinSkyIslandPathBlockEntity extends BlockEntity implements IAni
 
     public AnimationFactory getFactory() {
         return this.factory;
+    }
+
+    public void readNbt(NbtCompound nbt) {
+
+    }
+
+    protected void writeNbt(NbtCompound nbt) {
+
     }
 }

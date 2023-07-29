@@ -44,5 +44,8 @@
 
   "ui.splash.core.world_load": "Loading world, %s completed...",
   "ui.tech.warn": "Early technical testing, not indicative of final quality",
-  "ui.narration.character.paimon": "Paimon"
+  "ui.narration.character.paimon": "Paimon",
+  "item.genshinui.genshin_sky_island_path_block": "Sky island path block",
+  "block.genshinui.genshin_sky_island_path_block": "Sky island path block",
+  "itemGroup.genshinui.sky_island": "Genshin UI: Sky Island"
 }

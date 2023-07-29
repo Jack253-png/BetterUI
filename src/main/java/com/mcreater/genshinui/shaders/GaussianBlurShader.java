@@ -1,5 +1,6 @@
 package com.mcreater.genshinui.shaders;
 
+import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
 import ladysnake.satin.api.managed.ShaderEffectManager;
 import net.minecraft.util.Identifier;
@@ -10,7 +11,7 @@ public class GaussianBlurShader {
     private static final ManagedShaderEffect SHADER_EFFECT = ShaderEffectManager.getInstance().manage(new Identifier(MOD_ID, "shaders/post/gaussian_blur.json"));
 
     public static void init() {
-        // ShaderEffectRenderCallback.EVENT.register(SHADER_EFFECT::render);
+        ShaderEffectRenderCallback.EVENT.register(SHADER_EFFECT::render);
     }
 
     public static void setBlurSamples(int samples) {

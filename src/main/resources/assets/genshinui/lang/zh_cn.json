@@ -44,5 +44,8 @@
 
   "ui.splash.core.world_load": "加载世界中，%s 已完成...",
   "ui.tech.warn": "早期技术性测试，不代表最终品质",
-  "ui.narration.character.paimon": "派蒙"
+  "ui.narration.character.paimon": "派蒙",
+  "item.genshinui.genshin_sky_island_path_block": "天空岛浮桥方块",
+  "block.genshinui.genshin_sky_island_path_block": "天空岛浮桥方块",
+  "itemGroup.genshinui.sky_island": "Genshin UI: 天空岛"
 }

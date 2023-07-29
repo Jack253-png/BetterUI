@@ -19,7 +19,6 @@
     "SaveLevelScreenMixin",
     "SubtitlesHudMixin",
     "TitleScreenMixin",
-    "WorldRendererMixin",
     "interfaces.ClickableWidgetInvoker",
     "interfaces.PressableWidgetInvoker"
   ],
