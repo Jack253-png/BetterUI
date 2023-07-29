@@ -17,6 +17,7 @@ import static com.mcreater.genshinui.elements.GenshinEntities.GENSHIN_SKY_ISLAND
 
 public class GenshinSkyIslandPathBlockEntity extends BlockEntity implements IAnimatable {
     private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+    private boolean updated;
     private static final AnimationBuilder FLOATING = new AnimationBuilder()
             .addAnimation("animation.GenshinSkyIslandPath.flake1")
             .addAnimation("animation.GenshinSkyIslandPath.stop");
@@ -40,10 +41,12 @@ public class GenshinSkyIslandPathBlockEntity extends BlockEntity implements IAni
     }
 
     public void readNbt(NbtCompound nbt) {
-
+        super.readNbt(nbt);
+        nbt.putBoolean("updated", updated);
     }
 
     protected void writeNbt(NbtCompound nbt) {
-
+        super.writeNbt(nbt);
+        updated = nbt.getBoolean("updated");
     }
 }
