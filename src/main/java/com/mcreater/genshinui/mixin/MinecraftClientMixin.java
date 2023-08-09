@@ -20,7 +20,7 @@ import static com.mcreater.genshinui.util.SafeValue.safeBoolean;
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
     @Shadow @Nullable public Screen currentScreen;
-    private final AnimatedValue blurSamples = new AnimatedValue(0, 0, 100, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+    private final AnimatedValue blurSamples = new AnimatedValue(0, 0, 250, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
 
     @Inject(at = @At("HEAD"), method = "render")
     public void onRender(boolean tick, CallbackInfo ci) {
@@ -32,7 +32,7 @@ public class MinecraftClientMixin {
         LogManager.getLogger(MinecraftClientMixin.class).info("Screen change: {} -> {}", currentScreen, screen);
         if (safeBoolean(OPTION_ENABLE_CHAT_SCREEN_VANILLA_RENDERING.getValue())) return;
 
-        blurSamples.setExpectedValue(screen == null ? 0 : 40);
+        blurSamples.setExpectedValue(screen == null ? 0 : 16);
 
         if (screen == null) {
             if (currentScreen instanceof ChatScreen) {

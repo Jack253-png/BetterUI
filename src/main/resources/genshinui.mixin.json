@@ -15,6 +15,7 @@
     "controls.screen.LevelLoadingScreenMixin",
     "controls.screen.ProgressScreenMixin",
     "controls.screen.SaveLevelScreenMixin",
+    "controls.screen.ScreenMixin",
     "controls.widget.ClickableWidgetMixin",
     "controls.widget.PressableWidgetMixin",
     "controls.widget.SliderWidgetMixin",

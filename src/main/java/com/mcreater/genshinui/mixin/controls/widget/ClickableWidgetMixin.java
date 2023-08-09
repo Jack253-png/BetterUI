@@ -90,7 +90,7 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
                 x + width,
                 y + height,
                 new Color(212, 213, 204, (int) (opacity.getCurrentValue() * this.alpha)),
-                (int) (20 * this.alpha)
+                (int) (5 * this.alpha)
         );
         renderBackground(matrices, minecraftClient, mouseX, mouseY);
         int j = this.active ? 0x555962 : 0x121212;
