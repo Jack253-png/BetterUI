@@ -1,4 +1,4 @@
-package com.mcreater.genshinui.mixin;
+package com.mcreater.genshinui.mixin.controls.widget;
 
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.PressableWidget;

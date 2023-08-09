@@ -17,10 +17,13 @@ uniform vec2 Center1 = vec2(0, 0);
 uniform vec2 Center2 = vec2(100, 100);
 uniform vec4 Color = vec4(0.5, 0.5, 0.5, 1.0);
 uniform float Opacity = 0.5;
-uniform int BlurSamples = 20;
+uniform float BlurSamples = 8.0;
+uniform vec2 BlurDir = vec2(1.0, 0.0);
+
+#define PI2 6.2831853072
 
 float dctCircle(vec2 st, vec2 center, float radius) {
-    float blur = 0.8;
+    float blur = 0.75;
 
     float pct = distance(st, center);
 
@@ -57,20 +60,29 @@ bool inRect(vec2 st, vec2 p1, vec2 p2) {
     return x1 < tx && tx < x2 && y1 < ty && ty < y2;
 }
 
-void set(float ot) {
-    int samples = BlurSamples;
-    vec4 O = vec4(0.0);
-    float r = float(samples)*0.5;
-    float sigma = r*0.5;
-    float f = 1./(6.28318530718*sigma*sigma);
+void set(float ot, float rad_x, float rad_y) {
+    vec4 resColor = texture2D(DiffuseSampler, texCoord);
 
-    int s2 = samples*samples;
-    for (int i = 0; i<s2; i++) {
-        vec2 d = vec2(i%samples, i/samples) - r;
-        O += texture2D(DiffuseSampler, texCoord + oneTexel * d) * exp(-0.5 * dot(d/=sigma, d)) * f;
+    vec4 blurred = vec4(0.0);
+    float totalStrength = 0.0;
+    float totalAlpha = 0.0;
+    float totalSamples = 0.0;
+    float progRadius = float(BlurSamples);
+    for(float r = -progRadius; r <= progRadius; r += 1.0) {
+        vec4 sample2 = texture2D(DiffuseSampler, texCoord + oneTexel * r * BlurDir);
+
+        // Accumulate average alpha
+        totalAlpha = totalAlpha + sample2.a;
+        totalSamples = totalSamples + 1.0;
+
+        // Accumulate smoothed blur
+        float strength = 1.0 - abs(r / progRadius);
+        totalStrength = totalStrength + strength;
+        blurred = blurred + sample2;
     }
+    resColor = vec4(blurred.rgb / (progRadius * 2.0 + 1.0), totalAlpha);
 
-    gl_FragColor = mix(O/O.a, Color, Opacity * ot);
+    gl_FragColor = mix(resColor, Color, BlurSamples == 0 ? Opacity * ot : 0);
     gl_FragColor.w = 1.0;
 }
 
@@ -128,31 +140,31 @@ void main() {
     inRect(st, vec2(rct_x1, hg-rct_y2), vec2(rct_x2, hg-rct_y3)) ||
     inRect(st, vec2(rct_x3, hg-rct_y2), vec2(rct_x4, hg-rct_y3)) ||
     inRect(st, vec2(rct_x2, hg-rct_y3), vec2(rct_x3, hg-rct_y4))) {
-        set(1.0);
+        set(1.0, width, height);
         return;
     }
 
     float v1 = dctCircle(st, vec2(rct_x2, hg - rct_y2), radiusr);
     if (v1 != 0) {
-        set(v1);
+        set(v1, width, height);
         return;
     }
 
     float v2 = dctCircle(st, vec2(rct_x2, hg - rct_y3), radiusr);
     if (v2 != 0) {
-        set(v2);
+        set(v2, width, height);
         return;
     }
 
     float v3 = dctCircle(st, vec2(rct_x3, hg - rct_y2), radiusr);
     if (v3 != 0) {
-        set(v3);
+        set(v3, width, height);
         return;
     }
 
     float v4 = dctCircle(st, vec2(rct_x3, hg - rct_y3), radiusr);
     if (v4 != 0) {
-        set(v4);
+        set(v4, width, height);
         return;
     }
 

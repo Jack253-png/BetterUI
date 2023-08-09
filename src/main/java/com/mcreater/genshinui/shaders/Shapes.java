@@ -12,6 +12,7 @@ import static com.mcreater.genshinui.GenshinUIClient.MOD_ID;
 public class Shapes {
     private static float LAST_TICK = 0;
     public static final ManagedShaderEffect ROUNDED_RECT_FILL = ShaderEffectManager.getInstance().manage(new Identifier(MOD_ID, "shaders/post/rounded_rect_fill.json"));
+    public static final ManagedShaderEffect ROUNDED_RECT_BLUR = ShaderEffectManager.getInstance().manage(new Identifier(MOD_ID, "shaders/post/rounded_rect_box_blur.json"));
     private static float getScale() {
         return (float) MinecraftClient.getInstance().getWindow().getScaleFactor();
     }
@@ -26,6 +27,20 @@ public class Shapes {
             delta++;
         }
         LAST_TICK = delta;
+        // Render blur
+        ROUNDED_RECT_BLUR.findUniform1f("Radius").set(radius * getScale());
+        ROUNDED_RECT_BLUR.findUniform2f("Center1").set(x1 * getScale(), y1 * getScale());
+        ROUNDED_RECT_BLUR.findUniform2f("Center2").set(x2 * getScale(), y2 * getScale());
+        ROUNDED_RECT_BLUR.findUniform4f("Color").set(
+                color.getRed() / 255F,
+                color.getGreen() / 255F,
+                color.getBlue() / 255F,
+                color.getAlpha() / 255F
+        );
+        ROUNDED_RECT_BLUR.findUniform1f("Opacity").set(color.getAlpha() / 255F);
+        ROUNDED_RECT_BLUR.findUniform1f("BlurSamples").set(blurSamples);
+        ROUNDED_RECT_BLUR.render(delta);
+        // Render shell
         ROUNDED_RECT_FILL.findUniform1f("Radius").set(radius * getScale());
         ROUNDED_RECT_FILL.findUniform2f("Center1").set(x1 * getScale(), y1 * getScale());
         ROUNDED_RECT_FILL.findUniform2f("Center2").set(x2 * getScale(), y2 * getScale());
@@ -36,7 +51,7 @@ public class Shapes {
                 color.getAlpha() / 255F
         );
         ROUNDED_RECT_FILL.findUniform1f("Opacity").set(color.getAlpha() / 255F);
-        ROUNDED_RECT_FILL.findUniform1i("BlurSamples").set(blurSamples);
+        ROUNDED_RECT_FILL.findUniform1f("BlurSamples").set(0);
         ROUNDED_RECT_FILL.render(delta);
     }
 }

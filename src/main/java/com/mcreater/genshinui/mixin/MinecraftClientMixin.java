@@ -2,7 +2,7 @@ package com.mcreater.genshinui.mixin;
 
 import com.mcreater.genshinui.animation.AnimatedValue;
 import com.mcreater.genshinui.animation.AnimationProvider;
-import com.mcreater.genshinui.shaders.GaussianBlurShader;
+import com.mcreater.genshinui.shaders.BoxBlurShader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -24,7 +24,7 @@ public class MinecraftClientMixin {
 
     @Inject(at = @At("HEAD"), method = "render")
     public void onRender(boolean tick, CallbackInfo ci) {
-        GaussianBlurShader.setBlurSamples((int) blurSamples.getCurrentValue());
+        BoxBlurShader.setRadius((float) blurSamples.getCurrentValue());
     }
 
     @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true)

@@ -1,4 +1,4 @@
-package com.mcreater.genshinui.mixin;
+package com.mcreater.genshinui.mixin.controls.hud;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;

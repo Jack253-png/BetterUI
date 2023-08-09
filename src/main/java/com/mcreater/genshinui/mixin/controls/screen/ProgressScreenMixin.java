@@ -1,4 +1,4 @@
-package com.mcreater.genshinui.mixin;
+package com.mcreater.genshinui.mixin.controls.screen;
 
 import net.minecraft.client.gui.screen.ProgressScreen;
 import net.minecraft.client.util.math.MatrixStack;

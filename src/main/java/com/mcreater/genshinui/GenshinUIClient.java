@@ -2,10 +2,9 @@ package com.mcreater.genshinui;
 
 import com.mcreater.genshinui.config.Configuration;
 import com.mcreater.genshinui.elements.GenshinEntitiesRenderer;
-import com.mcreater.genshinui.network.EmojiHandler;
 import com.mcreater.genshinui.render.InternalFonts;
 import com.mcreater.genshinui.screens.widget.GenshinNarrationWidget;
-import com.mcreater.genshinui.shaders.GaussianBlurShader;
+import com.mcreater.genshinui.shaders.BoxBlurShader;
 import com.mcreater.genshinui.shaders.MotionBlurShader;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
@@ -30,12 +29,10 @@ public class GenshinUIClient implements ClientModInitializer {
     public void onInitializeClient() {
         Configuration.readConfig();
 
-        EmojiHandler.registerClient();
-
         GenshinEntitiesRenderer.register();
 
         MotionBlurShader.init();
-        GaussianBlurShader.init();
+        BoxBlurShader.init();
         InternalFonts.loadFont();
 
         DevCommands.registerAll();

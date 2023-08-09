@@ -1,4 +1,4 @@
-package com.mcreater.genshinui.mixin;
+package com.mcreater.genshinui.mixin.controls.widget;
 
 import com.mcreater.genshinui.animation.AnimatedValue;
 import com.mcreater.genshinui.animation.AnimationProvider;
@@ -92,7 +92,7 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
                 new Color(212, 213, 204, (int) (opacity.getCurrentValue() * this.alpha)),
                 (int) (20 * this.alpha)
         );
-
+        renderBackground(matrices, minecraftClient, mouseX, mouseY);
         int j = this.active ? 0x555962 : 0x121212;
         int centerX = this.x + this.width / 2;
         int y = this.y + (this.height - 8) / 2;
