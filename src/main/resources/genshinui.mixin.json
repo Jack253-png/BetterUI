@@ -19,8 +19,7 @@
     "controls.widget.ClickableWidgetMixin",
     "controls.widget.PressableWidgetMixin",
     "controls.widget.SliderWidgetMixin",
-    "interfaces.ClickableWidgetInvoker",
-    "interfaces.PressableWidgetInvoker"
+    "invokers.PressableWidgetInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

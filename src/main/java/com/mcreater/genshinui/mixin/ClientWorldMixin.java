@@ -26,8 +26,8 @@ public abstract class ClientWorldMixin {
     public abstract static class ClientWorldPropertiesMixin implements WorldAccess {
         @Shadow private long timeOfDay;
         @Shadow @Final private GameRules gameRules;
-        private final AnimatedValue value = new AnimatedValue(-1, -1, 2000, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.LINEAR));
-        private final AnimatedValue valueexp = new AnimatedValue(-1, -1, 2000, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+        private final AnimatedValue value = new AnimatedValue(-1, -1, 2000, AnimationProvider.func(AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.LINEAR));
+        private final AnimatedValue valueexp = new AnimatedValue(-1, -1, 2000, AnimationProvider.func(AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
         private boolean getTicked() {
             return this.gameRules.getBoolean(GameRules.DO_DAYLIGHT_CYCLE);
         }

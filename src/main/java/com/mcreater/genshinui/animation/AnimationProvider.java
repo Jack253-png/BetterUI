@@ -1,5 +1,6 @@
 package com.mcreater.genshinui.animation;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static com.mcreater.genshinui.animation.AnimationGenerator.*;
@@ -26,6 +27,9 @@ public class AnimationProvider {
     }
     public static int generateInteger(AnimationNode node, AnimationType type, AnimationMode mode) {
         return (int) generate(node, type, mode);
+    }
+    public static Function<AnimationNode, Double> func(AnimationType type, AnimationMode mode) {
+        return a -> generate(a, type, mode);
     }
     public static double generate(AnimationNode node, AnimationType type, AnimationMode mode) {
         AnimationGenerator generator = LINEAR;

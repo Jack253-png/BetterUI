@@ -23,7 +23,7 @@ import static com.mcreater.genshinui.screens.ScreenHelper.*;
 public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
     private final Deque<Narration> narrations = new ArrayDeque<>();
     private final Deque<Narration> narrations_backup = new ArrayDeque<>();
-    private final AnimatedValue opacity = new AnimatedValue(0, 0, 250, a -> AnimationProvider.generate(a, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+    private final AnimatedValue opacity = new AnimatedValue(0, 0, 250, AnimationProvider.func(AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
     private final MinecraftClient client;
     private static final double HEIGHT_SCALE = 78;
     private static final double SPAC_HEIGHT_SCALE = 74;
@@ -208,7 +208,7 @@ public class GenshinNarrationWidget extends DrawableHelper implements Drawable {
             this.needOpacityOut = needOpacityOut;
             this.narrationCharacter = narrationCharacter;
             this.hideHud = hideHud;
-            textValue = new AnimatedValue(0, 0, duration, animationNode -> AnimationProvider.generate(animationNode, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.LINEAR));
+            textValue = new AnimatedValue(0, 0, duration, AnimationProvider.func(AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.LINEAR));
         }
         private String getText() {
             return text.getString();

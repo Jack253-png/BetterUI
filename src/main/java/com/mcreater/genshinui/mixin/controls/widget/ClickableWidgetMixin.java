@@ -2,8 +2,8 @@ package com.mcreater.genshinui.mixin.controls.widget;
 
 import com.mcreater.genshinui.animation.AnimatedValue;
 import com.mcreater.genshinui.animation.AnimationProvider;
-import com.mcreater.genshinui.mixin.interfaces.PressableWidgetInvoker;
-import com.mcreater.genshinui.shaders.Shapes;
+import com.mcreater.genshinui.mixin.invokers.PressableWidgetInvoker;
+import com.mcreater.genshinui.screens.widget.controls.ShapeWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -43,7 +43,7 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
 
     @Shadow public abstract void render(MatrixStack matrices, int mouseX, int mouseY, float delta);
 
-    private final AnimatedValue opacity = new AnimatedValue(155, 155, 75, a -> AnimationProvider.generate(a, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.CIRCULAR));
+    private final AnimatedValue opacity = new AnimatedValue(155, 155, 45, AnimationProvider.func(AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.CIRCULAR));
     private boolean clicked = false;
 
     @Inject(at = @At("HEAD"), method = "onClick")
@@ -82,16 +82,24 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
         double d = minecraftClient.getWindow().getScaleFactor();
         TextRenderer textRenderer = minecraftClient.textRenderer;
 
-        Shapes.fillRoundedRect(
-                delta,
-                10,
-                (float) x,
+        ShapeWidget.createRoundedRectBlur(
+                x,
                 y,
-                x + width,
-                y + height,
-                new Color(212, 213, 204, (int) (opacity.getCurrentValue() * this.alpha)),
+                width,
+                height,
+                10,
                 (int) (5 * this.alpha)
-        );
+        ).render(matrices, mouseX, mouseY, delta);
+
+        ShapeWidget.createRoundedRect(
+                x,
+                y,
+                width,
+                height,
+                10,
+                new Color(212, 213, 204, (int) (opacity.getCurrentValue() * this.alpha))
+        ).render(matrices, mouseX, mouseY, delta);
+
         renderBackground(matrices, minecraftClient, mouseX, mouseY);
         int j = this.active ? 0x555962 : 0x121212;
         int centerX = this.x + this.width / 2;

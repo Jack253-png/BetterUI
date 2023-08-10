@@ -28,7 +28,8 @@ public class TimeSelectionScreen extends Screen {
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        if (value == null) value = new AnimatedValue(115, 0, 500, animationNode -> AnimationProvider.generate(animationNode, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+        if (value == null) value = new AnimatedValue(115, 0, 500, AnimationProvider.func(AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+
         fillScreen(matrices, (int) value.getCurrentValue());
         super.render(matrices, mouseX, mouseY, delta);
     }

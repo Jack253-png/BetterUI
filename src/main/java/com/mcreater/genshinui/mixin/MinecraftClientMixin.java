@@ -20,7 +20,7 @@ import static com.mcreater.genshinui.util.SafeValue.safeBoolean;
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
     @Shadow @Nullable public Screen currentScreen;
-    private final AnimatedValue blurSamples = new AnimatedValue(0, 0, 250, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+    private final AnimatedValue blurSamples = new AnimatedValue(0, 0, 125, AnimationProvider.func(AnimationProvider.AnimationType.EASE_IN_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
 
     @Inject(at = @At("HEAD"), method = "render")
     public void onRender(boolean tick, CallbackInfo ci) {

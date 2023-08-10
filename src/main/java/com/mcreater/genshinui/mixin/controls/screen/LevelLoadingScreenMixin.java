@@ -48,7 +48,7 @@ public class LevelLoadingScreenMixin extends Screen {
         fillScreen(matrices, 255);
 
         if (value == null) {
-            value = new AnimatedValue(0, 0, 200, n -> AnimationProvider.generate(n, AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
+            value = new AnimatedValue(0, 0, 200, AnimationProvider.func(AnimationProvider.AnimationType.EASE_OUT, AnimationProvider.AnimationMode.EXPONENTIAL));
         }
 
         initFadeNode();
