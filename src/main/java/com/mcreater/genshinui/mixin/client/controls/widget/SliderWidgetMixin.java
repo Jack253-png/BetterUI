@@ -1,4 +1,4 @@
-package com.mcreater.genshinui.mixin.controls.widget;
+package com.mcreater.genshinui.mixin.client.controls.widget;
 
 import net.minecraft.client.gui.widget.SliderWidget;
 import org.spongepowered.asm.mixin.Mixin;

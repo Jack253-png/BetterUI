@@ -1,4 +1,4 @@
-package com.mcreater.genshinui.mixin.controls.screen;
+package com.mcreater.genshinui.mixin.client.controls.screen;
 
 import net.minecraft.client.gui.screen.Screen;
 import org.spongepowered.asm.mixin.Mixin;

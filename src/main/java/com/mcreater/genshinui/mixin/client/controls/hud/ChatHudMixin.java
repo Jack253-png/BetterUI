@@ -1,4 +1,4 @@
-package com.mcreater.genshinui.mixin.controls.hud;
+package com.mcreater.genshinui.mixin.client.controls.hud;
 
 import com.mcreater.genshinui.animation.AnimationNode;
 import com.mcreater.genshinui.animation.AnimationProvider;

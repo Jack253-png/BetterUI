@@ -1,4 +1,4 @@
-package com.mcreater.genshinui.mixin.controls.screen;
+package com.mcreater.genshinui.mixin.client.controls.screen;
 
 import com.mcreater.genshinui.animation.AnimatedValue;
 import com.mcreater.genshinui.animation.AnimationNode;

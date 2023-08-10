@@ -1,4 +1,4 @@
-package com.mcreater.genshinui.mixin.controls.widget;
+package com.mcreater.genshinui.mixin.client.controls.widget;
 
 import com.mcreater.genshinui.animation.AnimatedValue;
 import com.mcreater.genshinui.animation.AnimationProvider;

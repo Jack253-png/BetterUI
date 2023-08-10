@@ -1,4 +1,4 @@
-package com.mcreater.genshinui.mixin.controls.screen;
+package com.mcreater.genshinui.mixin.client.controls.screen;
 
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
