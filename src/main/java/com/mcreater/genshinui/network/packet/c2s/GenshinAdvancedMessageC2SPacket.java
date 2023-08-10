@@ -11,11 +11,8 @@ import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 public class GenshinAdvancedMessageC2SPacket extends CustomPayloadC2SPacket {
     private NbtMessage message;
     public GenshinAdvancedMessageC2SPacket(NbtMessage message) {
-        super(NetworkConstants.C2S_GENSHIN_ADVANCED_MESSAGE, PacketByteBufs.create());
+        super(NetworkConstants.C2S_GENSHIN_ADVANCED_MESSAGE, PacketByteBufs.create().writeNbt(message));
         this.message = message;
-    }
-    public void write(PacketByteBuf buf) {
-        buf.writeNbt(message);
     }
 
     public void read(PacketByteBuf buf) {
