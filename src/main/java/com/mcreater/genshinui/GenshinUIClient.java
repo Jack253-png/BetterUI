@@ -2,6 +2,7 @@ package com.mcreater.genshinui;
 
 import com.mcreater.genshinui.config.Configuration;
 import com.mcreater.genshinui.elements.GenshinEntitiesRenderer;
+import com.mcreater.genshinui.network.ClientNetworkRegistry;
 import com.mcreater.genshinui.render.InternalFonts;
 import com.mcreater.genshinui.screens.widget.GenshinNarrationWidget;
 import com.mcreater.genshinui.shaders.BoxBlurShader;
@@ -31,6 +32,7 @@ public class GenshinUIClient implements ClientModInitializer {
 
         GenshinEntitiesRenderer.register();
 
+        ClientNetworkRegistry.register();
         MotionBlurShader.init();
         BoxBlurShader.init();
         InternalFonts.loadFont();

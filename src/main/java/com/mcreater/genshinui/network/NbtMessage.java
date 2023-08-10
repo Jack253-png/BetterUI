@@ -1,7 +1,9 @@
 package com.mcreater.genshinui.network;
 
 import com.mcreater.genshinui.network.emoji.GenshinResourceEmoji;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,5 +31,9 @@ public class NbtMessage extends NbtCompound {
                     return new NbtMessage();
                 })
                 .get();
+    }
+
+    public PacketByteBuf toPacketByteBuf() {
+        return PacketByteBufs.create().writeNbt(this);
     }
 }
