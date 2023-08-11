@@ -30,7 +30,7 @@ public class ServerNetworkRegistry {
             }
         });
         NbtCompound mes = buf.readNbt();
-        nbtMessages.push(NbtMessage.from(mes));
+        nbtMessages.push(NbtMessage.fromNbt(mes));
         System.out.println("message stack: " + nbtMessages);
     }
 }

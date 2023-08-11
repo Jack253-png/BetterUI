@@ -3,9 +3,9 @@
   "package": "com.mcreater.genshinui.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "ClientWorldMixin$ClientWorldPropertiesMixin",
     "client.ClientPlayerEntityMixin",
     "client.ClientWorldMixin",
+    "client.ClientWorldMixin$ClientWorldPropertiesMixin",
     "client.MinecraftClientMixin",
     "client.controls.hud.ChatHudMixin",
     "client.controls.hud.InGameHudMixin",

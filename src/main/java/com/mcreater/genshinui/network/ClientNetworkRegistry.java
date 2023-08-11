@@ -24,8 +24,8 @@ public class ClientNetworkRegistry {
 
     public static void onReceiveServerChatSyncPacket(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         NbtCompound mes = buf.readNbt();
-        nbtMessages.push(NbtMessage.from(mes));
-        System.out.println("server sync: " + mes);
+        nbtMessages.push(NbtMessage.fromNbt(mes));
+        System.out.println("server sync: " + NbtMessage.fromNbt(mes));
     }
 
     public static void sendMessage(NbtMessage message) {

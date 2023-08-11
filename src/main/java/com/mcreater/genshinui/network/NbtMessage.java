@@ -5,71 +5,148 @@ import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
-public class NbtMessage extends NbtCompound {
-    private NbtMessage() {
-        try {
-            NbtCompound playerMessage = new NbtCompound();
-            GameProfile prof = MinecraftClient.getInstance().getSession().getProfile();
-
-            playerMessage.putString("name", prof.getName());
-            playerMessage.putString("id", prof.getId().toString());
-
-            put("sender", playerMessage);
-        }
-        catch (Exception e) {
-            putInt("is_server", 1);
-        }
+public class NbtMessage {
+    private GameProfile profile;
+    private String source_message = "";
+    private Map<Integer, GenshinResourceEmoji> emojis = new HashMap<>();
+    private MessageType type = MessageType.EMPTY;
+    private NbtMessage(GameProfile profile) {
+        this.profile = profile;
     }
-    private NbtMessage(NbtCompound playerMessage) {
-        if (playerMessage != null) {
-            put("sender", playerMessage);
-        }
-        else {
-            putInt("is_server", 1);
-        }
+    private NbtMessage() {
+        this(MinecraftClient.getInstance().getSession().getProfile());
     }
     public NbtMessage(String message) {
         this();
-        putString("message", message);
+        source_message = message;
+        updateType();
     }
-    public NbtMessage(String message, NbtCompound playerMessage) {
+    public NbtMessage(String message, GameProfile playerMessage) {
         this(playerMessage);
-        putString("message", message);
+        source_message = message;
+        updateType();
     }
     public NbtMessage(GenshinResourceEmoji emoji) {
         this();
-        putString("emoji", emoji.id().toString());
+        emojis.put(0, emoji);
+        updateType();
     }
-    public NbtMessage(GenshinResourceEmoji emoji, NbtCompound playerMessage) {
+    public NbtMessage(GenshinResourceEmoji emoji, GameProfile playerMessage) {
         this(playerMessage);
-        putString("emoji", emoji.id().toString());
+        emojis.put(0, emoji);
+        updateType();
     }
-    public static NbtMessage from(@Nullable NbtCompound compound) {
-        return Optional.ofNullable(compound)
-                .map(compound1 -> {
-                    NbtElement ply = compound1.get("sender");
-                    NbtCompound comp = ply == null ? null : ((NbtCompound) ply);
-                    if (compound1.contains("message")) return new NbtMessage(compound1.getString("message"), comp);
-                    if (compound1.contains("emoji")) {
-                        GenshinResourceEmoji emoji = GenshinResourceEmoji.find(Identifier.tryParse(compound1.getString("emoji")));
-                        return Optional
-                                .ofNullable(emoji)
-                                .map(NbtMessage::new)
-                                .orElse(new NbtMessage(comp));
-                    }
-                    return new NbtMessage(comp);
-                })
-                .get();
+    public NbtMessage(String sourceMessage, Map<Integer, GenshinResourceEmoji> emojis) {
+        this();
+        source_message = sourceMessage;
+        this.emojis = emojis;
+        updateType();
+    }
+
+    public NbtMessage(String sourceMessage, Map<Integer, GenshinResourceEmoji> emojis, GameProfile playerMessage) {
+        this(playerMessage);
+        source_message = sourceMessage;
+        this.emojis = emojis;
+        updateType();
+    }
+
+    private void updateType() {
+        boolean isTextEmp = source_message.length() == 0;
+        boolean hasEmoj = !emojis.isEmpty();
+
+        this.type = isTextEmp ? (hasEmoj ? MessageType.EMOJI : MessageType.EMPTY) : (hasEmoj ? MessageType.TEXT : MessageType.BOTH);
+    }
+
+    public NbtCompound toNbt() {
+        NbtCompound compound = new NbtCompound();
+        compound.putByte("type", type.getId());
+
+        NbtCompound sender = new NbtCompound();
+        sender.putUuid("id", profile.getId());
+        sender.putString("name", profile.getName());
+        compound.put("sender", sender);
+
+        if (type.hasText) {
+            compound.putString("text", source_message);
+        }
+        if (type.hasEmoji) {
+            NbtCompound emjs = new NbtCompound();
+            emojis.forEach((k, v) -> emjs.putString(String.valueOf(k), v.id().toString()));
+            compound.put("emojis", emjs);
+        }
+
+        return compound;
+    }
+
+    public GameProfile getProfile() {
+        return profile;
+    }
+
+    public Map<Integer, GenshinResourceEmoji> getEmojis() {
+        return emojis;
+    }
+
+    public String getMessage() {
+        return source_message;
+    }
+
+    public static NbtMessage fromNbt(NbtCompound compound) {
+        NbtCompound sender = compound.getCompound("sender");
+        GameProfile prof = new GameProfile(sender.getUuid("id"), sender.getString("name"));
+        return switch (compound.getByte("type")) {
+            case 0 -> new NbtMessage(compound.getString("text"), prof);
+            case 1 ->
+                    new NbtMessage(GenshinResourceEmoji.find(Identifier.tryParse(compound.getCompound("emojis").getString("0"))), prof);
+            case 2 -> new NbtMessage(
+                    compound.getString("text"),
+                    new HashMap<>() {{
+                        compound.getCompound("emojis").getKeys().forEach(k -> put(Integer.valueOf(k), GenshinResourceEmoji.find(Identifier.tryParse(compound.getCompound("emojis").getString(k)))));
+                    }},
+                    prof
+            );
+            case -1 -> new NbtMessage(prof);
+            default -> throw new IllegalStateException("Unexpected value: " + compound.getByte("type"));
+        };
     }
 
     public PacketByteBuf toPacketByteBuf() {
-        return PacketByteBufs.create().writeNbt(this);
+        return PacketByteBufs.create().writeNbt(this.toNbt());
+    }
+
+    public MessageType getType() {
+        return type;
+    }
+
+    public enum MessageType {
+        EMPTY(-1, false, false),
+        TEXT(0, true, false),
+        EMOJI(1, false, true),
+        BOTH(2, true, true);
+        private final int id;
+        private final boolean hasText;
+        private final boolean hasEmoji;
+        MessageType(int id, boolean hasText, boolean hasEmoji) {
+            this.id = id;
+            this.hasText = hasText;
+            this.hasEmoji = hasEmoji;
+        }
+
+        public boolean hasText() {
+            return hasText;
+        }
+
+        public boolean hasEmoji() {
+            return hasEmoji;
+        }
+
+        public byte getId() {
+            return (byte) id;
+        }
     }
 }
