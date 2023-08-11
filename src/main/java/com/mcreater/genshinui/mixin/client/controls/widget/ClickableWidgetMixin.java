@@ -82,23 +82,15 @@ public abstract class ClickableWidgetMixin extends DrawableHelper {
         double d = minecraftClient.getWindow().getScaleFactor();
         TextRenderer textRenderer = minecraftClient.textRenderer;
 
-        ShapeWidget.createRoundedRectBlur(
+        ShapeWidget.createRoundedRectGlass(
                 x,
                 y,
                 width,
                 height,
                 10,
-                (int) (5 * this.alpha)
-        ).render(matrices, mouseX, mouseY, delta);
-
-        ShapeWidget.createRoundedRect(
-                x,
-                y,
-                width,
-                height,
-                10,
+                (int) (5 * this.alpha),
                 new Color(212, 213, 204, (int) (opacity.getCurrentValue() * this.alpha))
-        ).render(matrices, mouseX, mouseY, delta);
+        ).hasOpacity(true).render(matrices, mouseX, mouseY, delta);
 
         renderBackground(matrices, minecraftClient, mouseX, mouseY);
         int j = this.active ? 0x555962 : 0x121212;

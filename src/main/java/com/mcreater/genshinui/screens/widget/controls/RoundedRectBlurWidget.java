@@ -11,7 +11,7 @@ import java.awt.*;
 import static com.mcreater.genshinui.GenshinUIClient.MOD_ID;
 import static com.mcreater.genshinui.shaders.ShaderHelper.getScale;
 
-public class RoundedRectBlurWidget extends ShapeWidget {
+public class RoundedRectBlurWidget extends AbstractRectWidget {
     public static final ManagedShaderEffect ROUNDED_RECT_BLUR = ShaderEffectManager.getInstance().manage(new Identifier(MOD_ID, "shaders/post/rounded_rect_box_blur.json"));
     public int blurSamples;
     public int radius;

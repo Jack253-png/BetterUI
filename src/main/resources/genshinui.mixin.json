@@ -17,6 +17,7 @@
     "client.controls.screen.ProgressScreenMixin",
     "client.controls.screen.SaveLevelScreenMixin",
     "client.controls.screen.ScreenMixin",
+    "client.controls.screen.TitleScreenMixin",
     "client.controls.widget.ClickableWidgetMixin",
     "client.controls.widget.PressableWidgetMixin",
     "client.controls.widget.SliderWidgetMixin",
